@@ -1392,6 +1392,9 @@ body.light .month-jump.has-events { color: #111318; }
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, doc, setDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
 const CAT_COLORS = {
   festival: '#5b8ff9',
   kaerwa:   '#c8974e',
@@ -1938,9 +1941,6 @@ function openModal(idx) {
   renderSimilarEvents(idx);
 }
 
-// ── PUBLIC GOING COUNTER (Firebase Firestore) ────────────────────────────────
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getFirestore, doc, getDoc, setDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDx-s-6yYdvRxP4Gy9GaWdOKBEfo8GpTXQ",
@@ -2516,7 +2516,7 @@ let ratingsCache = {};
 async function loadRating(eventKey) {
   if (ratingsCache[eventKey] !== undefined) return ratingsCache[eventKey];
   try {
-    const { getDoc, doc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const { getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
     const snap = await getDoc(doc(db, 'event_ratings', eventKey));
     const data = snap.exists() ? snap.data() : { total: 0, count: 0 };
     ratingsCache[eventKey] = data;
@@ -2529,7 +2529,7 @@ async function submitRating(e, stars) {
   const userKey = 'viana_rated_' + key;
   if (localStorage.getItem(userKey)) { showToast('Du hast bereits bewertet!'); return; }
   try {
-    const { doc, getDoc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+
     const ref = doc(db, 'event_ratings', key);
     const snap = await getDoc(ref);
     const cur = snap.exists() ? snap.data() : { total: 0, count: 0 };
@@ -2636,7 +2636,7 @@ document.getElementById('sf-submit').addEventListener('click', async () => {
     submittedAt: new Date().toISOString()
   };
   try {
-    const { collection, addDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const { addDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
     await addDoc(collection(db, 'event_submissions'), submission);
   } catch (e) { console.warn('Firebase submit error', e); }
   document.getElementById('submit-form-wrap').style.display = 'none';
