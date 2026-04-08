@@ -386,43 +386,80 @@ footer {
 }
 .footer-owner span { color: var(--accent); }
 
-/* MODAL ACTIONS */
-.modal-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 1rem;
-}
-.modal-action-btn {
-  display: inline-flex; align-items: center; gap: 7px;
-  font-size: 13px; font-weight: 500;
-  text-decoration: none;
-  padding: 9px 14px;
-  border-radius: 9px;
-  border: 1px solid;
-  cursor: pointer;
-  transition: all 0.15s;
-  font-family: 'DM Sans', sans-serif;
-  background: transparent;
-}
-.btn-gmaps  { color: #4ade80; border-color: rgba(74,222,128,0.3); }
-.btn-gmaps:hover  { background: rgba(74,222,128,0.1); }
-.btn-apple  { color: #60a5fa; border-color: rgba(96,165,250,0.3); }
-.btn-apple:hover  { background: rgba(96,165,250,0.1); }
-.btn-wa     { color: #4ade80; border-color: rgba(74,222,128,0.25); }
-.btn-wa:hover     { background: rgba(74,222,128,0.08); }
-.btn-ticket { color: var(--accent); border-color: rgba(232,150,58,0.3); }
-.btn-ticket:hover { background: rgba(232,150,58,0.1); }
+/* MODAL ACTION SECTIONS - clean structured layout */
+#m-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 1rem; }
 
-/* SHARE SECTION DIVIDER */
-.modal-section-label {
+.modal-action-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.mas-label {
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--muted);
-  margin: 1rem 0 0.5rem;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
 }
+.mas-row {
+  display: flex;
+}
+.mas-row-wrap { flex-wrap: wrap; gap: 1px; background: var(--border); }
+.mas-row-wrap .mas-btn { flex: 1 1 calc(50% - 1px); min-width: 110px; border-radius: 0; }
+.mas-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s;
+  flex: 1;
+  white-space: nowrap;
+}
+.mas-btn:hover { background: rgba(255,255,255,0.05); }
+.mas-row .mas-btn:not(:last-child) { border-right: 1px solid var(--border); }
+.mas-gmaps { color: #4ade80; }
+.mas-apple { color: #60a5fa; }
+.mas-wa    { color: #4ade80; }
+.mas-fb    { color: #60a5fa; }
+.mas-link  { color: #a78bfa; }
+.mas-ticket { color: var(--accent); }
+.mas-ics   { color: #a78bfa; }
+.mas-heart-idle  { color: var(--muted); }
+.mas-heart-active { color: #f43f5e; background: rgba(244,63,94,0.07); }
+.mas-heart-active:hover { background: rgba(244,63,94,0.12); }
+.mas-going-idle  { color: var(--muted); }
+.mas-going-active { color: #34d399; background: rgba(52,211,153,0.08); }
+.mas-going-active:hover { background: rgba(52,211,153,0.14); }
+.mas-going-row { display: flex; align-items: center; }
+.mas-going-counter {
+  padding: 10px 14px;
+  border-right: 1px solid var(--border);
+  min-width: 100px;
+  text-align: center;
+}
+.mas-going-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #34d399;
+  line-height: 1;
+  display: block;
+}
+.mas-going-sub { font-size: 10px; color: var(--muted); display: block; margin-top: 2px; }
+.mas-going-row .mas-btn { flex: 1; }
 
 /* WISHLIST HEART BUTTON on event rows */
 .heart-btn {
@@ -732,12 +769,128 @@ footer {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
 
+/* COUNTDOWN BANNER */
+.countdown-banner {
+  max-width: 1300px;
+  margin: 1.5rem auto 0;
+  padding: 0 1.5rem;
+}
+.countdown-card {
+  background: linear-gradient(135deg, rgba(232,150,58,0.12) 0%, rgba(91,143,249,0.08) 100%);
+  border: 1px solid rgba(232,150,58,0.25);
+  border-radius: 14px;
+  padding: 1rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.countdown-card:hover { border-color: rgba(232,150,58,0.45); background: linear-gradient(135deg, rgba(232,150,58,0.18) 0%, rgba(91,143,249,0.12) 100%); }
+.countdown-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.countdown-days {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  white-space: nowrap;
+}
+.countdown-days span { font-size: 1rem; font-weight: 400; color: var(--muted); margin-left: 4px; }
+.countdown-info { flex: 1; min-width: 0; }
+.countdown-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.countdown-date { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.countdown-arrow { color: var(--muted); font-size: 1.2rem; }
+
+/* GOING BUTTON */
+.going-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 4px 6px;
+  color: var(--muted);
+  transition: all 0.2s;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+}
+.going-btn:hover { background: rgba(52,211,153,0.1); color: #34d399; }
+.going-btn.going { color: #34d399; background: rgba(52,211,153,0.12); }
+.going-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(52,211,153,0.12);
+  color: #34d399;
+  border: 1px solid rgba(52,211,153,0.3);
+}
+/* PUBLIC GOING COUNTER */
+.public-going {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #34d399;
+  background: rgba(52,211,153,0.1);
+  border: 1px solid rgba(52,211,153,0.25);
+  border-radius: 999px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+.public-going.loading { color: var(--muted); background: transparent; border-color: var(--border); }
+.public-going-modal {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(52,211,153,0.08);
+  border: 1px solid rgba(52,211,153,0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 0.5rem;
+}
+.public-going-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #34d399;
+  line-height: 1;
+}
+.public-going-label { font-size: 12px; color: var(--muted); }
+
+
+
 @media (max-width: 600px) {
   .event-row { grid-template-columns: 48px 1fr; }
   .event-right { display: none; }
   .controls { gap: 0.75rem; }
   .stats-bar { gap: 1.2rem; }
   #map { height: 340px; }
+  .countdown-days { font-size: 1.6rem; }
 }
 </style>
 </head>
@@ -753,6 +906,21 @@ footer {
     <div class="stat"><span class="stat-num" id="month-count">9</span><span class="stat-label">Monate</span></div>
   </div>
 </header>
+
+<!-- COUNTDOWN BANNER -->
+<div class="countdown-banner">
+  <div class="countdown-card" id="countdown-card">
+    <div>
+      <div class="countdown-label">⏳ Nächstes Event</div>
+      <div class="countdown-days" id="cd-days">—<span>Tage</span></div>
+    </div>
+    <div class="countdown-info">
+      <div class="countdown-name" id="cd-name">—</div>
+      <div class="countdown-date" id="cd-date">—</div>
+    </div>
+    <div class="countdown-arrow">→</div>
+  </div>
+</div>
 
 <div class="controls">
   <div class="search-wrap">
@@ -825,8 +993,13 @@ footer {
 <!-- WISHLIST PANEL -->
 <div class="wishlist-panel" id="wishlist-panel">
   <div class="wishlist-header">
-    <h2>❤️ Meine Merkliste</h2>
+    <h2 id="wl-panel-title">❤️ Meine Merkliste</h2>
     <button class="wishlist-close" id="wl-close">×</button>
+  </div>
+  <!-- Tab switcher -->
+  <div style="display:flex;gap:6px;padding:0.75rem 1rem 0;border-bottom:1px solid var(--border)">
+    <button class="qpill active" id="wl-tab-saved" onclick="switchWlTab('saved')">❤️ Merkliste</button>
+    <button class="qpill" id="wl-tab-going" onclick="switchWlTab('going')">✅ Ich gehe hin</button>
   </div>
   <div class="wishlist-body" id="wl-body"></div>
   <div class="wishlist-footer" id="wl-footer" style="display:none">
@@ -844,7 +1017,7 @@ footer {
 <div class="toast" id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script>
+<script type="module">
 const CAT_COLORS = {
   festival: '#5b8ff9',
   kaerwa:   '#c8974e',
@@ -1226,8 +1399,11 @@ function eventRowHTML(e) {
     </div>
     <div class="event-right">
       <span class="cat-badge" style="background:${col}">${CAT_LABELS[e.cat]}</span>
-      ${e.genre ? `<span style="font-size:11px;color:var(--muted)">${e.genre}</span>` : ''}
-      <button class="heart-btn ${isSaved?'saved':''}" onclick="event.stopPropagation();toggleWishlist(${idx},this)" title="Merken">${isSaved?'❤️':'🤍'}</button>
+      ${getPublicCount(e) > 0 ? `<span class="public-going">✅ ${getPublicCount(e)} dabei</span>` : ''}
+      <div style="display:flex;gap:4px;margin-top:2px">
+        <button class="going-btn ${goingList.has(e.name+e.start)?'going':''}" onclick="event.stopPropagation();toggleGoing(${idx},this)" title="Ich gehe hin">${goingList.has(e.name+e.start)?'✅ Dabei':'📅 Dabei?'}</button>
+        <button class="heart-btn ${isSaved?'saved':''}" onclick="event.stopPropagation();toggleWishlist(${idx},this)" title="Merken">${isSaved?'❤️':'🤍'}</button>
+      </div>
     </div>
   </div>`;
 }
@@ -1244,6 +1420,8 @@ function eventCardHTML(e) {
       <span class="cat-badge" style="background:${col}">${CAT_LABELS[e.cat]}</span>
       ${e.free ? '<span class="badge badge-free">★ Kostenlos</span>' : ''}
       ${e.new ? '<span class="badge badge-new">NEU</span>' : ''}
+      ${goingList.has(e.name+e.start) ? '<span class="going-badge">✅ Dabei</span>' : ''}
+      ${getPublicCount(e) > 0 ? `<span class="public-going">✅ ${getPublicCount(e)}</span>` : ''}
     </div>
   </div>`;
 }
@@ -1289,53 +1467,251 @@ function openModal(idx) {
   const deepLink = `${location.origin}${location.pathname}#${encodeURIComponent(e.name)}`;
   const shareTextBase = `🎉 ${e.name}\n📅 ${dateStr(e.start, e.end)}\n📍 ${e.loc}`;
   const shareTextFull = `${shareTextBase}\n${deepLink}`;
-  const waUrlSimple = `https://wa.me/?text=${encodeURIComponent(shareTextBase)}`;
   const waUrlMitKommen = `https://wa.me/?text=${encodeURIComponent(`Wer kommt mit? 🙌\n\n${shareTextFull}`)}`;
   const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(deepLink)}&quote=${encodeURIComponent(shareTextBase)}`;
   const gmapsUrl = `https://www.google.com/maps/search/?api=1&query=${locEncoded}`;
   const appleMapsUrl = `https://maps.apple.com/?q=${locEncoded}`;
   const isSaved = wishlist.has(e.name + e.start);
+  const isGoing = goingList.has(e.name + e.start);
+  const goingCount = getPublicCount(e);
+
+  const WA_SVG = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+  const PIN_SVG = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
 
   let actions = `
-    <div class="modal-section-label">Navigation</div>
-    <a class="modal-action-btn btn-gmaps" href="${gmapsUrl}" target="_blank">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-      Google Maps
-    </a>
-    <a class="modal-action-btn btn-apple" href="${appleMapsUrl}" target="_blank">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-      Apple Maps
-    </a>
 
-    <div class="modal-section-label" style="margin-top:1rem">Teilen</div>
-    <a class="modal-action-btn btn-wa" href="${waUrlMitKommen}" target="_blank">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Wer kommt mit? (WhatsApp)
-    </a>
-    <a class="modal-action-btn" href="${fbUrl}" target="_blank" style="color:#60a5fa;border-color:rgba(96,165,250,0.3)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-      Facebook teilen
-    </a>
-    <button class="modal-action-btn" onclick="copyDeepLink('${deepLink}')" style="color:#a78bfa;border-color:rgba(167,139,250,0.3);cursor:pointer">
-      🔗 Link kopieren
-    </button>`;
+    <!-- SECTION: Navigation -->
+    <div class="modal-action-section">
+      <div class="mas-label">📍 Navigation</div>
+      <div class="mas-row">
+        <a class="mas-btn mas-gmaps" href="${gmapsUrl}" target="_blank">${PIN_SVG} Google Maps</a>
+        <a class="mas-btn mas-apple" href="${appleMapsUrl}" target="_blank">${PIN_SVG} Apple Maps</a>
+      </div>
+    </div>
 
-  if (e.ticket) {
-    actions += `<a class="modal-action-btn btn-ticket" href="${e.ticket}" target="_blank">🎟 Tickets / Mehr Infos</a>`;
-  }
+    <!-- SECTION: Ich bin dabei -->
+    <div class="modal-action-section">
+      <div class="mas-label">✅ Ich bin dabei</div>
+      <div class="mas-going-row">
+        <div class="mas-going-counter">
+          <span class="mas-going-num" id="modal-going-count">${goingCount}</span>
+          <span class="mas-going-sub">${goingCount === 1 ? 'Person ist' : 'Personen sind'} dabei</span>
+        </div>
+        <button class="mas-btn ${isGoing ? 'mas-going-active' : 'mas-going-idle'}" id="modal-going-btn" onclick="toggleGoingModal(${idx})">
+          ${isGoing ? '✅ Dabei (entfernen)' : '📅 Ich gehe hin!'}
+        </button>
+      </div>
+    </div>
 
-  actions += `
-    <div class="modal-section-label" style="margin-top:1rem">Merkliste</div>
-    <button class="modal-action-btn ${isSaved ? 'saved' : ''}" id="modal-heart-btn" onclick="toggleWishlistModal(${idx})"
-      style="color:${isSaved?'#f43f5e':'var(--muted)'};border-color:${isSaved?'rgba(244,63,94,0.3)':'var(--border)'}">
-      ${isSaved ? '❤️ Von Merkliste entfernen' : '🤍 Zur Merkliste hinzufügen'}
-    </button>`;
+    <!-- SECTION: Teilen -->
+    <div class="modal-action-section">
+      <div class="mas-label">📤 Teilen</div>
+      <div class="mas-row mas-row-wrap">
+        <a class="mas-btn mas-wa" href="${waUrlMitKommen}" target="_blank">${WA_SVG} Wer kommt mit?</a>
+        <a class="mas-btn mas-fb" href="${fbUrl}" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
+        </a>
+        <button class="mas-btn mas-link" onclick="copyDeepLink('${deepLink}')">🔗 Link kopieren</button>
+        ${e.ticket ? `<a class="mas-btn mas-ticket" href="${e.ticket}" target="_blank">🎟 Tickets</a>` : ''}
+      </div>
+    </div>
+
+    <!-- SECTION: Merkliste & Kalender -->
+    <div class="modal-action-section">
+      <div class="mas-label">🗂 Merkliste & Kalender</div>
+      <div class="mas-row mas-row-wrap">
+        <button class="mas-btn ${isSaved ? 'mas-heart-active' : 'mas-heart-idle'}" id="modal-heart-btn" onclick="toggleWishlistModal(${idx})">
+          ${isSaved ? '❤️ Gemerkt (entfernen)' : '🤍 Merken'}
+        </button>
+        <button class="mas-btn mas-ics" onclick="downloadICS(${idx})">📥 .ics speichern</button>
+      </div>
+    </div>`;
 
   document.getElementById('m-actions').innerHTML = actions;
   document.getElementById('modal-bg').classList.add('open');
-
-  // Update URL hash for deep-linking
   history.replaceState(null, '', `#${encodeURIComponent(e.name)}`);
+}
+
+// ── PUBLIC GOING COUNTER (Firebase Firestore) ────────────────────────────────
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDx-s-6yYdvRxP4Gy9GaWdOKBEfo8GpTXQ",
+  authDomain: "viana-events.firebaseapp.com",
+  projectId: "viana-events",
+  storageBucket: "viana-events.firebasestorage.app",
+  messagingSenderId: "601542352068",
+  appId: "1:601542352068:web:a805455d36781b0afb7d91"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
+
+let publicCounts = {};
+
+function eventKey(e) {
+  return e.name.replace(/[^a-zA-Z0-9äöüÄÖÜß]/g, '_').slice(0, 50) + '_' + e.start;
+}
+
+async function loadPublicCounts() {
+  try {
+    const snapshot = await getDocs(collection(db, 'event_going'));
+    publicCounts = {};
+    snapshot.forEach(docSnap => {
+      publicCounts[docSnap.id] = docSnap.data().count || 0;
+    });
+  } catch (err) {
+    console.warn('Firebase load error:', err);
+    publicCounts = {};
+  }
+}
+
+async function incrementPublicGoing(e, delta) {
+  const key = eventKey(e);
+  const current = Math.max(0, (publicCounts[key] || 0) + delta);
+  publicCounts[key] = current;
+  try {
+    await setDoc(doc(db, 'event_going', key), { count: current });
+  } catch (err) {
+    console.warn('Firebase write error:', err);
+  }
+  return current;
+}
+
+function getPublicCount(e) {
+  return publicCounts[eventKey(e)] || 0;
+}
+
+// ── GOING LIST ────────────────────────────────────────────────────────────────
+let goingList = new Set(JSON.parse(localStorage.getItem('viana_going') || '[]'));
+let wlActiveTab = 'saved'; // 'saved' or 'going'
+
+function saveGoingList() {
+  localStorage.setItem('viana_going', JSON.stringify([...goingList]));
+}
+
+function toggleGoing(idx, btn) {
+  const e = events[idx];
+  const key = e.name + e.start;
+  const wasGoing = goingList.has(key);
+  if (wasGoing) {
+    goingList.delete(key);
+    showToast(`Entfernt aus "Ich gehe hin"`);
+    incrementPublicGoing(e, -1).then(() => render());
+  } else {
+    goingList.add(key);
+    showToast(`✅ Ich gehe hin: ${e.name}!`);
+    incrementPublicGoing(e, +1).then(() => render());
+  }
+  saveGoingList();
+  render();
+  renderWishlistPanel();
+  updateWishlistUI();
+}
+
+function toggleGoingModal(idx) {
+  const e = events[idx];
+  const key = e.name + e.start;
+  const wasGoing = goingList.has(key);
+  const btn = document.getElementById('modal-going-btn');
+  const counterEl = document.getElementById('modal-going-count');
+
+  if (wasGoing) {
+    goingList.delete(key);
+    if (btn) { btn.textContent = '📅 Ich gehe hin!'; btn.style.color='var(--muted)'; btn.style.borderColor='var(--border)'; btn.style.background=''; }
+    showToast('Entfernt aus "Ich gehe hin"');
+    incrementPublicGoing(e, -1).then(n => {
+      if (counterEl) counterEl.textContent = n;
+    });
+  } else {
+    goingList.add(key);
+    if (btn) { btn.textContent = '✅ Dabei! (entfernen)'; btn.style.color='#34d399'; btn.style.borderColor='rgba(52,211,153,0.3)'; btn.style.background='rgba(52,211,153,0.1)'; }
+    showToast(`✅ ${e.name} – du bist dabei!`);
+    incrementPublicGoing(e, +1).then(n => {
+      if (counterEl) counterEl.textContent = n;
+    });
+  }
+  saveGoingList();
+  render();
+  renderWishlistPanel();
+  updateWishlistUI();
+}
+
+function switchWlTab(tab) {
+  wlActiveTab = tab;
+  document.getElementById('wl-tab-saved').classList.toggle('active', tab === 'saved');
+  document.getElementById('wl-tab-going').classList.toggle('active', tab === 'going');
+  renderWishlistPanel();
+}
+
+// ── ICS EXPORT ────────────────────────────────────────────────────────────────
+function toICSDate(str) {
+  return str.replace(/-/g, '');
+}
+
+function downloadICS(idx) {
+  const e = events[idx];
+  const uid = `${e.name.replace(/\s/g,'-')}-${e.start}@viana-nuernberg`;
+  const dtstart = toICSDate(e.start);
+  const dtend = toICSDate(e.end);
+  // Add 1 day to DTEND for all-day events (ICS spec)
+  const endDate = new Date(e.end);
+  endDate.setDate(endDate.getDate() + 1);
+  const dtendAdj = endDate.toISOString().slice(0,10).replace(/-/g,'');
+
+  const desc = (e.desc || '').replace(/,/g,'\\,').replace(/\n/g,'\\n');
+  const loc = e.loc.replace(/,/g,'\\,');
+
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Viana Nürnberg Events 2026//DE',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTART;VALUE=DATE:${dtstart}`,
+    `DTEND;VALUE=DATE:${dtendAdj}`,
+    `SUMMARY:${e.name}`,
+    `LOCATION:${loc}`,
+    `DESCRIPTION:${desc}\\n\\nKategorie: ${e.cat}\\nEintritt: ${e.price||'—'}\\nÖPNV: ${e.oepnv||'—'}`,
+    `CATEGORIES:${(e.cat||'').toUpperCase()}`,
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${e.name.replace(/[^a-zA-Z0-9äöüÄÖÜß]/g,'-')}.ics`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast(`📅 ${e.name} als ICS gespeichert`);
+}
+
+// ── COUNTDOWN ─────────────────────────────────────────────────────────────────
+function updateCountdown() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const future = events
+    .filter(e => new Date(e.start) >= today)
+    .sort((a,b) => a.start.localeCompare(b.start));
+  if (!future.length) return;
+  const next = future[0];
+  const diff = Math.round((new Date(next.start) - today) / 86400000);
+  const card = document.getElementById('countdown-card');
+  document.getElementById('cd-days').innerHTML = diff === 0
+    ? `Heute!`
+    : diff === 1 ? `Morgen!` : `${diff}<span> Tage</span>`;
+  document.getElementById('cd-name').textContent = next.name;
+  document.getElementById('cd-date').textContent = `📅 ${dateStr(next.start, next.end)} · 📍 ${next.loc}`;
+  if (card) {
+    card.onclick = () => openModal(events.indexOf(next));
+  }
 }
 
 // ── WISHLIST ──────────────────────────────────────────────────────────────────
@@ -1380,11 +1756,17 @@ function updateWishlistUI() {
 function renderWishlistPanel() {
   const body = document.getElementById('wl-body');
   const footer = document.getElementById('wl-footer');
-  const saved = events.filter(e => wishlist.has(e.name + e.start))
+  const isGoing = wlActiveTab === 'going';
+  const store = isGoing ? goingList : wishlist;
+  const emptyMsg = isGoing
+    ? 'Noch keine Events als "Ich gehe hin" markiert.<br>Klick auf ✅ bei einem Event!'
+    : 'Noch keine Events gemerkt.<br>Klick auf 🤍 bei einem Event!';
+
+  const saved = events.filter(e => store.has(e.name + e.start))
     .sort((a,b) => a.start.localeCompare(b.start));
 
   if (!saved.length) {
-    body.innerHTML = '<div class="wishlist-empty">Noch keine Events gemerkt.<br>Klick auf 🤍 bei einem Event!</div>';
+    body.innerHTML = `<div class="wishlist-empty">${emptyMsg}</div>`;
     footer.style.display = 'none';
     return;
   }
@@ -1393,19 +1775,31 @@ function renderWishlistPanel() {
   body.innerHTML = saved.map(e => {
     const idx = events.indexOf(e);
     const col = CAT_COLORS[e.cat] || '#888';
+    const key = e.name + e.start;
     return `<div class="wl-item" onclick="openModal(${idx})">
-      <div class="wl-item-name" style="color:${col}">${e.name}</div>
+      <div class="wl-item-name" style="color:${col}">${isGoing ? '✅ ' : '❤️ '}${e.name}</div>
       <div class="wl-item-date">📅 ${dateStr(e.start,e.end)} · 📍 ${e.loc}</div>
-      <button class="wl-remove" onclick="event.stopPropagation();removeFromWishlist('${e.name+e.start}')">✕</button>
+      <button class="wl-remove" onclick="event.stopPropagation();removeFromList('${key}','${isGoing?'going':'saved'}')">✕</button>
     </div>`;
   }).join('');
 }
 
-function removeFromWishlist(key) {
-  wishlist.delete(key);
-  saveWishlist();
+function removeFromList(key, type) {
+  if (type === 'going') { goingList.delete(key); saveGoingList(); }
+  else { wishlist.delete(key); saveWishlist(); }
   updateWishlistUI();
-  render(); // refresh heart states
+  render();
+}
+
+// keep old name as alias for modal usage
+function removeFromWishlist(key) { removeFromList(key, 'saved'); }
+
+function updateWishlistUI() {
+  const total = wishlist.size + goingList.size;
+  const btn = document.getElementById('wl-open-btn');
+  document.getElementById('wl-count').textContent = total;
+  btn.style.display = total > 0 ? 'flex' : 'none';
+  renderWishlistPanel();
 }
 
 // Deep-link: open modal if #eventname in URL
@@ -1556,9 +1950,24 @@ document.addEventListener('keydown', e => {
 });
 
 buildMonthTimeline();
+updateCountdown();
 updateWishlistUI();
-render();
-checkDeepLink();
+loadPublicCounts().then(() => {
+  render();
+  checkDeepLink();
+});
+
+// Expose functions used in inline onclick handlers to global scope
+window.openModal = openModal;
+window.toggleWishlist = toggleWishlist;
+window.toggleWishlistModal = toggleWishlistModal;
+window.toggleGoing = toggleGoing;
+window.toggleGoingModal = toggleGoingModal;
+window.copyDeepLink = copyDeepLink;
+window.downloadICS = downloadICS;
+window.removeFromList = removeFromList;
+window.removeFromWishlist = removeFromWishlist;
+window.switchWlTab = switchWlTab;
 
 </script>
 </body>
