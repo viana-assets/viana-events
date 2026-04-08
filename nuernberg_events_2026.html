@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nürnberg Events 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e0f13;
+  --surface: #16181f;
+  --surface2: #1e2029;
+  --border: rgba(255,255,255,0.07);
+  --text: #f0f0f0;
+  --muted: #6b7280;
+  --accent: #e8963a;
+  --accent2: #5b8ff9;
+
+  --kaerwa: #c8974e;
+  --festival: #5b8ff9;
+  --afterwork: #a78bfa;
+  --bierfest: #e8963a;
+  --sonstige: #34d399;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+  padding: 3rem 2rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(232,150,58,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.header-badge {
+  display: inline-block;
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid rgba(232,150,58,0.3);
+  padding: 4px 14px;
+  border-radius: 999px;
+  margin-bottom: 1.2rem;
+}
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
+}
+h1 span { color: var(--accent); }
+.header-sub {
+  font-size: 1rem;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+/* STATS BAR */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin: 2rem auto 0;
+  max-width: 700px;
+}
+.stat {
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+  display: block;
+}
+.stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* CONTROLS */
+.controls {
+  max-width: 1300px;
+  margin: 2.5rem auto 0;
+  padding: 0 1.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+.search-wrap svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.4;
+  pointer-events: none;
+}
+#search {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px 10px 40px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+#search:focus { border-color: rgba(232,150,58,0.4); }
+#search::placeholder { color: var(--muted); }
+
+.filter-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.pill {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.pill:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+.pill.active { background: var(--accent); color: #0e0f13; border-color: var(--accent); font-weight: 600; }
+.pill[data-cat="festival"].active { background: var(--festival); border-color: var(--festival); }
+.pill[data-cat="kaerwa"].active { background: var(--kaerwa); border-color: var(--kaerwa); }
+.pill[data-cat="afterwork"].active { background: var(--afterwork); border-color: var(--afterwork); }
+.pill[data-cat="bierfest"].active { background: var(--bierfest); border-color: var(--bierfest); }
+.pill[data-cat="sonstige"].active { background: var(--sonstige); border-color: var(--sonstige); }
+
+/* VIEW TOGGLE */
+.view-toggle {
+  display: flex;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 3px;
+}
+.view-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+}
+.view-btn.active { background: var(--surface2); color: var(--text); }
+
+/* CALENDAR AREA */
+.cal-wrap {
+  max-width: 1300px;
+  margin: 1.5rem auto 4rem;
+  padding: 0 1.5rem;
+}
+
+/* MONTH SECTION */
+.month-block {
+  margin-bottom: 3rem;
+}
+.month-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.month-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.month-count {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* LIST VIEW */
+.events-list { display: flex; flex-direction: column; gap: 8px; }
+
+.event-row {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 1rem;
+  align-items: start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.event-row::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--cat-color, var(--muted));
+  border-radius: 3px 0 0 3px;
+}
+.event-row:hover { background: var(--surface2); border-color: rgba(255,255,255,0.12); transform: translateY(-1px); }
+
+.event-date-col { text-align: center; padding-top: 2px; }
+.event-day { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 700; line-height: 1; color: var(--text); }
+.event-month { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.event-dow { font-size: 10px; color: var(--muted); }
+
+.event-info {}
+.event-name { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 3px; }
+.event-loc { font-size: 12px; color: var(--muted); margin-bottom: 5px; display: flex; align-items: center; gap: 4px; }
+.event-meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.badge {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.badge-free { background: rgba(52,211,153,0.12); color: #34d399; border-color: rgba(52,211,153,0.3); }
+.badge-date { background: transparent; color: var(--muted); border-color: var(--border); }
+.badge-dc { background: rgba(167,139,250,0.12); color: #c4b5fd; border-color: rgba(167,139,250,0.3); }
+.badge-new { background: rgba(232,150,58,0.15); color: var(--accent); border-color: rgba(232,150,58,0.3); }
+
+.event-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; padding-top: 2px; }
+.cat-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  color: #0e0f13;
+  white-space: nowrap;
+}
+
+/* GRID VIEW */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.event-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.event-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--cat-color, var(--muted));
+}
+.event-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+.card-date { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.card-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 4px; line-height: 1.25; }
+.card-loc { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.card-desc { font-size: 11px; color: rgba(240,240,240,0.55); line-height: 1.5; margin-bottom: 10px; }
+.card-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px; }
+
+/* DETAIL MODAL */
+.modal-bg {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 100;
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-bg.open { display: flex; }
+.modal {
+  background: var(--surface2);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  max-width: 520px;
+  width: 100%;
+  padding: 2rem;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-close {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1;
+  transition: all 0.15s;
+}
+.modal-close:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+.modal-cat { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.8rem; }
+.modal-title { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; margin-bottom: 0.4rem; }
+.modal-date-loc { font-size: 13px; color: var(--muted); margin-bottom: 1.2rem; display: flex; flex-direction: column; gap: 3px; }
+.modal-desc { font-size: 14px; line-height: 1.7; color: rgba(240,240,240,0.7); margin-bottom: 1.2rem; }
+.modal-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.2rem; }
+.modal-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 500;
+  color: var(--accent); text-decoration: none;
+  border: 1px solid rgba(232,150,58,0.3);
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.15s;
+}
+.modal-link:hover { background: rgba(232,150,58,0.1); }
+
+/* EMPTY */
+.empty { text-align: center; padding: 4rem 2rem; color: var(--muted); }
+.empty h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--text); }
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--muted);
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+}
+
+/* SCROLL */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+
+@media (max-width: 600px) {
+  .event-row { grid-template-columns: 48px 1fr; }
+  .event-right { display: none; }
+  .controls { gap: 0.75rem; }
+  .stats-bar { gap: 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Metropolregion Nürnberg · 2026</div>
+  <h1>Events &amp; <span>Feste</span><br>Nürnberg 2026</h1>
+  <p class="header-sub">Kirchweih · Bierfeste · Festivals · After Work · und mehr</p>
+  <div class="stats-bar">
+    <div class="stat"><span class="stat-num" id="total-count">—</span><span class="stat-label">Events gesamt</span></div>
+    <div class="stat"><span class="stat-num" id="free-count">—</span><span class="stat-label">Kostenlos</span></div>
+    <div class="stat"><span class="stat-num" id="month-count">9</span><span class="stat-label">Monate</span></div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input id="search" type="text" placeholder="Suchen…">
+  </div>
+  <div class="filter-pills">
+    <button class="pill active" data-cat="alle">Alle</button>
+    <button class="pill" data-cat="festival">🎵 Festivals</button>
+    <button class="pill" data-cat="kaerwa">🍺 Kärwa</button>
+    <button class="pill" data-cat="bierfest">🍺 Bierfest</button>
+    <button class="pill" data-cat="afterwork">🌅 After Work</button>
+    <button class="pill" data-cat="sonstige">✨ Sonstige</button>
+    <button class="pill" data-cat="free">🆓 Kostenlos</button>
+  </div>
+  <div class="view-toggle">
+    <button class="view-btn active" id="btn-list">≡ Liste</button>
+    <button class="view-btn" id="btn-grid">⊞ Grid</button>
+  </div>
+</div>
+
+<div class="cal-wrap" id="cal"></div>
+
+<div class="modal-bg" id="modal-bg">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modal-close">×</button>
+    <div class="modal-cat" id="m-cat"></div>
+    <div class="modal-title" id="m-title"></div>
+    <div class="modal-date-loc">
+      <span id="m-date"></span>
+      <span id="m-loc"></span>
+    </div>
+    <div class="modal-desc" id="m-desc"></div>
+    <div class="modal-badges" id="m-badges"></div>
+    <div id="m-link-wrap"></div>
+  </div>
+</div>
+
+<footer>Nürnberg Events 2026 · Alle Angaben ohne Gewähr · Bitte Termine beim jeweiligen Veranstalter bestätigen</footer>
+
+<script>
+const CAT_COLORS = {
+  festival: '#5b8ff9',
+  kaerwa:   '#c8974e',
+  bierfest: '#e8963a',
+  afterwork:'#a78bfa',
+  sonstige: '#34d399',
+};
+const CAT_LABELS = {
+  festival: 'Festival',
+  kaerwa:   'Kärwa / Kirchweih',
+  bierfest: 'Bierfest',
+  afterwork:'After Work / Club',
+  sonstige: 'Sonstiges',
+};
+const MONTHS = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+const MONTHS_S = ['Jan','Feb','Mrz','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+const DAYS = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+
+const events = [
+  // ─── BIERFESTE ───────────────────────────────────────────────────────────
+  {cat:'bierfest', name:'Erlanger Bergkirchweih', loc:'Erlangen – An den Kellern', start:'2026-05-21', end:'2026-06-01', free:true, desc:'Das älteste Bierfest der Welt – 12 Tage unter den Linden, ~1 Mio. Besucher. Eintritt frei!', genre:'Bier / Tradition', ticket:'https://www.erlangen.de/themenseite/thema/bergkirchweih'},
+  {cat:'bierfest', name:'Fränkisches Bierfest', loc:'Nürnberg – Burggraben', start:'2026-06-03', end:'2026-06-07', free:true, desc:'Über 40 Brauereien, 100+ Biersorten im längsten Biergarten Europas. Eintritt frei! 5 Bühnen, House Music & Blaskapellen.', genre:'Bierfest', ticket:'https://www.bierfest-franken.de', dresscode:''},
+  {cat:'bierfest', name:'Feuchter Kirchweih', loc:'Feucht (Nürnberger Land)', start:'2026-07-17', end:'2026-07-22', free:false, desc:'6 Tage Bierzelt, Blasmusik & Fahrgeschäfte. Bieranstich durch Bgm. Kotzur.', genre:'Bier / Kirchweih', ticket:''},
+  {cat:'bierfest', name:'Rother Kirchweih', loc:'Roth', start:'2026-08-07', end:'2026-08-11', free:false, desc:'Erstmals 1531 erwähnt – 5 Tage Festzelt mit Feuerwerk am Ende.', genre:'Bier / Tradition', ticket:''},
+
+  // ─── GROSSE VOLKSSEFTE ───────────────────────────────────────────────────
+  {cat:'sonstige', name:'Michaelis-Kirchweih Fürth', loc:'Fürth – Innenstadt', start:'2026-10-03', end:'2026-10-14', free:true, desc:'Königin der fränkischen Kirchweihen – 900+ Jahre, Süddeutschlands größte Straßenkirchweih. Erntedankfestzug 11. Oktober. Eintritt frei!', genre:'Volksfest', ticket:'https://www.fuerth.de/kultur-freizeit/veranstaltungen-termine/michaelis-kirchweih/'},
+
+  // ─── NÜRNBERG STADTTEIL-KÄRWAS ───────────────────────────────────────────
+  {cat:'kaerwa', name:'Schweinau Kirchweih', loc:'Nürnberg-Schweinau', start:'2026-05-14', end:'2026-05-18', free:true, desc:'Traditionelle Stadtteil-Kärwa.', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kleinreuth h.d.V. Kirchweih', loc:'Nürnberg-Kleinreuth', start:'2026-05-14', end:'2026-05-17', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Erlanger Bergkirchweih', loc:'Erlangen', start:'2026-05-21', end:'2026-06-01', free:true, desc:'Ältestes Bierfest der Welt.', genre:'Bierfest / Kärwa'},
+  {cat:'kaerwa', name:'Mögeldorf Kirchweih', loc:'Nürnberg-Mögeldorf', start:'2026-05-21', end:'2026-05-24', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Laufamholz Kirchweih', loc:'Nürnberg-Laufamholz', start:'2026-05-22', end:'2026-05-26', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Zerzabelshof Kirchweih', loc:'Nürnberg-Zerzabelshof', start:'2026-05-22', end:'2026-05-25', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Gostenhof Kirchweih', loc:'Nürnberg-Gostenhof', start:'2026-05-29', end:'2026-06-02', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Wachendorf', loc:'Cadolzburg-Wachendorf', start:'2026-05-29', end:'2026-06-01', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Nordostbahnhof Kirchweih', loc:'Nürnberg-Schoppershof', start:'2026-06-04', end:'2026-06-08', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Röttenbach', loc:'Röttenbach (Lkr. Roth)', start:'2026-06-12', end:'2026-06-15', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Pfaffenhofen', loc:'Roth-Pfaffenhofen', start:'2026-06-12', end:'2026-06-15', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Großreuth h.d.V. Kirchweih', loc:'Nürnberg-Großreuth', start:'2026-06-12', end:'2026-06-15', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Cadolzburger Kirchweih', loc:'Cadolzburg', start:'2026-06-18', end:'2026-06-24', free:true, desc:'Betzntanz, Brühtrogrennen am Bauhofweiher, Bieranstich.', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Eibach Kirchweih', loc:'Nürnberg-Eibach', start:'2026-06-19', end:'2026-06-23', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'St. Johannis Kirchweih', loc:'Nürnberg-St. Johannis', start:'2026-06-19', end:'2026-06-23', free:true, desc:'21. Juni: Führungen & Ausstellungen im Barockgarten.', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Großreuth b. Schweinau Kirchweih', loc:'Nürnberg', start:'2026-06-19', end:'2026-06-22', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Lohe Kirchweih', loc:'Nürnberg-Lohe', start:'2026-06-19', end:'2026-06-22', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Wolkersdorf', loc:'Schwabach-Wolkersdorf', start:'2026-06-26', end:'2026-06-29', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Gebersdorf Kirchweih', loc:'Nürnberg-Gebersdorf', start:'2026-06-25', end:'2026-06-29', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Gartenstadt Kirchweih', loc:'Nürnberg-Gartenstadt', start:'2026-06-26', end:'2026-06-30', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Sack', loc:'Fürth-Sack', start:'2026-06-27', end:'2026-06-30', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kornburg Kärwa', loc:'Nürnberg-Kornburg', start:'2026-07-03', end:'2026-07-06', free:true, desc:'Großer Umzug, Bieranstich mit OB, Trembalesmarkt.', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Dietersdorf', loc:'Schwabach-Dietersdorf', start:'2026-07-03', end:'2026-07-06', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Schniegling Kirchweih', loc:'Nürnberg-Schniegling', start:'2026-07-03', end:'2026-07-06', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Wetzendorf Kirchweih', loc:'Nürnberg-Wetzendorf', start:'2026-07-03', end:'2026-07-07', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Sommerfest Hardhöhe', loc:'Fürth-Hardhöhe', start:'2026-07-04', end:'2026-07-08', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Almoshof Kirchweih', loc:'Nürnberg-Almoshof', start:'2026-07-10', end:'2026-07-14', free:true, desc:'Bekannt für Umzüge mit geschmückten Pferdekutschen.', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Altenfurt Kirchweih', loc:'Nürnberg-Altenfurt', start:'2026-07-10', end:'2026-07-14', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Buch Kirchweih', loc:'Nürnberg-Buch', start:'2026-07-10', end:'2026-07-15', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Oberasbacher Kirchweih', loc:'Oberasbach', start:'2026-07-10', end:'2026-07-13', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Ruppmannsburg', loc:'Roth-Ruppmannsburg', start:'2026-07-10', end:'2026-07-13', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Steiner Kirchweih', loc:'Stein', start:'2026-07-10', end:'2026-07-13', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Brunn Kirchweih', loc:'Nürnberg-Brunn', start:'2026-07-14', end:'2026-07-27', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Unterreichenbach', loc:'Schwabach-Unterreichenbach', start:'2026-07-17', end:'2026-07-20', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Altenberger Kirchweih', loc:'Oberasbach-Altenberg', start:'2026-07-17', end:'2026-07-21', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Boxdorf Kirchweih', loc:'Nürnberg-Boxdorf', start:'2026-07-17', end:'2026-07-21', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Buchenbühl Kirchweih', loc:'Nürnberg-Buchenbühl', start:'2026-07-17', end:'2026-07-20', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Mühlhof Kirchweih', loc:'Nürnberg-Mühlhof', start:'2026-07-17', end:'2026-07-21', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Eigenes Heim', loc:'Fürth-Eigenes Heim', start:'2026-07-18', end:'2026-07-21', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Mosbach', loc:'Roth-Mosbach', start:'2026-07-24', end:'2026-07-26', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Unterasbacher Kirchweih', loc:'Oberasbach-Unterasbach', start:'2026-07-24', end:'2026-07-27', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Reichelsdorf Kirchweih', loc:'Nürnberg-Reichelsdorf', start:'2026-07-24', end:'2026-07-28', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Ziegelstein Kirchweih', loc:'Nürnberg-Ziegelstein', start:'2026-07-24', end:'2026-08-02', free:true, desc:'Zwei Festwochenenden.', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Ronhof', loc:'Fürth-Ronhof', start:'2026-07-25', end:'2026-07-28', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Burgfarrnbach', loc:'Fürth-Burgfarrnbach', start:'2026-07-25', end:'2026-07-29', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Limbach', loc:'Schwabach-Limbach', start:'2026-07-31', end:'2026-08-03', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Fischbach Kirchweih', loc:'Nürnberg-Fischbach', start:'2026-07-31', end:'2026-08-03', free:true, desc:'30-Meter-Kärwabaum per Muskelkraft aufgestellt!', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Worzeldorf Kirchweih', loc:'Nürnberg-Worzeldorf', start:'2026-07-31', end:'2026-08-04', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Katzwang Kirchweih', loc:'Nürnberg-Katzwang', start:'2026-08-06', end:'2026-08-10', free:true, desc:'Berühmt für das Sautrogrennen auf der Rednitz.', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Großgründlach Kirchweih', loc:'Nürnberg-Großgründlach', start:'2026-08-07', end:'2026-08-11', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Langwasser Kirchweih', loc:'Nürnberg-Langwasser', start:'2026-08-07', end:'2026-08-10', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Höfles Kirchweih', loc:'Nürnberg-Höfles', start:'2026-08-07', end:'2026-08-10', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Unterfarrnbach', loc:'Fürth-Unterfarrnbach', start:'2026-08-08', end:'2026-08-12', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Leerstetten', loc:'Roth-Leerstetten', start:'2026-08-21', end:'2026-08-24', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Wöhrd Kirchweih', loc:'Nürnberg-Wöhrd', start:'2026-08-21', end:'2026-08-25', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Zirndorfer Kirchweih', loc:'Zirndorf', start:'2026-08-21', end:'2026-08-25', free:true, desc:'5 Tage – Festzug Sa. 14 Uhr, Feuerwerk Di. 22 Uhr. 10. Jubiläum!', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Rehdorfer Kirchweih', loc:'Oberasbach-Rehdorf', start:'2026-08-28', end:'2026-08-31', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Fürberg', loc:'Fürth-Fürberg', start:'2026-08-29', end:'2026-09-01', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Stadeln', loc:'Fürth-Stadeln', start:'2026-08-29', end:'2026-09-02', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Schwabacher Herbstkirchweih', loc:'Schwabach – Altstadt', start:'2026-09-18', end:'2026-09-27', free:false, desc:'10 Tage Volksfest in der Innenstadt. Kirchweihmarkt 21.–23. Sept.', genre:'Kärwa / Volksfest'},
+  {cat:'kaerwa', name:'Schnepfenreuth Kirchweih', loc:'Nürnberg-Schnepfenreuth', start:'2026-09-04', end:'2026-09-08', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Poppenreuth', loc:'Fürth-Poppenreuth', start:'2026-09-05', end:'2026-09-08', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Klaragasse Kirchweih', loc:'Nürnberg-Klaragasse', start:'2026-09-11', end:'2026-09-13', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Neunhof Kirchweih', loc:'Nürnberg-Neunhof', start:'2026-09-11', end:'2026-09-14', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Atzenhof', loc:'Fürth-Atzenhof', start:'2026-09-12', end:'2026-09-15', free:true, desc:'', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kraftshof Kärwa', loc:'Nürnberg-Kraftshof', start:'2026-09-18', end:'2026-09-21', free:true, desc:'Die letzte Kirchweih im Nürnberger Norden.', genre:'Kärwa'},
+  {cat:'kaerwa', name:'Kirchweih Vach', loc:'Fürth-Vach', start:'2026-09-19', end:'2026-09-22', free:true, desc:'', genre:'Kärwa'},
+
+  // ─── FESTIVALS ────────────────────────────────────────────────────────────
+  {cat:'festival', name:'Nürnberg Punk Fest', loc:'Künstlerhaus Nürnberg', start:'2026-02-20', end:'2026-02-21', free:false, desc:'Wasted Open Air + KNRD Fest – 30 Bands auf 3 Bühnen. Bereits ausverkauft!', genre:'Punk/Hardcore', ticket:''},
+  {cat:'festival', name:'Metropolink Warm Up (Indoor)', loc:'Nürnberg (Location TBC)', start:'2026-04-18', end:'2026-04-18', free:false, desc:'Indoor-Auftakt des Metropolink Festivals · Szene-Avantgarde & Club-Energie.', genre:'Multi-Genre', ticket:''},
+  {cat:'festival', name:'Rock im Park', loc:'Zeppelinfeld, Nürnberg', start:'2026-06-05', end:'2026-06-07', free:false, desc:'50+ Bands, 4 Tage Camping. Headliner: Linkin Park, Iron Maiden u.v.m. ~60.000 Besucher.', genre:'Rock/Metal', ticket:'https://www.rock-im-park.com/', new:true},
+  {cat:'festival', name:'Happy Life Open Air', loc:'Airport Nürnberg', start:'2026-06-13', end:'2026-06-13', free:false, desc:'NEU 2026 – Pop & Rave der 90er/00er. No Angels, Atomic Kitten u.a. ~10.000 Gäste.', genre:'Pop/Rave', ticket:'https://festivalsummer-nuernberg.de/happylife', new:true},
+  {cat:'festival', name:'St. Katharina Open Air', loc:'Katharinenruine, Nürnberg', start:'2026-06-19', end:'2026-07-04', free:false, desc:'Konzertreihe in der histor. Klosterruine – Blues, Rock, Indie, Hip-Hop. Curtis Harding, Blackout Problems u.a.', genre:'Multi-Genre', ticket:'https://www.kunstkulturquartier.de/'},
+  {cat:'festival', name:'Garlic Land + HipHop Garden', loc:'Airport Nürnberg', start:'2026-06-20', end:'2026-06-20', free:false, desc:'EDM + Hip-Hop auf 2 Areas – ~10.000 Gäste. Garlic Fields & Garlic Garden vereint.', genre:'EDM / Hip-Hop', ticket:'https://festivalsummer-nuernberg.de/'},
+  {cat:'festival', name:'Super Sommer Sause', loc:'Airport Nürnberg', start:'2026-06-27', end:'2026-06-27', free:false, desc:'Nürnberg meets Mallorca – Pietro Lombardi, Mia Julia, Isi Glück, Ikke Hüftgold u.a. ~15.000 Gäste.', genre:'Schlager / Malle', ticket:'https://festivalsummer-nuernberg.de/'},
+  {cat:'festival', name:'Open Air Sommer – Stadionpark', loc:'Stadionpark Nürnberg', start:'2026-06-28', end:'2026-07-11', free:false, desc:'Konzertreihe. Ski Aggu, Sarah Connor, Provinz, Dream Theater u.a.', genre:'Multi-Genre', ticket:'https://www.stadionpark.com/'},
+  {cat:'festival', name:'Latin Airport Festival', loc:'Airport Nürnberg', start:'2026-07-04', end:'2026-07-04', free:false, desc:'Deutschlands größtes Latin Open-Air – Myke Towers als Headliner. Reggaeton, Salsa, Dancehall. ~15.000 Gäste.', genre:'Latin', ticket:'https://festivalsummer-nuernberg.de/'},
+  {cat:'festival', name:'Save The Core', loc:'Stadionpark Nürnberg', start:'2026-07-04', end:'2026-07-04', free:false, desc:'Punk & Hardcore – Sex Pistols feat. Frank Carter, Biohazard, Agnostic Front u.a. Mit Stadionbad-Zugang.', genre:'Punk/Hardcore', ticket:'https://www.save-the-core.de/'},
+  {cat:'festival', name:'Open Beatz Festival', loc:'Poppenhofer Weiher, Herzogenaurach', start:'2026-07-24', end:'2026-07-26', free:false, desc:'Süddeutschlands größtes EDM-Festival – 30.000 Besucher, 8 Bühnen, 170 Acts. HBz, Ski Aggu, Timmy Trumpet u.v.m.', genre:'EDM / Electronic', ticket:'https://openbeatz.de/'},
+  {cat:'festival', name:'Bardentreffen', loc:'Nürnberger Altstadt (9 Bühnen)', start:'2026-07-31', end:'2026-08-02', free:true, desc:'49. Ausgabe – Deutschlands größtes Umsonst & Draußen Festival. 90 Konzerte, ~200.000 Besucher. Weltmusik. EINTRITT FREI!', genre:'Weltmusik', ticket:''},
+  {cat:'festival', name:'Metropolink Festival', loc:'Nürnberg (Innenstadt)', start:'2026-08-05', end:'2026-08-08', free:false, desc:'Street-Art, Musik & Kultur – Indie, Alternative, Electronic. 4 Tage Stadtfestival.', genre:'Multi-Genre', ticket:''},
+  {cat:'festival', name:'Brückenfestival', loc:'Pegnitzwiesen, Theodor-Heuss-Brücke', start:'2026-08-07', end:'2026-08-08', free:true, desc:'Umsonst & Draußen – 2 Tage, 3 Bühnen, regionale & internationale Bands. Ehrenamtlich. EINTRITT FREI!', genre:'Multi-Genre', ticket:''},
+  {cat:'festival', name:'Container Love Festival', loc:'Hafen Nürnberg-Süd', start:'2026-08-14', end:'2026-08-14', free:false, desc:'Elektro-Festival im Hafen – 3 Stages, 20+ internationale Acts. (Termin TBC)', genre:'EDM / Electronic', ticket:''},
+  {cat:'festival', name:'Tanzen im Grünen', loc:'Marienbergpark, Nürnberg', start:'2026-08-29', end:'2026-08-29', free:false, desc:'Elektro-Festival – 10+ Stunden, 3 Bühnen. House, Techno, EDM. Ab 18 Jahren. 999999999, AKA AKA, Lilly Palmer u.a.', genre:'Techno / House', ticket:'https://www.tanzen-im-gruenen.de/'},
+  {cat:'festival', name:'Nürnberg Pop Festival', loc:'Nürnberger Altstadt', start:'2026-10-08', end:'2026-10-10', free:false, desc:'Süddeutschlands größtes Club- & Showcase-Festival. Kirchen, Museen, Clubs als Bühnen.', genre:'Indie / Pop / Club', ticket:''},
+  {cat:'festival', name:'Burning Beach Festival', loc:'Brombachsee, Pleinfeld (~30 min)', start:'2026-06-19', end:'2026-06-21', free:false, desc:'10. Jubiläum! 3 Tage Techno, House & Goa direkt am Sandstrand – 5 Floors, ~10.000 Besucher. Camping ab 18.6. S-Bahn bis Pleinfeld + Shuttle.', genre:'Techno / House / Goa', ticket:'https://burningbeach.de/'},
+  {cat:'festival', name:'Klassik Open Air', loc:'Luitpoldhain, Nürnberg', start:'2026-07-15', end:'2026-07-16', free:true, desc:'Europas größtes Klassik Open Air – ~160.000 Besucher. Staatsphilharmonie & Symphoniker. Mit Feuerwerk. EINTRITT FREI!', genre:'Klassik', ticket:''},
+
+  // ─── AFTER WORK / CLUB ───────────────────────────────────────────────────
+  {cat:'afterwork', name:'Sundowner – Season Opening', loc:'Meier Hilzhof, Pilsach', start:'2026-04-18', end:'2026-04-18', free:false, desc:'Terrassenopening der Sundowner-Reihe. Ab 12:00 Uhr.', genre:'House / Outdoor', ticket:'https://sundowner.ticket.io/', dresscode:'Summer Chic'},
+  {cat:'afterwork', name:'Sundowner im Bootshaus', loc:'Bootshaus Nürnberg, Dutzendteich', start:'2026-04-23', end:'2026-04-23', free:false, desc:'17–23 Uhr. Seeterrasse am Dutzendteich · House & Club Sounds · DJ Lee Allen. Tickets ab 20 €.', genre:'House / Outdoor', ticket:'https://sundowner.ticket.io/', dresscode:'Summer Chic'},
+  {cat:'afterwork', name:'High in the Sky – Rooftop Party', loc:'Design Offices, Königstorgraben 11, 5. OG', start:'2026-04-17', end:'2026-04-17', free:false, desc:'19–01 Uhr. R&B, Hip Hop & House über den Dächern Nürnbergs. DJs + Special Acts. ~15 €.', genre:'R&B / House / Rooftop', ticket:'https://skyeventsmore.ticket.io/', dresscode:''},
+  {cat:'afterwork', name:'Sundowner White Party im Bootshaus', loc:'Bootshaus Nürnberg, Dutzendteich', start:'2026-05-14', end:'2026-05-14', free:false, desc:'17–23 Uhr. White Party Edition – weißes Outfit Pflicht!', genre:'House / Outdoor', ticket:'https://sundowner.ticket.io/', dresscode:'Alles in Weiß!'},
+  {cat:'afterwork', name:'Sundowner im Bootshaus', loc:'Bootshaus Nürnberg, Dutzendteich', start:'2026-06-04', end:'2026-06-04', free:false, desc:'17–23 Uhr. House & Club Sounds auf der Seeterrasse. Tickets ab 20 €.', genre:'House / Outdoor', ticket:'https://sundowner.ticket.io/', dresscode:'Summer Chic'},
+  {cat:'afterwork', name:'Gate After Work (wöchentlich Do)', loc:'Gate Club, Airport Nürnberg', start:'2026-04-09', end:'2026-04-09', free:false, desc:'Jeden Donnerstag ab 19 Uhr: House & Mainstream. Im Sommer Special Rooftop-Events auf der Dachterrasse (450 m²) mit Vorfeldblick.', genre:'House / Rooftop', ticket:'https://gate-nuernberg.de/'},
+  {cat:'afterwork', name:'PARKS After Work Party (2× mtl.)', loc:'PARKS, Berliner Platz 9', start:'2026-04-09', end:'2026-04-09', free:false, desc:'2× im Monat donnerstags ab 20 Uhr. DJ Werner & Friends – House. 5 € Eintritt.', genre:'House / Club', ticket:'https://www.parks-nuernberg.de/after-work-party/'},
+  {cat:'afterwork', name:'Sundowner White Party im Bootshaus', loc:'Bootshaus Nürnberg, Dutzendteich', start:'2026-07-30', end:'2026-07-30', free:false, desc:'17–23 Uhr. White Party Edition.', genre:'House / Outdoor', ticket:'https://sundowner.ticket.io/', dresscode:'Alles in Weiß!'},
+  {cat:'afterwork', name:'Sundowner im Bootshaus', loc:'Bootshaus Nürnberg, Dutzendteich', start:'2026-08-27', end:'2026-08-27', free:false, desc:'17–23 Uhr. House & Club Sounds auf der Seeterrasse. Tickets ab 20 €.', genre:'House / Outdoor', ticket:'https://sundowner.ticket.io/', dresscode:'Summer Chic'},
+  {cat:'afterwork', name:'Sundowner im Bootshaus', loc:'Bootshaus Nürnberg, Dutzendteich', start:'2026-09-17', end:'2026-09-17', free:false, desc:'17–23 Uhr. Saison-Finale der Sundowner-Reihe.', genre:'House / Outdoor', ticket:'https://sundowner.ticket.io/', dresscode:'Summer Chic'},
+
+  // ─── SONSTIGE ────────────────────────────────────────────────────────────
+  {cat:'sonstige', name:'Schwabacher Kinderkirchweih', loc:'Schwabach – Königsplatz', start:'2026-04-24', end:'2026-04-28', free:false, desc:'Fahrgeschäfte und Programm für Kinder und Familien.', genre:'Volksfest'},
+  {cat:'sonstige', name:'Kirchweih Eckersmühlen', loc:'Roth-Eckersmühlen', start:'2026-05-14', end:'2026-05-18', free:true, desc:'', genre:'Kärwa'},
+  {cat:'sonstige', name:'Weiherhofer Kärwa', loc:'Nürnberg-Weiherhof', start:'2026-09-04', end:'2026-09-07', free:true, desc:'', genre:'Kärwa'},
+];
+
+let activeFilter = 'alle';
+let searchTerm = '';
+let viewMode = 'list';
+
+function dateStr(s, e) {
+  const sd = new Date(s), ed = new Date(e);
+  if (s === e) return `${sd.getDate()}. ${MONTHS_S[sd.getMonth()]} 2026`;
+  if (sd.getMonth() === ed.getMonth()) return `${sd.getDate()}.–${ed.getDate()}. ${MONTHS_S[sd.getMonth()]} 2026`;
+  return `${sd.getDate()}. ${MONTHS_S[sd.getMonth()]} – ${ed.getDate()}. ${MONTHS_S[ed.getMonth()]} 2026`;
+}
+
+function render() {
+  const q = searchTerm.toLowerCase();
+  let filtered = events.filter(e => {
+    const matchCat = activeFilter === 'alle' ? true
+      : activeFilter === 'free' ? e.free
+      : e.cat === activeFilter;
+    const matchSearch = !q || e.name.toLowerCase().includes(q) || e.loc.toLowerCase().includes(q) || (e.genre||'').toLowerCase().includes(q) || (e.desc||'').toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  }).sort((a,b) => a.start.localeCompare(b.start));
+
+  document.getElementById('total-count').textContent = events.length;
+  document.getElementById('free-count').textContent = events.filter(e=>e.free).length;
+
+  const byMonth = {};
+  filtered.forEach(e => {
+    const m = parseInt(e.start.split('-')[1]) - 1;
+    if (!byMonth[m]) byMonth[m] = [];
+    byMonth[m].push(e);
+  });
+
+  const cal = document.getElementById('cal');
+
+  if (!filtered.length) {
+    cal.innerHTML = `<div class="empty"><h3>Keine Events gefunden</h3><p>Versuch einen anderen Suchbegriff oder Filter.</p></div>`;
+    return;
+  }
+
+  cal.innerHTML = Object.keys(byMonth).sort((a,b)=>+a-+b).map(m => {
+    const evs = byMonth[m];
+    const rows = viewMode === 'list'
+      ? `<div class="events-list">${evs.map(eventRowHTML).join('')}</div>`
+      : `<div class="events-grid">${evs.map(eventCardHTML).join('')}</div>`;
+    return `<div class="month-block">
+      <div class="month-header">
+        <span class="month-name">${MONTHS[m]}</span>
+        <span class="month-count">${evs.length} Event${evs.length!==1?'s':''}</span>
+      </div>
+      ${rows}
+    </div>`;
+  }).join('');
+
+  // attach click handlers
+  cal.querySelectorAll('[data-idx]').forEach(el => {
+    el.addEventListener('click', () => openModal(parseInt(el.dataset.idx)));
+  });
+}
+
+function eventRowHTML(e) {
+  const col = CAT_COLORS[e.cat] || '#888';
+  const sd = new Date(e.start);
+  const idx = events.indexOf(e);
+  return `<div class="event-row" data-idx="${idx}" style="--cat-color:${col}">
+    <div class="event-date-col">
+      <div class="event-day">${sd.getDate()}.</div>
+      <div class="event-month">${MONTHS_S[sd.getMonth()]}.</div>
+      <div class="event-dow">${DAYS[sd.getDay()]}</div>
+    </div>
+    <div class="event-info">
+      <div class="event-name">${e.name}</div>
+      <div class="event-loc">📍 ${e.loc}</div>
+      <div class="event-meta">
+        <span class="badge badge-date">${dateStr(e.start,e.end)}</span>
+        ${e.free ? '<span class="badge badge-free">★ Kostenlos</span>' : ''}
+        ${e.new ? '<span class="badge badge-new">NEU 2026</span>' : ''}
+        ${e.dresscode ? `<span class="badge badge-dc">DC: ${e.dresscode}</span>` : ''}
+      </div>
+    </div>
+    <div class="event-right">
+      <span class="cat-badge" style="background:${col}">${CAT_LABELS[e.cat]}</span>
+      ${e.genre ? `<span style="font-size:11px;color:var(--muted)">${e.genre}</span>` : ''}
+    </div>
+  </div>`;
+}
+
+function eventCardHTML(e) {
+  const col = CAT_COLORS[e.cat] || '#888';
+  const idx = events.indexOf(e);
+  return `<div class="event-card" data-idx="${idx}" style="--cat-color:${col}">
+    <div class="card-date">${dateStr(e.start,e.end)} · ${DAYS[new Date(e.start).getDay()]}.</div>
+    <div class="card-name">${e.name}</div>
+    <div class="card-loc">📍 ${e.loc}</div>
+    ${e.desc ? `<div class="card-desc">${e.desc.slice(0,100)}${e.desc.length>100?'…':''}</div>` : ''}
+    <div class="card-footer">
+      <span class="cat-badge" style="background:${col}">${CAT_LABELS[e.cat]}</span>
+      ${e.free ? '<span class="badge badge-free">★ Kostenlos</span>' : ''}
+      ${e.new ? '<span class="badge badge-new">NEU</span>' : ''}
+    </div>
+  </div>`;
+}
+
+function openModal(idx) {
+  const e = events[idx];
+  const col = CAT_COLORS[e.cat] || '#888';
+  document.getElementById('m-cat').textContent = CAT_LABELS[e.cat];
+  document.getElementById('m-cat').style.color = col;
+  document.getElementById('m-title').textContent = e.name;
+  document.getElementById('m-date').textContent = '📅 ' + dateStr(e.start, e.end);
+  document.getElementById('m-loc').textContent = '📍 ' + e.loc;
+  document.getElementById('m-desc').textContent = e.desc || '—';
+
+  const badges = [];
+  if (e.free) badges.push('<span class="badge badge-free">★ Kostenlos / Eintritt frei</span>');
+  if (e.new) badges.push('<span class="badge badge-new">NEU 2026</span>');
+  if (e.dresscode) badges.push(`<span class="badge badge-dc">Dresscode: ${e.dresscode}</span>`);
+  if (e.genre) badges.push(`<span class="badge badge-date">${e.genre}</span>`);
+  document.getElementById('m-badges').innerHTML = badges.join('');
+
+  const lw = document.getElementById('m-link-wrap');
+  lw.innerHTML = e.ticket
+    ? `<a class="modal-link" href="${e.ticket}" target="_blank">🎟 Tickets / Mehr Infos</a>`
+    : '';
+
+  document.getElementById('modal-bg').classList.add('open');
+}
+
+// EVENTS
+document.querySelectorAll('.pill').forEach(p => {
+  p.addEventListener('click', () => {
+    document.querySelectorAll('.pill').forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+    activeFilter = p.dataset.cat;
+    render();
+  });
+});
+
+document.getElementById('search').addEventListener('input', e => {
+  searchTerm = e.target.value;
+  render();
+});
+
+document.getElementById('btn-list').addEventListener('click', () => {
+  viewMode = 'list';
+  document.getElementById('btn-list').classList.add('active');
+  document.getElementById('btn-grid').classList.remove('active');
+  render();
+});
+document.getElementById('btn-grid').addEventListener('click', () => {
+  viewMode = 'grid';
+  document.getElementById('btn-grid').classList.add('active');
+  document.getElementById('btn-list').classList.remove('active');
+  render();
+});
+
+document.getElementById('modal-bg').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal-bg')) document.getElementById('modal-bg').classList.remove('open');
+});
+document.getElementById('modal-close').addEventListener('click', () => {
+  document.getElementById('modal-bg').classList.remove('open');
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('modal-bg').classList.remove('open');
+});
+
+render();
+</script>
+</body>
+</html>
