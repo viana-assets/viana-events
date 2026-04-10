@@ -94,6 +94,8 @@ h1 span{color:var(--accent)}
 .event-row:hover{background:var(--surface2);border-color:rgba(255,255,255,.12);transform:translateY(-1px)}
 .event-row.today-event{border-color:rgba(232,150,58,.45);background:linear-gradient(90deg,rgba(232,150,58,.06) 0%,var(--surface) 100%)}
 .event-row.today-event::before{background:var(--accent)}
+.event-row.soon-event{border-color:rgba(91,143,249,.35);background:linear-gradient(90deg,rgba(91,143,249,.05) 0%,var(--surface) 100%)}
+.event-row.soon-event::before{background:var(--accent2)}
 .event-date-col{text-align:center;padding-top:2px}
 .event-day{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;line-height:1;color:var(--text)}
 .event-month{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
@@ -307,7 +309,7 @@ padding:2.5rem 2rem;color:var(--muted);font-size:12px;border-top:1px solid var(-
     <div class="search-suggestions" id="search-suggestions"></div>
   </div>
   <div class="filter-pills">
-    <button class="pill active" data-cat="alle">Alle</button>
+    <button class="pill active" id="pill-alle" data-cat="alle">Alle</button>
     <button class="pill" data-cat="festival">🎵 Festivals</button>
     <button class="pill" data-cat="kaerwa">🍺 Kärwa</button>
     <button class="pill" data-cat="bierfest">🍺 Bierfest</button>
@@ -638,7 +640,7 @@ async function savePublicCount(e, delta) {
 function getPublicCount(e) { return publicCounts[eventKey(e)] || 0; }
 
 
-let activeFilter='alle', searchTerm='', viewMode='list', quickFilter='alle', sortMode='date', leafletMap=null;
+let activeFilters=new Set(['alle']), searchTerm='', viewMode='list', quickFilter='alle', sortMode='date', leafletMap=null;
 let appMode = 'party'; // 'party' or 'family'
 
 function getActiveEvents() { return appMode === 'family' ? familyEvents : events; }
@@ -663,7 +665,7 @@ function getFiltered() {
   const sourceEvents = appMode === 'family' ? familyEvents : events;
   const q=searchTerm.toLowerCase(), today=new Date();today.setHours(0,0,0,0);
   let filtered=sourceEvents.filter(e=>{
-    const matchCat=activeFilter==='alle'?true:activeFilter==='free'?e.free:appMode==='family'?true:e.cat===activeFilter;
+    const matchCat=activeFilters.has('alle')?true:appMode==='family'?true:(activeFilters.has('free')&&e.free)||(activeFilters.has(e.cat));
     const matchSearch=!q||e.name.toLowerCase().includes(q)||e.loc.toLowerCase().includes(q)||(e.genre||'').toLowerCase().includes(q)||(e.desc||'').toLowerCase().includes(q);
     let matchQuick=true;
     if(quickFilter==='today') matchQuick=isToday(e.start);
@@ -698,7 +700,11 @@ function countdownLabel(diff) {
 function eventRowHTML(e) {
   const col=CAT_COLORS[e.cat]||'#888', sd=new Date(e.start), idx=getActiveEvents().indexOf(e);
   const isSaved=wishlist.has(e.name+e.start), diff=getDaysUntil(e.start), isToday_=diff===0;
-  return `<div class="event-row${isToday_?' today-event':''}" data-idx="${idx}" style="--cat-color:${col}">
+  const isSoon = diff>0 && diff<=3;
+  const pubCount=getPublicCount(e);
+  const highlightClass = isToday_ ? ' today-event' : isSoon ? ' soon-event' : '';
+  return `<div class="event-row${highlightClass}" data-idx="${idx}" style="--cat-color:${col};position:relative">
+    ${pubCount>0?`<span style="position:absolute;top:10px;right:10px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.35);z-index:2;pointer-events:none">✅ ${pubCount} dabei</span>`:''}
     <div class="event-date-col">
       <div class="event-day">${sd.getDate()}.</div>
       <div class="event-month">${MONTHS_S[sd.getMonth()]}.</div>
@@ -720,7 +726,7 @@ function eventRowHTML(e) {
     </div>
     <div class="event-right">
       <span class="cat-badge" style="background:${col}">${CAT_LABELS[e.cat]}</span>
-      ${getPublicCount(e)>0?`<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:999px;background:rgba(52,211,153,.1);color:#34d399;border:1px solid rgba(52,211,153,.25)">✅ ${getPublicCount(e)} dabei</span>`:''}
+      ${pubCount>0?`<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:999px;background:rgba(52,211,153,.1);color:#34d399;border:1px solid rgba(52,211,153,.25)">✅ ${pubCount} dabei</span>`:''}
       <div style="display:flex;gap:4px;margin-top:2px">
         <button class="going-btn${goingList.has(e.name+e.start)?' going':''}" onclick="event.stopPropagation();toggleGoing(${idx})" title="Ich gehe hin">${goingList.has(e.name+e.start)?'✅ Dabei':'📅 Dabei?'}</button>
         <button class="heart-btn${isSaved?' saved':''}" onclick="event.stopPropagation();toggleWishlist(${idx})" title="Merken">${isSaved?'❤️':'🤍'}</button>
@@ -1119,9 +1125,9 @@ function selectSuggestion(idx) {
 
 // ── MODE SWITCHER ─────────────────────────────────────────────────────────────
 document.getElementById('tab-party').addEventListener('click', () => {
-  appMode='party'; activeFilter='alle'; quickFilter='alle'; searchTerm='';
+  appMode='party'; activeFilters=new Set(['alle']); quickFilter='alle'; searchTerm='';
   document.getElementById('search').value='';
-  document.querySelectorAll('.pill').forEach(p=>{p.classList.toggle('active',p.dataset.cat==='alle');});
+  document.querySelectorAll('.pill').forEach(p=>{p.classList.toggle('active',p.dataset.cat==='alle');});activeFilters=new Set(['alle']);
   document.querySelectorAll('.qpill').forEach(p=>{p.classList.toggle('active',p.dataset.quick==='alle');});
   document.getElementById('tab-party').className='mode-tab active-party';
   document.getElementById('tab-family').className='mode-tab';
@@ -1129,9 +1135,9 @@ document.getElementById('tab-party').addEventListener('click', () => {
   buildMonthTimeline(); updateCountdown(); render();
 });
 document.getElementById('tab-family').addEventListener('click', () => {
-  appMode='family'; activeFilter='alle'; quickFilter='alle'; searchTerm='';
+  appMode='family'; activeFilters=new Set(['alle']); quickFilter='alle'; searchTerm='';
   document.getElementById('search').value='';
-  document.querySelectorAll('.pill').forEach(p=>{p.classList.toggle('active',p.dataset.cat==='alle');});
+  document.querySelectorAll('.pill').forEach(p=>{p.classList.toggle('active',p.dataset.cat==='alle');});activeFilters=new Set(['alle']);
   document.querySelectorAll('.qpill').forEach(p=>{p.classList.toggle('active',p.dataset.quick==='alle');});
   document.getElementById('tab-family').className='mode-tab active-family';
   document.getElementById('tab-party').className='mode-tab';
@@ -1149,8 +1155,24 @@ function checkDeepLink() {
 
 // ── WIRE UP ───────────────────────────────────────────────────────────────────
 document.querySelectorAll('.pill').forEach(p=>p.addEventListener('click',()=>{
-  document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
-  p.classList.add('active');activeFilter=p.dataset.cat;render();
+  const cat=p.dataset.cat;
+  if(cat==='alle'){
+    activeFilters=new Set(['alle']);
+    document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+    p.classList.add('active');
+  } else {
+    activeFilters.delete('alle');
+    document.getElementById('pill-alle').classList.remove('active');
+    if(activeFilters.has(cat)){
+      activeFilters.delete(cat);
+      p.classList.remove('active');
+      if(activeFilters.size===0){activeFilters.add('alle');document.getElementById('pill-alle').classList.add('active');}
+    } else {
+      activeFilters.add(cat);
+      p.classList.add('active');
+    }
+  }
+  render();
 }));
 
 document.getElementById('search').addEventListener('input',e=>{
