@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viana Places 2026</title>
+  <meta name="description" content="Die besten Locations, Ausflugsziele, Clubs und mehr – sortiert nach Entfernung von Nürnberg">
+  <link rel="icon" type="image/png" href="assets/icon-96x96.png">
+  <link rel="apple-touch-icon" href="assets/icon-128x128.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/places.css">
+<style>
+.events-corner {
+  position: fixed;
+  top: 16px; right: 16px;
+  z-index: 9000;
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(22,24,31,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 999px;
+  color: #6b7280;
+  font-size: 13px; font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+.events-corner:hover {
+  border-color: rgba(232,150,58,0.4);
+  color: #e8963a;
+  background: rgba(22,24,31,0.95);
+  transform: translateY(-1px);
+}
+.events-corner .dot { width:6px;height:6px;border-radius:50%;background:#e8963a;flex-shrink:0; }
+@media(max-width:600px){.events-corner{top:12px;right:12px;padding:7px 13px;font-size:12px;}}
+</style>
+</head>
+<body>
+<a href="index.html" class="events-corner"><span class="dot"></span>🎉 Events</a>
+
+
+<header>
+  <div class="header-badge">Viana Places 2026</div>
+  <h1 class="header-title">Viana Places</h1>
+  <p class="header-sub">Die besten Locations, Ausflugsziele & mehr rund um Nürnberg</p>
+</header>
+
+
+<main class="places-wrapper">
+
+  <!-- CATEGORY GRID (default view) -->
+  <div id="cat-grid" class="cat-grid"></div>
+
+  <!-- LIST VIEW (shown when category is selected) -->
+  <div id="places-list-section" style="display:none">
+    <div class="places-header-bar">
+      <button class="back-btn" onclick="backToCats()">← Kategorien</button>
+      <div class="places-cat-title" id="places-cat-title"></div>
+      <span id="places-count" style="font-size:12px;color:var(--muted)"></span>
+    </div>
+
+    <!-- Subcat pills -->
+    <div class="subcat-pills" id="subcat-pills"></div>
+
+    <!-- Controls -->
+    <div class="places-controls">
+      <div class="search-wrap">
+        <input
+          type="search"
+          id="places-search"
+          class="places-search"
+          placeholder="Suchen..."
+          autocomplete="off"
+        >
+      </div>
+      <select id="places-sort" class="places-sort">
+        <option value="dist">📍 Entfernung</option>
+        <option value="alpha">🔤 A–Z</option>
+      </select>
+    </div>
+
+    <!-- Radius filter -->
+    <div class="radius-bar">
+      <label for="places-radius">📏 Max. Entfernung:</label>
+      <select id="places-radius" class="radius-select">
+        <option value="9999">Alle</option>
+        <option value="15">≤ 15 km</option>
+        <option value="30">≤ 30 km</option>
+        <option value="50">≤ 50 km</option>
+        <option value="100">≤ 100 km</option>
+        <option value="150">≤ 150 km</option>
+        <option value="200">≤ 200 km</option>
+      </select>
+    </div>
+
+    <!-- Places rows -->
+    <div id="places-rows"></div>
+  </div>
+
+</main>
+
+<footer style="text-align:center;padding:2.5rem 2rem;background:var(--surface);margin-top:2rem;font-size:13px;color:var(--muted)">
+  <p style="margin-bottom:8px">Ein Projekt von <strong style="color:var(--text)">Viana</strong> &nbsp;·&nbsp; Alle Angaben ohne Gewähr &nbsp;·&nbsp; Stand April 2026</p>
+  <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:8px">
+    <a href="impressum.html" style="color:var(--accent);text-decoration:none">Impressum</a>
+    <a href="datenschutz.html" style="color:var(--accent);text-decoration:none">Datenschutz</a>
+    <a href="agb.html" style="color:var(--accent);text-decoration:none">AGB</a>
+  </div>
+</footer>
+
+<button class="back-to-top" id="back-to-top" title="Nach oben">↑</button>
+<div class="toast" id="toast"></div>
+
+<script src="js/places.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    initPlaces();
+
+    // Back to top
+    const btn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      btn.classList.toggle('visible', window.scrollY > 400);
+    });
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  });
+</script>
+<script src="js/cookie-banner.js"></script>
+</body>
+</html>
