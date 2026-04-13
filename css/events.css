@@ -52,6 +52,7 @@ h1 span{color:var(--accent)}
 .pill[data-cat="bierfest"].active{background:var(--bierfest);border-color:var(--bierfest)}
 .pill[data-cat="sonstige"].active{background:var(--sonstige);border-color:var(--sonstige)}
 .pill[data-cat="russian"].active{background:#f472b6;border-color:#f472b6}
+.pill[data-cat="strand"].active{background:#06b6d4;border-color:#06b6d4}
 .view-toggle{display:flex;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:3px}
 .view-btn{padding:6px 12px;border-radius:6px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:all .15s}
 .view-btn.active{background:var(--surface2);color:var(--text)}
