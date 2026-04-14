@@ -1,3 +1,7 @@
+function getTicketDomain(url) {
+  if (!url) return '';
+  try { return new URL(url).hostname.replace(/^www\./, ''); } catch(e) { return ''; }
+}
 const CAT_COLORS = {festival:'#5b8ff9',kaerwa:'#c8974e',bierfest:'#e8963a',afterwork:'#a78bfa',sonstige:'#34d399',family:'#34d399',russian:'#f472b6',strand:'#06b6d4',messe:'#64748b'};
 const CAT_LABELS = {festival:'Festival',kaerwa:'Kärwa / Kirchweih',bierfest:'Bierfest',afterwork:'After Work / Club',sonstige:'Sonstiges',family:'Familie',russian:'🇷🇺 Russian Event',strand:'🏖️ Stadtstrand',messe:'🏛️ Messe'};
 const MONTHS = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember']
@@ -451,6 +455,8 @@ function eventRowHTML(e) {
   const pubCount=getPublicCount(e);
   const highlightClass = isToday_ ? ' today-event' : '';
   const isMultiDay = e.start !== e.end;
+  const fav = getTicketDomain(e.ticket);
+  const favHtml = fav ? `<img class="event-fav" src="https://www.google.com/s2/favicons?domain=${fav}&sz=32" alt="" loading="lazy" onerror="this.style.display='none'">` : '';
   return `<div class="event-row${highlightClass}" data-idx="${idx}" style="--cat-color:${col};position:relative">
     ${pubCount>0?`<span style="position:absolute;top:10px;right:10px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.35);z-index:2;pointer-events:none">✅ ${pubCount} dabei</span>`:''}
     <div class="event-date-col">
@@ -460,7 +466,7 @@ function eventRowHTML(e) {
       ${isMultiDay?`<div style="font-size:9px;color:var(--accent);font-weight:600;margin-top:3px;line-height:1.2;white-space:nowrap">bis ${ed.getDate()}. ${MONTHS_S[ed.getMonth()]}.</div>`:''}
     </div>
     <div class="event-info">
-      <div class="event-name">${e.name}</div>
+      <div class="event-name-row">${favHtml}<span class="event-name">${e.name}</span></div>
       <div class="event-loc">📍 ${e.loc}</div>
       <div class="event-meta">
         ${countdownLabel(diff)}
@@ -649,13 +655,12 @@ function openModal(idx) {
   document.getElementById('m-cat').textContent=CAT_LABELS[e.cat];
   document.getElementById('m-cat').style.color=col;
   document.getElementById('m-title').textContent=e.name;
-  // Logo via Clearbit
+  // Logo via Google Favicon
   const logoEl = document.getElementById('m-logo');
   if (logoEl) {
-    let logoDomain = '';
-    if (e.ticket) { try { logoDomain = new URL(e.ticket).hostname.replace(/^www\./,''); } catch(err){} }
+    const logoDomain = getTicketDomain(e.ticket);
     if (logoDomain) {
-      logoEl.innerHTML = `<img src="https://logo.clearbit.com/${logoDomain}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'">`;
+      logoEl.innerHTML = `<img src="https://www.google.com/s2/favicons?domain=${logoDomain}&sz=64" alt="" loading="lazy" onerror="this.parentElement.style.display='none'">`;
       logoEl.style.display = 'flex';
     } else {
       logoEl.innerHTML = '';

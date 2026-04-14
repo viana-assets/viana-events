@@ -794,7 +794,7 @@ function renderPlacesList(catId) {
     const highlightBadge = p.highlight ? `<span class="place-badge highlight">⭐ ${p.highlight}</span>` : '';
     const preisBadge = p.preis ? `<span class="place-badge">💶 ${p.preis}</span>` : '';
     const oeffBadge = p.oeffnung ? `<span class="place-badge">🕐 ${p.oeffnung}</span>` : '';
-    const logoHtml = p.web ? `<img class="place-logo" src="https://logo.clearbit.com/${p.web}" alt="" loading="lazy" onerror="this.style.display='none'">` : '';
+    const logoHtml = p.web ? `<img class="place-logo" src="https://www.google.com/s2/favicons?domain=${p.web}&sz=32" alt="" loading="lazy" onerror="this.style.display='none'">` : '';
     return `
       <div class="place-row" style="--cat-color:${cat ? cat.color : 'var(--accent)'}">
         <div class="place-left">
