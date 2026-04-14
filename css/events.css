@@ -88,8 +88,8 @@ h1 span{color:var(--accent)}
 .event-day{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;line-height:1;color:var(--text)}
 .event-month{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
 .event-dow{font-size:10px;color:var(--muted)}
-.event-name-row{display:flex;align-items:center;gap:6px;margin-bottom:3px}
-.event-fav{width:16px;height:16px;border-radius:3px;flex-shrink:0;opacity:.85}
+.event-name-row{display:flex;align-items:center;margin-bottom:3px}
+.event-fav{width:16px;height:16px;border-radius:3px;flex-shrink:0;opacity:.85;margin-right:6px;display:block}
 .event-name{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:600}
 .event-loc{font-size:12px;color:var(--muted);margin-bottom:5px;display:flex;align-items:center;gap:4px}
 .event-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
