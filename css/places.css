@@ -244,9 +244,7 @@
   flex-shrink: 0;
   margin-right: 7px;
   display: block;
-  background: rgba(255,255,255,0.9);
-  padding: 1px;
-  box-sizing: content-box;
+  opacity: 0.85;
 }
 
 .place-name {
