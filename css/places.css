@@ -226,6 +226,25 @@
 }
 .place-row:hover::before { opacity: 1; }
 
+/* ── PLACE LOGO ── */
+.place-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.place-name-row .place-name {
+  margin-bottom: 0;
+}
+.place-logo {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+
 .place-name {
   font-family: 'Syne', sans-serif;
   font-size: 0.93rem;

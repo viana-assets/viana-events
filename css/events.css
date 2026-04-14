@@ -144,7 +144,11 @@ h1 span{color:var(--accent)}
 .modal{background:var(--surface2);border:1px solid rgba(255,255,255,.1);border-radius:20px;max-width:520px;width:100%;padding:2rem;position:relative;max-height:90vh;overflow-y:auto}
 .modal-close{position:absolute;top:1rem;right:1rem;background:var(--surface);border:1px solid var(--border);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;transition:all .15s}
 .modal-close:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
-.modal-cat{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.8rem}
+.modal-header-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:.4rem}
+.modal-header-row>div:first-child{flex:1;min-width:0}
+.modal-logo{display:none;align-items:center;justify-content:center;width:48px;height:48px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid var(--border);flex-shrink:0;overflow:hidden}
+.modal-logo img{width:36px;height:36px;object-fit:contain}
+.modal-cat{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
 .modal-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:.4rem}
 .modal-date-loc{font-size:13px;color:var(--muted);margin-bottom:1.2rem;display:flex;flex-direction:column;gap:3px}
 .modal-desc{font-size:14px;line-height:1.7;color:rgba(240,240,240,.7);margin-bottom:1.2rem}

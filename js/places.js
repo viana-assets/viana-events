@@ -16,7 +16,7 @@ const PLACE_CATS = [
   { id:'escaperooms',  icon:'🔐',  name:'Escape Rooms',           color:'#e8963a', desc:'Rätsel, Teamevents, Live Escape Games',                  count:15 },
   { id:'kultur',       icon:'🎭',  name:'Kulturorte',             color:'#5b8ff9', desc:'Theater, Konzerthäuser, Galerien, Kinos',                count:29 },
   { id:'badeseen',     icon:'🏖️',  name:'Badeseen',               color:'#34d399', desc:'Naturbäder, Baggerseen, Seen zum Schwimmen',             count:20 },
-  { id:'camping',      icon:'⛺',  name:'Campingplätze',          color:'#c8974e', desc:'Campingplätze, Wohnmobilstellplätze, Glamping',          count:17 },
+  { id:'camping',      icon:'⛺',  name:'Campingplätze',          color:'#c8974e', desc:'Campingplätze, Wohnmobilstellplätze, Glamping',          count:28 },
 ];
 
 // ── COORDS für Distanzberechnung ──────────────────────
@@ -462,6 +462,19 @@ const PLACES = {
 
   // ── CAMPINGPLÄTZE ─────────────────────────────────
   camping: [
+    // ── Premium Familien-Campingplätze Bayern ──
+    { name:'Mohrenhof Franken', addr:'Mohrenhof 1, 91608 Geslau', city:'Geslau', lat:49.3823, lng:10.3256, tags:['Familie','Badesee','Animation','Wakepark'], preis:'ab 30€/Nacht', oeffnung:'Mai-Sep', web:'mohrenhof-franken.de', maps:'https://maps.google.com/?q=Mohrenhof+Franken+Geslau', highlight:'Badesee, Wakepark, Aquapark, Tiere, Beach-Bar – Top-Familiencamp Frankens' },
+    { name:'Campingpark Gitzenweiler Hof', addr:'Gitzenweiler 88, 88131 Lindau', city:'Lindau', lat:47.5667, lng:9.6889, tags:['Familie','Badesee','Animation','Bodensee'], preis:'ab 35€/Nacht', oeffnung:'Apr-Okt', web:'gitzenweiler-hof.de', maps:'https://maps.google.com/?q=Campingpark+Gitzenweiler+Hof+Lindau', highlight:'Riesiges Kinderprogramm, Badesee, mehrere Restaurants – Allgäu/Bodensee' },
+    { name:'Campingplatz Elbsee', addr:'Ruderatshofen, 87452 Altusried', city:'Ruderatshofen', lat:47.7876, lng:10.6445, tags:['Familie','Badesee','Allgäu','Spielplatz'], preis:'ab 25€/Nacht', oeffnung:'Mai-Sep', web:'', maps:'https://maps.google.com/?q=Campingplatz+Elbsee+Ruderatshofen', highlight:'Großer Badesee, Tretboote, Familienevents – Allgäu' },
+    { name:'Seecamping Günztal', addr:'Breitenthal, 86480 Aichach', city:'Breitenthal', lat:48.2144, lng:10.3556, tags:['Familie','Badesee','Bootsverleih','Biergarten'], preis:'ab 22€/Nacht', oeffnung:'Mai-Sep', web:'', maps:'https://maps.google.com/?q=Seecamping+Günztal+Breitenthal', highlight:'Badesee, Bootsverleih, Biergarten – Schwaben' },
+    { name:'Camping Naabtal-Pielenhofen', addr:'Pielenhofen, 93188 Pielenhofen', city:'Pielenhofen', lat:49.0733, lng:11.9578, tags:['Familie','Fluss','Lagerfeuer','Biergarten'], preis:'ab 20€/Nacht', oeffnung:'Apr-Okt', web:'', maps:'https://maps.google.com/?q=Camping+Naabtal+Pielenhofen', highlight:'Direkt an der Naab, Lagerfeuer erlaubt, Biergarten – Oberpfalz' },
+    { name:'See-Campingpark Neubäuer See', addr:'Roding, 93426 Roding', city:'Roding', lat:49.1917, lng:12.5267, tags:['Familie','Badesee','Wassersport','Animation'], preis:'ab 25€/Nacht', oeffnung:'Mai-Sep', web:'', maps:'https://maps.google.com/?q=See+Campingpark+Neubäuer+See+Roding', highlight:'Großer Badesee, Kinderanimation, Wassersport – Bayerischer Wald' },
+    { name:'Camping Brugger am Riegsee', addr:'Spatzenhausen 12, 82418 Murnau', city:'Spatzenhausen', lat:47.7156, lng:11.0778, tags:['Familie','See','Berge','Seerestaurant'], preis:'ab 28€/Nacht', oeffnung:'Mai-Sep', web:'', maps:'https://maps.google.com/?q=Camping+Brugger+Riegsee+Spatzenhausen', highlight:'Direkt am Riegsee, Bergpanorama, Seerestaurant – Oberbayern' },
+    { name:'Campingpark Kirchzell', addr:'Kirchzell, 63931 Kirchzell', city:'Kirchzell', lat:49.6011, lng:9.2356, tags:['Familie','Badeteich','Lagerfeuer','Gasthaus'], preis:'ab 22€/Nacht', oeffnung:'Apr-Okt', web:'', maps:'https://maps.google.com/?q=Campingpark+Kirchzell', highlight:'Fluss & Badeteich, Lagerfeuer erlaubt, Gasthaus – Odenwald/Unterfranken' },
+    { name:'Main Camp Resort Zellingen', addr:'Zellingen, 97225 Zellingen', city:'Zellingen', lat:49.9011, lng:9.8656, tags:['Familie','Main','Lagerfeuer','Restaurant'], preis:'ab 25€/Nacht', oeffnung:'Apr-Okt', web:'', maps:'https://maps.google.com/?q=Main+Camp+Resort+Zellingen', highlight:'Am Main, Lagerfeuer erlaubt, Restaurant – Unterfranken' },
+    { name:'Naturcampingpark Isarhorn', addr:'Mittenwald, 82481 Mittenwald', city:'Mittenwald', lat:47.4433, lng:11.2617, tags:['Familie','Isar','Berge','Natur'], preis:'ab 28€/Nacht', oeffnung:'Mai-Okt', web:'', maps:'https://maps.google.com/?q=Naturcampingpark+Isarhorn+Mittenwald', highlight:'Isarzugang, Bergpanorama, Natur pur – Mittenwald' },
+    { name:'Campingpark Nabburg', addr:'Nabburg, 92507 Nabburg', city:'Nabburg', lat:49.4511, lng:12.1778, tags:['Familie','Freibad','Wasserrutsche','Restaurant'], preis:'ab 20€/Nacht', oeffnung:'Mai-Sep', web:'', maps:'https://maps.google.com/?q=Campingpark+Nabburg', highlight:'Nahe Naab + Freibad, Wasserrutsche, Restaurant – Oberpfalz' },
+    // ── Nürnberg Region ──
     { name:'Camping Entspannoase Nürnberg', addr:'Nürnberg', city:'Nürnberg', lat:49.4600, lng:11.0800, tags:['Camping','Nürnberg','Urban'], preis:'ab 15€/Nacht', oeffnung:'Apr-Okt', web:'', maps:'https://maps.google.com/?q=Camping+Nürnberg' },
     { name:'Campingpark Rangau Erlangen', addr:'Campingstr. 44, 91056 Erlangen', city:'Erlangen', lat:49.5684, lng:10.9613, tags:['Camping','Erlangen','See'], preis:'ab 18€/Nacht', oeffnung:'Apr-Okt', web:'campingpark-rangau.de', maps:'https://maps.google.com/?q=Campingpark+Rangau+Erlangen', highlight:'Direkt am Rangausee mit Strandbad' },
     { name:'Camping Altmühlsee Gunzenhausen', addr:'Gunzenhausen', city:'Gunzenhausen', lat:49.1347, lng:10.7119, tags:['Camping','Altmühlsee','Seelage'], preis:'ab 20€/Nacht', oeffnung:'Apr-Okt', web:'', maps:'https://maps.google.com/?q=Camping+Altmühlsee' },
@@ -781,10 +794,14 @@ function renderPlacesList(catId) {
     const highlightBadge = p.highlight ? `<span class="place-badge highlight">⭐ ${p.highlight}</span>` : '';
     const preisBadge = p.preis ? `<span class="place-badge">💶 ${p.preis}</span>` : '';
     const oeffBadge = p.oeffnung ? `<span class="place-badge">🕐 ${p.oeffnung}</span>` : '';
+    const logoHtml = p.web ? `<img class="place-logo" src="https://logo.clearbit.com/${p.web}" alt="" loading="lazy" onerror="this.style.display='none'">` : '';
     return `
       <div class="place-row" style="--cat-color:${cat ? cat.color : 'var(--accent)'}">
-        <div>
-          <div class="place-name">${p.name}</div>
+        <div class="place-left">
+          <div class="place-name-row">
+            ${logoHtml}
+            <div class="place-name">${p.name}</div>
+          </div>
           <div class="place-addr">📍 ${p.addr}</div>
           <div class="place-meta">${tags}${preisBadge}${oeffBadge}${highlightBadge}</div>
         </div>

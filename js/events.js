@@ -649,6 +649,19 @@ function openModal(idx) {
   document.getElementById('m-cat').textContent=CAT_LABELS[e.cat];
   document.getElementById('m-cat').style.color=col;
   document.getElementById('m-title').textContent=e.name;
+  // Logo via Clearbit
+  const logoEl = document.getElementById('m-logo');
+  if (logoEl) {
+    let logoDomain = '';
+    if (e.ticket) { try { logoDomain = new URL(e.ticket).hostname.replace(/^www\./,''); } catch(err){} }
+    if (logoDomain) {
+      logoEl.innerHTML = `<img src="https://logo.clearbit.com/${logoDomain}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'">`;
+      logoEl.style.display = 'flex';
+    } else {
+      logoEl.innerHTML = '';
+      logoEl.style.display = 'none';
+    }
+  }
   document.getElementById('m-date').textContent='📅 '+dateStr(e.start,e.end);
   const dist = getEventDist(e);
   document.getElementById('m-loc').textContent='📍 '+e.loc+(dist!==null?' · 📍 '+distLabel(dist):'');
