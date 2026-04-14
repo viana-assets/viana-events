@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viana Events 2026</title>
+<meta name="description" content="Alle Events, Festivals, Kärwas und Feste in der Metropolregion Nürnberg 2026">
+<meta name="theme-color" content="#0e0f13">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Viana Events">
+<link rel="icon" type="image/png" href="assets/icon-96x96.png">
+<link rel="apple-touch-icon" href="assets/icon-128x128.png">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/events.css">
+<style>
+/* ── PLACES CORNER LINK ── */
+.places-corner {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(22,24,31,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 999px;
+  color: var(--muted, #6b7280);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+.places-corner:hover {
+  border-color: rgba(232,150,58,0.4);
+  color: #e8963a;
+  background: rgba(22,24,31,0.95);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+.places-corner .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #e8963a;
+  flex-shrink: 0;
+}
+@media (max-width: 600px) {
+  .places-corner { top: 12px; right: 12px; padding: 7px 13px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- PLACES CORNER LINK -->
+<a href="places.html" class="places-corner">
+  <span class="dot"></span>
+  📍 Places
+</a>
+
+<header>
+  <div class="header-badge">Metropolregion Nürnberg · 2026</div>
+  <h1>Viana Events <span>2026</span></h1>
+  <p class="header-sub">Dein Veranstaltungskalender</p>
+  <div class="mode-tabs">
+    <button class="mode-tab active-party" id="tab-party">🎉 Party</button>
+    <button class="mode-tab" id="tab-family">👨‍👩‍👧 Family</button>
+  </div>
+  <div class="stats-bar">
+    <div class="stat"><span class="stat-num" id="total-count">—</span><span class="stat-label">Events gesamt</span></div>
+    <div class="stat"><span class="stat-num" id="free-count">—</span><span class="stat-label">Kostenlos</span></div>
+    <div class="stat"><span class="stat-num" id="month-count">9</span><span class="stat-label">Monate</span></div>
+  </div>
+</header>
+
+<div class="countdown-banner">
+  <div class="countdown-card" id="countdown-card">
+    <div>
+      <div class="countdown-label">⏳ Nächstes Event</div>
+      <div class="countdown-days" id="cd-days">—<span>Tage</span></div>
+    </div>
+    <div class="countdown-info">
+      <div class="countdown-name" id="cd-name">—</div>
+      <div class="countdown-date" id="cd-date">—</div>
+    </div>
+    <div class="countdown-arrow">→</div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="search-wrap" style="position:relative">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input id="search" type="text" placeholder="Suchen…" autocomplete="off">
+    <div class="search-suggestions" id="search-suggestions"></div>
+  </div>
+  <div class="filter-pills">
+    <button class="pill active" id="pill-alle" data-cat="alle">Alle</button>
+    <button class="pill" data-cat="festival">🎵 Festivals</button>
+    <button class="pill" data-cat="kaerwa">🍺 Kärwa</button>
+    <button class="pill" data-cat="bierfest">🍺 Bierfest</button>
+    <button class="pill" data-cat="afterwork">🌅 After Work</button>
+    <button class="pill" data-cat="sonstige">✨ Sonstige</button>
+    <button class="pill" data-cat="free">🆓 Kostenlos</button>
+    <button class="pill" data-cat="russian"><svg width="16" height="11" viewBox="0 0 16 11" style="vertical-align:middle;margin-right:4px;border-radius:2px"><rect width="16" height="4" fill="#fff"/><rect y="4" width="16" height="4" fill="#003DA5"/><rect y="8" width="16" height="3" fill="#CC0000"/></svg>Russian</button>
+    <button class="pill" data-cat="strand">🏖️ Stadtstrand</button>
+  </div>
+  <div class="view-toggle">
+    <button class="view-btn active" id="btn-list">≡ Liste</button>
+    <button class="view-btn" id="btn-grid">⊞ Grid</button>
+    <button class="view-btn" id="btn-map">🗺 Karte</button>
+  </div>
+</div>
+
+<!-- LOCATION BAR -->
+<div class="location-bar">
+  <div class="location-input-wrap">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    <input id="plz-input" type="text" placeholder="PLZ eingeben…" maxlength="5">
+  </div>
+  <button class="loc-btn loc-btn-geo" id="loc-geo-btn">📍 Standort ermitteln</button>
+  <div class="dist-filter-wrap">
+    <span>Radius:</span>
+    <select class="dist-select" id="dist-select">
+      <option value="0">Alle</option>
+      <option value="10">≤ 10 km</option>
+      <option value="20">≤ 20 km</option>
+      <option value="30">≤ 30 km</option>
+      <option value="50">≤ 50 km</option>
+    </select>
+  </div>
+  <div class="loc-status" id="loc-status"></div>
+  <button class="loc-btn loc-btn-clear" id="loc-clear-btn" style="display:none">✕ Standort löschen</button>
+</div>
+
+<div class="sticky-bar">
+  <div class="month-timeline" id="month-timeline"></div>
+  <div class="second-bar">
+    <div class="quick-pills">
+      <button class="qpill active" data-quick="alle">Alle Zeiten</button>
+      <button class="qpill" data-quick="today">Heute</button>
+      <button class="qpill" data-quick="week">Diese Woche</button>
+      <button class="qpill" data-quick="month">Dieser Monat</button>
+      <button class="qpill" data-quick="next">Nächstes Event</button>
+    </div>
+    <select class="sort-select" id="sort-select">
+      <option value="date">↑ Nach Datum</option>
+      <option value="name">A–Z Name</option>
+      <option value="cat">Nach Kategorie</option>
+      <option value="dist">📍 Nach Entfernung</option>
+    </select>
+  </div>
+</div>
+
+<div class="cal-wrap" id="cal"></div>
+<div class="map-wrap" id="map-wrap" style="display:none"><div id="map"></div></div>
+
+<div class="modal-bg" id="modal-bg">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modal-close">×</button>
+    <div class="modal-cat" id="m-cat"></div>
+    <div class="modal-title" id="m-title"></div>
+    <div class="modal-date-loc">
+      <span id="m-date"></span>
+      <span id="m-loc"></span>
+    </div>
+    <div class="modal-desc" id="m-desc"></div>
+    <div class="modal-badges" id="m-badges"></div>
+    <div id="m-actions"></div>
+    <div id="m-similar"></div>
+  </div>
+</div>
+
+
+
+<button class="wishlist-btn" id="wl-open-btn" style="display:none">❤️ Meine Liste <span class="wishlist-count" id="wl-count">0</span></button>
+
+<div class="wishlist-panel" id="wishlist-panel">
+  <div class="wishlist-header">
+    <h2>❤️ Meine Merkliste</h2>
+    <button class="wishlist-close" id="wl-close">×</button>
+  </div>
+  <div class="wishlist-body" id="wl-body"></div>
+  <div class="wishlist-footer" id="wl-footer" style="display:none">
+    <button class="wl-share-btn wl-wa" id="wl-share-wa">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      „Wer kommt mit?" via WhatsApp
+    </button>
+    <button class="wl-share-btn wl-copy" id="wl-copy-link">🔗 Liste als Text kopieren</button>
+  </div>
+</div>
+
+
+<footer style="text-align:center;padding:2rem 1.5rem;background:var(--surface);margin-top:2rem;font-size:12px;color:var(--muted);border-top:1px solid var(--border)">
+  <div style="margin-bottom:8px">Ein Projekt von <strong style="color:var(--text)">Viana</strong> &nbsp;·&nbsp; Nürnberg 2026 &nbsp;·&nbsp; Alle Angaben ohne Gewähr</div>
+  <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
+    <a href="impressum.html" style="color:var(--accent);text-decoration:none">Impressum</a>
+    <a href="datenschutz.html" style="color:var(--accent);text-decoration:none">Datenschutz</a>
+    <a href="agb.html" style="color:var(--accent);text-decoration:none">AGB</a>
+  </div>
+</footer>
+<button class="back-to-top" id="back-to-top">↑</button>
+<div class="toast" id="toast"></div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="js/events.js"></script>
+<script src="js/cookie-banner.js"></script>
+</body>
+</html>
