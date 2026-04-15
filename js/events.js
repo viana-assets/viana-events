@@ -441,7 +441,10 @@ function eventRowHTML(e) {
   const fav = getTicketDomain(e.ticket);
   const favHtml = fav ? `<img class="event-fav" src="https://www.google.com/s2/favicons?domain=${fav}&sz=32" alt="" loading="lazy" onerror="this.style.display='none'">` : '';
   return `<div class="event-row${highlightClass}" data-idx="${idx}" style="--cat-color:${col};position:relative">
-    ${pubCount>0?`<span style="position:absolute;top:10px;right:10px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.35);z-index:2;pointer-events:none">✅ ${pubCount} dabei</span>`:''}
+    <div class="row-corner">
+      ${pubCount>0?`<span class="row-dabei-badge">✅ ${pubCount}</span>`:''}
+      <button class="row-heart-btn${isSaved?' saved':''}" onclick="event.stopPropagation();toggleWishlist(${idx})" title="Merken">${isSaved?'❤️':'🤍'}</button>
+    </div>
     <div class="event-date-col">
       <div class="event-day">${sd.getDate()}.</div>
       <div class="event-month">${MONTHS_S[sd.getMonth()]}.</div>
@@ -470,7 +473,6 @@ function eventRowHTML(e) {
         ${e.ticket?`<a class="web-row-btn" href="${e.ticket}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🌐</a>`:''}
       </div>
     </div>
-    <button class="row-heart-btn${isSaved?' saved':''}" onclick="event.stopPropagation();toggleWishlist(${idx})" title="Merken">${isSaved?'❤️':'🤍'}</button>
   </div>`;
 }
 
@@ -599,10 +601,9 @@ function showToast(msg) {
 function toggleWishlist(idx) {
   const sourceEvents = getActiveEvents();
   const e=sourceEvents[idx], key=e.name+e.start;
-  const btn=document.querySelector(`.heart-btn[onclick*="toggleWishlist(${idx})"]`);
-  if(wishlist.has(key)){wishlist.delete(key);if(btn){btn.textContent='🤍';btn.classList.remove('saved');}showToast(`Entfernt: ${e.name}`);}
-  else{wishlist.add(key);if(btn){btn.textContent='❤️';btn.classList.add('saved');}showToast(`Gemerkt: ${e.name} ❤️`);}
-  saveWishlist();updateWishlistUI();
+  if(wishlist.has(key)){wishlist.delete(key);showToast(`Entfernt: ${e.name}`);}
+  else{wishlist.add(key);showToast(`Gemerkt: ${e.name} ❤️`);}
+  saveWishlist();updateWishlistUI();render();
 }
 
 function toggleGoing(idx) {
