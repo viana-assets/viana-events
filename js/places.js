@@ -312,7 +312,11 @@ const PLACES = {
     { name:'Hintersinn Bar Nürnberg', addr:'Nürnberg', city:'Nürnberg', lat:49.4558, lng:11.0758, tags:['Cocktailbar','Hidden','Speakeasy'], preis:'ab 12€', oeffnung:'Do-Sa ab 20 Uhr', web:'', maps:'https://maps.google.com/?q=Hintersinn+Bar+Nürnberg' },
     { name:'Holy Craft Beer & Cocktails Nürnberg', addr:'Nürnberg', city:'Nürnberg', lat:49.4538, lng:11.0792, tags:['Cocktails','Craft Beer','Hip'], preis:'ab 9€', oeffnung:'Mo-Sa ab 17 Uhr', web:'', maps:'https://maps.google.com/?q=Holy+Craft+Bar+Nürnberg' },
     { name:'Pilum Bar Erlangen', addr:'Erlangen Innenstadt', city:'Erlangen', lat:49.5950, lng:11.0040, tags:['Cocktailbar','Erlangen','Studenten'], preis:'ab 9€', oeffnung:'tägl. ab 18 Uhr', web:'', maps:'https://maps.google.com/?q=Pilum+Bar+Erlangen' },
-    { name:'Bar Celona Fürth', addr:'Gustavstr. 83, 90762 Fürth', city:'Fürth', lat:49.4765, lng:10.9906, tags:['Tapas','Cocktails','Flair'], preis:'ab 10€', oeffnung:'tägl. ab 17 Uhr', web:'barCelona.de', maps:'https://maps.google.com/?q=Bar+Celona+Fürth' },
+    { name:'Bar Celona Nürnberg', addr:'Breite Gasse 72, 90402 Nürnberg', city:'Nürnberg', lat:49.4539, lng:11.0756, tags:['Tapas','Cocktails','Spanisch'], preis:'ab 9€', oeffnung:'Mo–Do 17–24 Uhr, Fr–Sa 17–1 Uhr, So 14–23 Uhr', happyhour:'tägl. 17–20 Uhr – Cocktails & Tapas', web:'bar-celona.de', maps:'https://maps.google.com/?q=Bar+Celona+Breite+Gasse+Nürnberg' },
+    { name:'Bar Celona Finca Nürnberg', addr:'Maxfeldstr. 7, 90409 Nürnberg', city:'Nürnberg', lat:49.4630, lng:11.0720, tags:['Tapas','Cocktails','Finca','Außenbereich'], preis:'ab 9€', oeffnung:'Mo–Do 17–24 Uhr, Fr–Sa 17–1 Uhr, So 14–23 Uhr', happyhour:'tägl. 17–20 Uhr – Cocktails & Tapas', web:'bar-celona.de', maps:'https://maps.google.com/?q=Bar+Celona+Finca+Nürnberg' },
+    { name:'Die Lange Kante', addr:'Nürnberg Altstadt', city:'Nürnberg', lat:49.4560, lng:11.0779, tags:['Cocktailbar','Craft','Altstadt'], preis:'ab 9€', oeffnung:'Di–Sa ab 18 Uhr', happyhour:'Di–Fr 18–20 Uhr', web:'', maps:'https://maps.google.com/?q=Die+Lange+Kante+Nürnberg' },
+    { name:'Blume von Hawaii', addr:'Nürnberg Gostenhof', city:'Nürnberg', lat:49.4551, lng:11.0645, tags:['Tiki Bar','Tropical','Cocktails','Kult'], preis:'ab 9€', oeffnung:'Do–Sa ab 20 Uhr', web:'', maps:'https://maps.google.com/?q=Blume+von+Hawaii+Nürnberg', highlight:'Nürnbergs Kultbar im Tiki-Stil' },
+    { name:'Kontiki', addr:'Nürnberg Innenstadt', city:'Nürnberg', lat:49.4545, lng:11.0790, tags:['Cocktailbar','Lounge','Nürnberg'], preis:'ab 9€', oeffnung:'tägl. ab 18 Uhr', web:'', maps:'https://maps.google.com/?q=Kontiki+Bar+Nürnberg' },
     { name:'Qube Bar & Lounge Nürnberg', addr:'Nürnberg', city:'Nürnberg', lat:49.4522, lng:11.0800, tags:['Lounge','Cocktails','Modern'], preis:'ab 11€', oeffnung:'tägl. ab 18 Uhr', web:'', maps:'https://maps.google.com/?q=Qube+Bar+Nürnberg' },
     { name:'7even Bar Nürnberg', addr:'Nürnberg', city:'Nürnberg', lat:49.4515, lng:11.0760, tags:['Cocktailbar','Party','DJ'], preis:'ab 10€', oeffnung:'Fr/Sa ab 20 Uhr', web:'', maps:'https://maps.google.com/?q=7even+Bar+Nürnberg' },
     { name:'Spital Bar Nürnberg', addr:'Spitalgasse 13, 90403 Nürnberg', city:'Nürnberg', lat:49.4545, lng:11.0788, tags:['Weinbar','Cocktails','Altstadt'], preis:'ab 9€', oeffnung:'tägl. ab 17 Uhr', web:'', maps:'https://maps.google.com/?q=Spital+Bar+Nürnberg' },
@@ -787,23 +791,27 @@ function renderPlacesList(catId) {
     return;
   }
 
+  // Store for modal access
+  window._renderedPlaces = data;
+
   const cat = PLACE_CATS.find(c => c.id === catId);
-  container.innerHTML = data.map(p => {
+  container.innerHTML = data.map((p, idx) => {
     const distBadge = p._dist !== null ? `<span class="dist-badge">~${p._dist} km</span>` : '';
-    const tags = (p.tags||[]).map(t => `<span class="place-badge">${t}</span>`).join('');
+    const tags = (p.tags||[]).slice(0, 3).map(t => `<span class="place-badge">${t}</span>`).join('');
     const highlightBadge = p.highlight ? `<span class="place-badge highlight">⭐ ${p.highlight}</span>` : '';
     const preisBadge = p.preis ? `<span class="place-badge">💶 ${p.preis}</span>` : '';
     const oeffBadge = p.oeffnung ? `<span class="place-badge">🕐 ${p.oeffnung}</span>` : '';
+    const hhBadge = p.happyhour ? `<span class="place-badge place-badge-hh">🎉 HH: ${p.happyhour}</span>` : '';
     const logoHtml = p.web ? `<img class="place-logo" src="https://www.google.com/s2/favicons?domain=${p.web}&sz=32" alt="" loading="lazy" onerror="this.style.display='none'">` : '';
     return `
-      <div class="place-row" style="--cat-color:${cat ? cat.color : 'var(--accent)'}">
+      <div class="place-row" style="--cat-color:${cat ? cat.color : 'var(--accent)'}" onclick="openPlaceModal(${idx})">
         <div class="place-left">
           <div class="place-name-row">
             ${logoHtml}
             <div class="place-name">${p.name}</div>
           </div>
           <div class="place-addr">📍 ${p.addr}</div>
-          <div class="place-meta">${tags}${preisBadge}${oeffBadge}${highlightBadge}</div>
+          <div class="place-meta">${tags}${preisBadge}${oeffBadge}${hhBadge}${highlightBadge}</div>
         </div>
         <div class="place-right">
           ${distBadge}
@@ -824,7 +832,84 @@ function backToCats() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// ── PLACE DETAIL MODAL ────────────────────────────────
+window._renderedPlaces = [];
+
+function openPlaceModal(idx) {
+  const p = window._renderedPlaces[idx];
+  if (!p) return;
+  const cat = PLACE_CATS.find(c => c.id === _activeCat);
+  const catColor = cat ? cat.color : 'var(--accent)';
+
+  const modal = document.getElementById('place-modal');
+  if (!modal) return;
+
+  // Logo / favicon
+  const logoEl = document.getElementById('pm-logo');
+  if (logoEl) {
+    logoEl.innerHTML = p.web
+      ? `<img src="https://www.google.com/s2/favicons?domain=${p.web}&sz=32" alt="" loading="lazy" onerror="this.style.display='none'">`
+      : '';
+    logoEl.style.display = p.web ? 'flex' : 'none';
+  }
+
+  // Category badge
+  const catEl = document.getElementById('pm-cat');
+  if (catEl) { catEl.textContent = cat ? `${cat.icon} ${cat.name}` : ''; catEl.style.borderColor = catColor + '60'; catEl.style.color = catColor; }
+
+  // Name
+  const nameEl = document.getElementById('pm-name');
+  if (nameEl) nameEl.textContent = p.name;
+
+  // Address
+  const addrEl = document.getElementById('pm-addr');
+  if (addrEl) addrEl.innerHTML = p.addr ? `📍 ${p.addr}` : '';
+
+  // Distance
+  const distEl = document.getElementById('pm-dist');
+  if (distEl) {
+    distEl.textContent = p._dist != null ? `~${p._dist} km` : '';
+    distEl.style.display = p._dist != null ? '' : 'none';
+  }
+
+  // Detail rows
+  let details = '';
+  if (p.oeffnung) details += `<div class="pm-detail"><span class="pm-detail-icon">🕐</span><div><div class="pm-detail-label">Öffnungszeiten</div><div class="pm-detail-val">${p.oeffnung}</div></div></div>`;
+  if (p.happyhour) details += `<div class="pm-detail pm-detail-hh"><span class="pm-detail-icon">🎉</span><div><div class="pm-detail-label">Happy Hour</div><div class="pm-detail-val">${p.happyhour}</div></div></div>`;
+  if (p.preis) details += `<div class="pm-detail"><span class="pm-detail-icon">💶</span><div><div class="pm-detail-label">Preise</div><div class="pm-detail-val">${p.preis}</div></div></div>`;
+  if (p.highlight) details += `<div class="pm-detail pm-detail-star"><span class="pm-detail-icon">⭐</span><div class="pm-detail-val">${p.highlight}</div></div>`;
+  document.getElementById('pm-details').innerHTML = details;
+
+  // Tags
+  const tags = (p.tags||[]).map(t => `<span class="place-badge">${t}</span>`).join('');
+  document.getElementById('pm-tags').innerHTML = tags;
+
+  // Actions
+  const actionsEl = document.getElementById('pm-actions');
+  if (actionsEl) {
+    let acts = `<a href="${p.maps}" target="_blank" rel="noopener" class="pm-action pm-action-maps">📍 In Maps öffnen</a>`;
+    if (p.web) acts += `<a href="https://${p.web}" target="_blank" rel="noopener" class="pm-action pm-action-web">🌐 Website besuchen</a>`;
+    actionsEl.innerHTML = acts;
+  }
+
+  // Accent color
+  modal.style.setProperty('--pm-color', catColor);
+
+  // Open
+  const bg = document.getElementById('place-modal-bg');
+  if (bg) bg.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePlaceModal() {
+  const bg = document.getElementById('place-modal-bg');
+  if (bg) bg.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 // Expose globals
-window.initPlaces = initPlaces;
-window.backToCats = backToCats;
+window.initPlaces   = initPlaces;
+window.backToCats   = backToCats;
 window.openCategory = openCategory;
+window.openPlaceModal  = openPlaceModal;
+window.closePlaceModal = closePlaceModal;

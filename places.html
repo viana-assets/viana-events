@@ -93,6 +93,8 @@
 @media (max-width: 600px) {
   .burger-btn { top: 12px; left: 12px; width: 40px; height: 40px; font-size: 16px; }
 }
+/* Modal offen → Burger ausblenden */
+body:has(#place-modal-bg.open) .burger-btn { display: none; }
 </style>
 </head>
 <body>
@@ -153,26 +155,27 @@
       </select>
     </div>
 
-    <!-- Location & PLZ filter -->
-    <div class="radius-bar" style="flex-wrap:wrap;gap:8px;">
-      <input type="text" id="places-plz-input" class="plz-input" placeholder="PLZ eingeben…" maxlength="5" inputmode="numeric" style="width:120px">
-      <button id="places-geo-btn" class="loc-geo-btn">📍 Standort ermitteln</button>
-      <span id="places-loc-status" class="loc-status"></span>
-      <button id="places-loc-clear" class="loc-clear-btn" style="display:none">✕ Standort löschen</button>
-    </div>
-
-    <!-- Radius filter -->
-    <div class="radius-bar">
-      <label for="places-radius">📏 Max. Entfernung:</label>
-      <select id="places-radius" class="radius-select">
-        <option value="9999">Alle</option>
-        <option value="15">≤ 15 km</option>
-        <option value="30">≤ 30 km</option>
-        <option value="50">≤ 50 km</option>
-        <option value="100">≤ 100 km</option>
-        <option value="150">≤ 150 km</option>
-        <option value="200">≤ 200 km</option>
-      </select>
+    <!-- Location & Radius filter -->
+    <div class="location-bar">
+      <div class="location-input-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <input id="places-plz-input" type="text" placeholder="PLZ eingeben…" maxlength="5" inputmode="numeric">
+      </div>
+      <button class="loc-btn loc-btn-geo" id="places-geo-btn">📍 Standort ermitteln</button>
+      <div class="dist-filter-wrap">
+        <span>Radius:</span>
+        <select class="dist-select" id="places-radius">
+          <option value="9999">Alle</option>
+          <option value="15">≤ 15 km</option>
+          <option value="30">≤ 30 km</option>
+          <option value="50">≤ 50 km</option>
+          <option value="100">≤ 100 km</option>
+          <option value="150">≤ 150 km</option>
+          <option value="200">≤ 200 km</option>
+        </select>
+      </div>
+      <div class="loc-status" id="places-loc-status"></div>
+      <button class="loc-btn loc-btn-clear" id="places-loc-clear" style="display:none">✕ Standort löschen</button>
     </div>
 
     <!-- Places rows -->
@@ -189,6 +192,27 @@
     <a href="agb.html" style="color:var(--accent);text-decoration:none">AGB</a>
   </div>
 </footer>
+
+<!-- PLACE DETAIL MODAL -->
+<div class="place-modal-bg" id="place-modal-bg" onclick="if(event.target===this)closePlaceModal()">
+  <div class="place-modal" id="place-modal">
+    <button class="place-modal-close" id="place-modal-close" onclick="closePlaceModal()">×</button>
+
+    <div class="pm-header">
+      <div class="pm-logo" id="pm-logo"></div>
+      <div class="pm-header-text">
+        <div class="pm-cat" id="pm-cat"></div>
+        <div class="pm-name" id="pm-name"></div>
+      </div>
+      <div class="pm-dist" id="pm-dist"></div>
+    </div>
+
+    <div class="pm-addr" id="pm-addr"></div>
+    <div class="pm-details" id="pm-details"></div>
+    <div class="pm-tags" id="pm-tags"></div>
+    <div class="pm-actions" id="pm-actions"></div>
+  </div>
+</div>
 
 <button class="back-to-top" id="back-to-top" title="Nach oben">↑</button>
 <div class="toast" id="toast"></div>
@@ -231,7 +255,10 @@
   navOverlay.addEventListener('click', closeNav);
 
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeNav();
+    if (e.key === 'Escape') {
+      closeNav();
+      if (typeof closePlaceModal === 'function') closePlaceModal();
+    }
   });
 })();
 </script>
