@@ -292,3 +292,35 @@ html{scrollbar-width:auto;scrollbar-color:#6b7280 #1e2029}
   .countdown-days{font-size:1.6rem}
   .search-suggestions{width:calc(100vw - 3rem)}
 }
+
+/* ── VIANA EVENTS – Goldener Rahmen ── */
+.event-row.viana-event {
+  border-color: #c9a227 !important;
+  background: linear-gradient(90deg, rgba(201,162,39,0.09) 0%, var(--surface) 100%);
+  box-shadow: 0 0 0 1px rgba(201,162,39,0.25);
+}
+.event-row.viana-event::before {
+  background: #c9a227 !important;
+}
+.event-card.viana-event {
+  border-color: #c9a227 !important;
+  box-shadow: 0 0 0 1px rgba(201,162,39,0.25);
+  background: linear-gradient(135deg, rgba(201,162,39,0.09) 0%, var(--surface) 100%);
+}
+.event-card.viana-event::before {
+  background: #c9a227 !important;
+  opacity: 1 !important;
+}
+.viana-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; font-weight: 700; letter-spacing: .03em;
+  padding: 2px 7px; border-radius: 999px;
+  background: rgba(201,162,39,0.15);
+  color: #c9a227;
+  border: 1px solid rgba(201,162,39,0.4);
+}
+
+.event-fav-viana {
+  width: 20px; height: 20px;
+  filter: drop-shadow(0 0 3px rgba(201,162,39,0.5));
+}
