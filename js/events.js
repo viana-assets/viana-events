@@ -14,6 +14,8 @@ const COORDS = {
   'Stein':[49.418,10.973],'Herzogenaurach':[49.567,10.882],'Cadolzburg':[49.502,10.860],
   'Roth':[49.245,11.091],'Pleinfeld':[49.102,10.958],'Feucht':[49.378,11.213],
   'Lauf':[49.512,11.278],'Schwaig':[49.484,11.213],
+  // ── Viana Events Locations ──
+  'Viana Gartenparty':[49.38481,11.10000],
   // ── Nürnberg Stadtteile ──
   'Nürnberg-Gostenhof':[49.458,11.059],'Nürnberg-Schweinau':[49.440,11.055],
   'Nürnberg-Mögeldorf':[49.452,11.121],'Nürnberg-Laufamholz':[49.454,11.173],
@@ -262,6 +264,7 @@ const events = [
 
   // ─── THE GARRISON EVENTS ─────────────────────────────────────────────────
   {cat:'russian', name:'The Garrison Events – Party Night', loc:'Osnabrück', start:'2026-04-18', end:'2026-04-18', free:false, desc:'The Garrison Events – russische Party-Reihe auf Deutschlandtour. Aktuelle Infos auf @the_garrison_events_ (Instagram).', genre:'Russian Party', ticket:'https://linktr.ee/the_garrison_events', outdoor:false, ageMin:18, price:'Infos via Instagram', oepnv:'Bahn nach Osnabrück Hbf', parking:'Vorhanden'},
+  {cat:'russian', name:'Viana Gartenparty', loc:'Viana Gartenparty Nürnberg', start:'2026-04-25', end:'2026-04-25', free:true, desc:'Die Viana Gartenparty – ein unvergesslicher Tag für die ganze Community! Shisha, Grillen, Cocktails, Spiele, Sonnen und Kinderbetreuung. Entspannte Atmosphäre im privaten Garten – organisiert von Viana Events.', genre:'Garden Party / Community', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos (Einladung)', oepnv:'Nürnberg ÖPNV', parking:'Vorhanden', viana:true, new:true},
   {cat:'russian', name:'The Garrison Events – Party Night', loc:'Kassel', start:'2026-04-25', end:'2026-04-25', free:false, desc:'The Garrison Events – russische Party-Reihe auf Deutschlandtour. Aktuelle Infos auf @the_garrison_events_ (Instagram).', genre:'Russian Party', ticket:'https://linktr.ee/the_garrison_events', outdoor:false, ageMin:18, price:'Infos via Instagram', oepnv:'Bahn nach Kassel Hbf', parking:'Vorhanden'},
   {cat:'russian', name:'The Garrison Events – Party Night', loc:'Kiel', start:'2026-05-02', end:'2026-05-02', free:false, desc:'The Garrison Events – russische Party-Reihe auf Deutschlandtour. Aktuelle Infos auf @the_garrison_events_ (Instagram).', genre:'Russian Party', ticket:'https://linktr.ee/the_garrison_events', outdoor:false, ageMin:18, price:'Infos via Instagram', oepnv:'Bahn nach Kiel Hbf', parking:'Vorhanden'},
   // ─── NEU APRIL 2026 UPDATE ────────────────────────────────────────────
@@ -492,10 +495,13 @@ function eventRowHTML(e) {
   const isSaved=wishlist.has(e.name+e.start), diff=getDaysUntil(e.start), isToday_=diff===0;
   const pubCount=getPublicCount(e);
   const highlightClass = isToday_ ? ' today-event' : '';
+  const vianaClass = e.viana ? ' viana-event' : '';
   const isMultiDay = e.start !== e.end;
   const fav = getTicketDomain(e.ticket);
-  const favHtml = fav ? `<img class="event-fav" src="https://www.google.com/s2/favicons?domain=${fav}&sz=32" alt="" loading="lazy" onerror="this.style.display='none'">` : '';
-  return `<div class="event-row${highlightClass}" data-idx="${idx}" style="--cat-color:${col};position:relative">
+  const favHtml = e.viana
+    ? `<img class="event-fav event-fav-viana" src="assets/icon-96x96.png" alt="Viana" loading="lazy">`
+    : (fav ? `<img class="event-fav" src="https://www.google.com/s2/favicons?domain=${fav}&sz=32" alt="" loading="lazy" onerror="this.style.display='none'">` : '');
+  return `<div class="event-row${highlightClass}${vianaClass}" data-idx="${idx}" style="--cat-color:${col};position:relative">
     <div class="row-corner">
       ${pubCount>0?`<span class="row-dabei-badge">✅ ${pubCount}</span>`:''}
       <div class="row-action-btns">
@@ -521,6 +527,7 @@ function eventRowHTML(e) {
         ${e.outdoor===true?'<span class="badge" style="background:rgba(251,191,36,.1);color:#fbbf24;border-color:rgba(251,191,36,.3)">☀️ Outdoor</span>':e.outdoor===false?'<span class="badge" style="background:rgba(96,165,250,.1);color:#60a5fa;border-color:rgba(96,165,250,.3)">🏠 Indoor</span>':''}
         ${e.ageMin>=18?'<span class="badge" style="background:rgba(232,150,58,.12);color:var(--accent);border-color:rgba(232,150,58,.3)">ab 18</span>':e.ageMin===16?'<span class="badge" style="background:rgba(232,150,58,.1);color:var(--accent);border-color:rgba(232,150,58,.25)">ab 16</span>':''}
         ${e.dresscode?`<span class="badge badge-dc">DC: ${e.dresscode}</span>`:''}
+        ${e.viana?`<span class="viana-badge">⭐ Viana Event</span>`:''}
       </div>
     </div>
     <div class="event-right">
@@ -536,7 +543,7 @@ function eventCardHTML(e) {
   const diff=getDaysUntil(e.start), isToday_=diff===0;
   const isSaved=wishlist.has(e.name+e.start), isGoing=goingList.has(e.name+e.start);
   const cdLabel=diff===0?'🔴 HEUTE':diff===1?'⏳ Morgen':diff>0&&diff<=14?`⏳ in ${diff} Tagen`:'';
-  return `<div class="event-card${isToday_?' today-event':''}" data-idx="${idx}" style="--cat-color:${col}">
+  return `<div class="event-card${isToday_?' today-event':''}${e.viana?' viana-event':''}" data-idx="${idx}" style="--cat-color:${col}">
     <div class="card-action-btns">
       <button class="card-heart-btn${isSaved?' saved':''}" onclick="event.stopPropagation();toggleWishlist(${idx})" title="Merken">${isSaved?'❤️':'🤍'}</button>
       <button class="card-going-btn${isGoing?' going':''}" onclick="event.stopPropagation();toggleGoing(${idx})" title="Ich bin dabei">${isGoing?'👍':'👍'}</button>
@@ -551,6 +558,7 @@ function eventCardHTML(e) {
       <span class="cat-badge" style="background:${col}">${CAT_LABELS[e.cat]}</span>
       ${e.free?'<span class="badge badge-free">★ Kostenlos</span>':''}
       ${e.new?'<span class="badge badge-new">NEU</span>':''}
+      ${e.viana?'<span class="viana-badge">⭐ Viana Event</span>':''}
       ${isGoing?'<span class="going-badge">✅ Dabei</span>':''}
     </div>
   </div>`;
@@ -724,7 +732,10 @@ function openModal(idx) {
   const logoEl = document.getElementById('m-logo');
   if (logoEl) {
     const logoDomain = getTicketDomain(e.ticket);
-    if (logoDomain) {
+    if (e.viana) {
+      logoEl.innerHTML = `<img src="assets/icon-192x192.png" alt="Viana" loading="lazy" style="width:48px;height:48px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(201,162,39,0.5))">`;
+      logoEl.style.display = 'flex';
+    } else if (logoDomain) {
       logoEl.innerHTML = `<img src="https://www.google.com/s2/favicons?domain=${logoDomain}&sz=64" alt="" loading="lazy" onerror="this.parentElement.style.display='none'">`;
       logoEl.style.display = 'flex';
     } else {
