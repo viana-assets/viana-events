@@ -2,8 +2,8 @@ function getTicketDomain(url) {
   if (!url) return '';
   try { return new URL(url).hostname.replace(/^www\./, ''); } catch(e) { return ''; }
 }
-const CAT_COLORS = {festival:'#5b8ff9',kaerwa:'#c8974e',bierfest:'#e8963a',volksfest:'#c8974e',afterwork:'#a78bfa',sonstige:'#34d399',family:'#34d399',russian:'#f472b6',strand:'#06b6d4',messe:'#64748b',weinfest:'#a855f7',privat:'#c9a227'};
-const CAT_LABELS = {festival:'Festival',kaerwa:'Kärwa / Kirchweih',bierfest:'Bierfest',volksfest:'Volksfest',afterwork:'After Work / Club Night',sonstige:'Sonstiges',family:'Familie',russian:'🇷🇺 Russian Event',strand:'🏖️ Stadtstrand',messe:'🏛️ Messe',weinfest:'Weinfest',privat:'🔒 Privat'};
+const CAT_COLORS = {festival:'#5b8ff9',kaerwa:'#c8974e',bierfest:'#e8963a',volksfest:'#c8974e',afterwork:'#a78bfa',sonstige:'#34d399',family:'#34d399',russian:'#f472b6',strand:'#06b6d4',messe:'#64748b',weinfest:'#a855f7',privat:'#c9a227',zoo:'#10b981',freizeit:'#f97316',kinder:'#ec4899',stadtfest:'#8b5cf6',sport:'#ef4444'};
+const CAT_LABELS = {festival:'Festival',kaerwa:'Kärwa / Kirchweih',bierfest:'Bierfest',volksfest:'Volksfest',afterwork:'After Work / Club Night',sonstige:'Sonstiges',family:'Familie',russian:'🇷🇺 Russian Event',strand:'🏖️ Stadtstrand',messe:'🏛️ Messe',weinfest:'Weinfest',privat:'🔒 Privat',zoo:'🦁 Zoo & Tiere',freizeit:'🎡 Freizeit & Outdoor',kinder:'🎠 Kinder & Familie',stadtfest:'🎪 Stadt- & Kulturfeste',sport:'🏃 Sport & Action'};
 const MONTHS = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember']
 const MONTHS_S = ['Jan','Feb','Mrz','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
 const DAYS = ['So','Mo','Di','Mi','Do','Fr','Sa'];
@@ -98,23 +98,60 @@ const COORDS = {
 };
 
 const familyEvents = [
-  {cat:'family', name:'Playmobil FunPark Saison', loc:'Zirndorf – Playmobil Funpark', start:'2026-04-01', end:'2026-10-31', free:false, desc:'Der riesige Playmobil Spielpark für Kinder! Piratenschiff, Ritterburg, Wasserpark, Bauernhof in Lebensgröße. Perfekter Familienausflug direkt bei Nürnberg.', genre:'Freizeitpark / Kinder', ticket:'https://www.playmobil-funpark.de', outdoor:true, ageMin:0, price:'Kinder ab 3J: 14,90€, Erw: 5,50€', oepnv:'S-Bahn S1 nach Zirndorf', parking:'Vorhanden kostenlos'},
-  {cat:'family', name:'Tiergarten Nürnberg – Sommersaison', loc:'Nürnberg – Tiergarten', start:'2026-04-01', end:'2026-10-31', free:false, desc:'Einer der schönsten Tiergärten Europas! Manatihaus, Delfine, Bauernhof, Wasserspielplatz, Riesenrutsche und Minibahn. Besondere Familienangebote das ganze Jahr.', genre:'Zoo / Familie', ticket:'https://tiergarten.nuernberg.de', outdoor:true, ageMin:0, price:'Kinder (4-13J): 7€, Erw: 16€', oepnv:'U2 bis Tiergarten', parking:'Vorhanden'},
-  {cat:'family', name:'Tiergarten – Nacht der Tiere', loc:'Nürnberg – Tiergarten', start:'2026-07-11', end:'2026-07-11', free:false, desc:'Spannende Abendführung durch den beleuchteten Tiergarten. Tiere in der Dämmerung erleben – ein unvergessliches Erlebnis für die ganze Familie.', genre:'Zoo / Abendführung', ticket:'https://tiergarten.nuernberg.de', outdoor:true, ageMin:0, price:'Kinder: 5€, Erw: 12€', oepnv:'U2 bis Tiergarten', parking:'Vorhanden'},
-  {cat:'family', name:'Tiergarten – Langer Zooabend', loc:'Nürnberg – Tiergarten', start:'2026-08-08', end:'2026-08-08', free:false, desc:'Verlängerter Öffnungsbetrieb mit Musik, Liveacts und besonderen Führungen am Abend. Sommerstimmung im Tiergarten für die ganze Familie.', genre:'Zoo / Familienevent', ticket:'https://tiergarten.nuernberg.de', outdoor:true, ageMin:0, price:'Normaler Eintrittspreis', oepnv:'U2 bis Tiergarten', parking:'Vorhanden'},
-  {cat:'family', name:'Kinderkirchweih Schwabach', loc:'Schwabach – Innenstadt', start:'2026-07-10', end:'2026-07-12', free:true, desc:'Die Kinderkirchweih in Schwabach ist ein Kinderfest mit Fahrgeschäften, Spielen und Programm speziell für die Kleinen. Eintritt frei.', genre:'Kirchweih / Kinder', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'S-Bahn nach Schwabach', parking:'Innenstadt Parkhäuser'},
-  {cat:'family', name:'Klassik Open Air – Familienkonzert', loc:'Nürnberg – Luitpoldhain', start:'2026-07-03', end:'2026-07-05', free:false, desc:'Das Klassik Open Air zählt zu den größten Freiluftkonzerten Europas. Familienfreundlich, mit großer Leinwand und Picknick-Atmosphäre. Staatsphilharmonie und Gäste.', genre:'Klassik / Open Air', ticket:'https://www.staatstheater-nuernberg.de', outdoor:true, ageMin:0, price:'Kostenlos (Picknickwiese) oder Tribüne ab 15€', oepnv:'U1 nach Messe', parking:'Messegelände'},
+  {cat:'freizeit', name:'Playmobil FunPark Saison', loc:'Zirndorf – Playmobil Funpark', start:'2026-04-01', end:'2026-10-31', free:false, desc:'Der riesige Playmobil Spielpark für Kinder! Piratenschiff, Ritterburg, Wasserpark, Bauernhof in Lebensgröße. Perfekter Familienausflug direkt bei Nürnberg.', genre:'Freizeitpark / Kinder', ticket:'https://www.playmobil-funpark.de', outdoor:true, ageMin:0, price:'Kinder ab 3J: 14,90€, Erw: 5,50€', oepnv:'S-Bahn S1 nach Zirndorf', parking:'Vorhanden kostenlos'},
+  {cat:'zoo', name:'Tiergarten Nürnberg – Sommersaison', loc:'Nürnberg – Tiergarten', start:'2026-04-01', end:'2026-10-31', free:false, desc:'Einer der schönsten Tiergärten Europas! Manatihaus, Delfine, Bauernhof, Wasserspielplatz, Riesenrutsche und Minibahn. Besondere Familienangebote das ganze Jahr.', genre:'Zoo / Familie', ticket:'https://tiergarten.nuernberg.de', outdoor:true, ageMin:0, price:'Kinder (4-13J): 7€, Erw: 16€', oepnv:'U2 bis Tiergarten', parking:'Vorhanden'},
+  {cat:'zoo', name:'Tiergarten – Nacht der Tiere', loc:'Nürnberg – Tiergarten', start:'2026-07-11', end:'2026-07-11', free:false, desc:'Spannende Abendführung durch den beleuchteten Tiergarten. Tiere in der Dämmerung erleben – ein unvergessliches Erlebnis für die ganze Familie.', genre:'Zoo / Abendführung', ticket:'https://tiergarten.nuernberg.de', outdoor:true, ageMin:0, price:'Kinder: 5€, Erw: 12€', oepnv:'U2 bis Tiergarten', parking:'Vorhanden'},
+  {cat:'zoo', name:'Tiergarten – Langer Zooabend', loc:'Nürnberg – Tiergarten', start:'2026-08-08', end:'2026-08-08', free:false, desc:'Verlängerter Öffnungsbetrieb mit Musik, Liveacts und besonderen Führungen am Abend. Sommerstimmung im Tiergarten für die ganze Familie.', genre:'Zoo / Familienevent', ticket:'https://tiergarten.nuernberg.de', outdoor:true, ageMin:0, price:'Normaler Eintrittspreis', oepnv:'U2 bis Tiergarten', parking:'Vorhanden'},
+  {cat:'kinder', name:'Kinderkirchweih Schwabach', loc:'Schwabach – Innenstadt', start:'2026-07-10', end:'2026-07-12', free:true, desc:'Die Kinderkirchweih in Schwabach ist ein Kinderfest mit Fahrgeschäften, Spielen und Programm speziell für die Kleinen. Eintritt frei.', genre:'Kirchweih / Kinder', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'S-Bahn nach Schwabach', parking:'Innenstadt Parkhäuser'},
+  {cat:'stadtfest', name:'Klassik Open Air – Familienkonzert', loc:'Nürnberg – Luitpoldhain', start:'2026-07-03', end:'2026-07-05', free:false, desc:'Das Klassik Open Air zählt zu den größten Freiluftkonzerten Europas. Familienfreundlich, mit großer Leinwand und Picknick-Atmosphäre. Staatsphilharmonie und Gäste.', genre:'Klassik / Open Air', ticket:'https://www.staatstheater-nuernberg.de', outdoor:true, ageMin:0, price:'Kostenlos (Picknickwiese) oder Tribüne ab 15€', oepnv:'U1 nach Messe', parking:'Messegelände'},
   {cat:'family', name:'Nürnberger Frühlingsfest', loc:'Nürnberg – Volksfestplatz (Dutzendteich)', start:'2026-04-04', end:'2026-04-26', free:true, desc:'Das Nürnberger Frühlingsfest mit Fahrgeschäften, Bierzelten und Familienangeboten. Auftakt der Volksfest-Saison in Nürnberg.', genre:'Volksfest', ticket:'', outdoor:true, ageMin:0, price:'Eintritt frei, Fahrgeschäfte kostenpflichtig', oepnv:'Tram/Bus zum Volksfestplatz', parking:'Vorhanden'},
   {cat:'family', name:'Nürnberger Herbstvolksfest', loc:'Nürnberg – Volksfestplatz', start:'2026-08-28', end:'2026-09-13', free:true, desc:'Das große Herbstvolksfest in Nürnberg mit Riesenrad, Fahrgeschäften, Bierzelten und Familienangeboten. Einer der Sommer-Abschluss-Highlights.', genre:'Volksfest', ticket:'', outdoor:true, ageMin:0, price:'Eintritt frei, Fahrgeschäfte kostenpflichtig', oepnv:'Tram/Bus zum Volksfestplatz', parking:'Vorhanden'},
   {cat:'family', name:'Augsburger Plärrer (Frühling)', loc:'Augsburg – Plärrergelände', start:'2026-04-05', end:'2026-04-19', free:true, desc:'Das größte Volksfest Schwabens! Der Augsburger Plärrer bietet Fahrgeschäfte, Festzelte und Familienangebote für alle. Zweimal jährlich.', genre:'Volksfest / Familie', ticket:'', outdoor:true, ageMin:0, price:'Eintritt frei', oepnv:'Straßenbahn nach Plärrer-Gelände', parking:'Vorhanden'},
-  {cat:'family', name:'Kindertheater-Festival Nürnberg', loc:'Nürnberg – Stadttheater / Tafelhalle', start:'2026-06-06', end:'2026-06-21', free:false, desc:'Renommiertes Kindertheater-Festival mit nationalen und internationalen Produktionen für Kinder ab 3 Jahren. Workshops, Mitmachtheater und Aufführungen.', genre:'Theater / Kinder', ticket:'https://www.staatstheater-nuernberg.de', outdoor:false, ageMin:0, price:'Tickets ab 8€', oepnv:'U1 Hauptbahnhof', parking:'Innenstadt Parkhäuser'},
-  {cat:'family', name:'Stadtparkfest Nürnberg', loc:'Nürnberg – Stadtpark', start:'2026-07-19', end:'2026-07-26', free:true, desc:'Wochenlang Musik, Kultur und Familienunterhaltung im Nürnberger Stadtpark. Konzerte auf der Open-Air-Bühne, Kinderprogramm und Gastronomie.', genre:'Stadtfest / Familie', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'U2 bis Aufseßplatz oder Tram 4', parking:'Begrenzt'},
+  {cat:'kinder', name:'Kindertheater-Festival Nürnberg', loc:'Nürnberg – Stadttheater / Tafelhalle', start:'2026-06-06', end:'2026-06-21', free:false, desc:'Renommiertes Kindertheater-Festival mit nationalen und internationalen Produktionen für Kinder ab 3 Jahren. Workshops, Mitmachtheater und Aufführungen.', genre:'Theater / Kinder', ticket:'https://www.staatstheater-nuernberg.de', outdoor:false, ageMin:0, price:'Tickets ab 8€', oepnv:'U1 Hauptbahnhof', parking:'Innenstadt Parkhäuser'},
+  {cat:'stadtfest', name:'Stadtparkfest Nürnberg', loc:'Nürnberg – Stadtpark', start:'2026-07-19', end:'2026-07-26', free:true, desc:'Wochenlang Musik, Kultur und Familienunterhaltung im Nürnberger Stadtpark. Konzerte auf der Open-Air-Bühne, Kinderprogramm und Gastronomie.', genre:'Stadtfest / Familie', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'U2 bis Aufseßplatz oder Tram 4', parking:'Begrenzt'},
   {cat:'family', name:'Regensburger Herbstdult', loc:'Regensburg – Dultplatz', start:'2026-08-28', end:'2026-09-13', free:true, desc:'Traditionsreiche Dult in Regensburg – eines der ältesten Volksfeste Bayerns mit Fahrgeschäften, Biergarten und Händlermarkt.', genre:'Volksfest / Tradition', ticket:'', outdoor:true, ageMin:0, price:'Eintritt frei', oepnv:'Bahn nach Regensburg Hbf', parking:'Vorhanden'},
-  {cat:'family', name:'Frankenkids Familienfest', loc:'Nürnberg – Stadtgebiet (wechselnder Ort)', start:'2026-05-09', end:'2026-05-10', free:false, desc:'Das jährliche Familienfest von Frankenkids mit Mitmachaktionen, Kinderprogramm, Workshops und Spaß für die ganze Familie in der Metropolregion.', genre:'Familie / Kinder', ticket:'https://www.frankenkids.de', outdoor:true, ageMin:0, price:'Familienticket ca. 20€', oepnv:'Nürnberg ÖPNV je nach Ort', parking:'Je nach Ort'},
-  {cat:'family', name:'Fürth feiert Vielfalt', loc:'Fürth – Stadtgebiet', start:'2026-04-24', end:'2026-05-10', free:true, desc:'Festival für alle in Fürth mit Vereinen und Einrichtungen. Buntes Stadtfest, Konzerte, Ausstellungen und Familienaktionen.', genre:'Stadtfest / Familie', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'U-Bahn nach Fürth Hauptbahnhof', parking:'Innenstadt Parkplätze'},
+  {cat:'kinder', name:'Frankenkids Familienfest', loc:'Nürnberg – Stadtgebiet (wechselnder Ort)', start:'2026-05-09', end:'2026-05-10', free:false, desc:'Das jährliche Familienfest von Frankenkids mit Mitmachaktionen, Kinderprogramm, Workshops und Spaß für die ganze Familie in der Metropolregion.', genre:'Familie / Kinder', ticket:'https://www.frankenkids.de', outdoor:true, ageMin:0, price:'Familienticket ca. 20€', oepnv:'Nürnberg ÖPNV je nach Ort', parking:'Je nach Ort'},
+  {cat:'stadtfest', name:'Fürth feiert Vielfalt', loc:'Fürth – Stadtgebiet', start:'2026-04-24', end:'2026-05-10', free:true, desc:'Festival für alle in Fürth mit Vereinen und Einrichtungen. Buntes Stadtfest, Konzerte, Ausstellungen und Familienaktionen.', genre:'Stadtfest / Familie', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'U-Bahn nach Fürth Hauptbahnhof', parking:'Innenstadt Parkplätze'},
 
-  {cat:'family', name:'Schwabacher Kinderkirchweih', loc:'Schwabach – Königsplatz', start:'2026-04-24', end:'2026-04-28', free:false, desc:'Fahrgeschäfte, Karussells und Programm für Kinder und Familien am Königsplatz. Freier Eintritt, Fahrpreise kostenpflichtig.', genre:'Kinderkirchweih / Familie', ticket:'', outdoor:true, ageMin:0, price:'Freier Eintritt, Fahrpreise kostenpflichtig', oepnv:'S-Bahn S1 bis Schwabach', parking:'Parkhäuser Innenstadt'},
-  {cat:'family', name:'Familien-Erlebnistag „Entdecke den Brombachsee"', loc:'Großer Brombachsee – Seezentren (Langlau & Zweiseenplatz Enderndorf)', start:'2026-04-26', end:'2026-04-26', free:true, desc:'Saisonstart am Brombachsee! Von 11:00–17:00 Uhr verwandeln sich die Seezentren in einen großen Abenteuerspielplatz. Aktivitäten: Bogenschießen, Stand Up Paddling, Schatzsuche, Erlebnis-Schatzkarte, Piratenschiff-Hüpfburg, Goldwäschestation und mehr. Das gesamte Freizeitangebot (Radeln, Wandern) ist an diesem Tag ideal nutzbar.', genre:'Familie / Outdoor', ticket:'https://www.brombachsee.de', outdoor:true, ageMin:0, price:'Kostenlos (Erlebnisstationen)', oepnv:'Mit dem Auto – Parkplätze an den Seezentren vorhanden', parking:'Vorhanden an Langlau & Enderndorf'},
+  {cat:'kinder', name:'Schwabacher Kinderkirchweih', loc:'Schwabach – Königsplatz', start:'2026-04-24', end:'2026-04-28', free:false, desc:'Fahrgeschäfte, Karussells und Programm für Kinder und Familien am Königsplatz. Freier Eintritt, Fahrpreise kostenpflichtig.', genre:'Kinderkirchweih / Familie', ticket:'', outdoor:true, ageMin:0, price:'Freier Eintritt, Fahrpreise kostenpflichtig', oepnv:'S-Bahn S1 bis Schwabach', parking:'Parkhäuser Innenstadt'},
+  {cat:'freizeit', name:'Familien-Erlebnistag „Entdecke den Brombachsee"', loc:'Großer Brombachsee – Seezentren (Langlau & Zweiseenplatz Enderndorf)', start:'2026-04-26', end:'2026-04-26', free:true, desc:'Saisonstart am Brombachsee! Von 11:00–17:00 Uhr verwandeln sich die Seezentren in einen großen Abenteuerspielplatz. Aktivitäten: Bogenschießen, Stand Up Paddling, Schatzsuche, Erlebnis-Schatzkarte, Piratenschiff-Hüpfburg, Goldwäschestation und mehr. Das gesamte Freizeitangebot (Radeln, Wandern) ist an diesem Tag ideal nutzbar.', genre:'Familie / Outdoor', ticket:'https://www.brombachsee.de', outdoor:true, ageMin:0, price:'Kostenlos (Erlebnisstationen)', oepnv:'Mit dem Auto – Parkplätze an den Seezentren vorhanden', parking:'Vorhanden an Langlau & Enderndorf'},
+
+  // ─── SPORT & ACTION ──────────────────────────────────────────────────────────
+  {cat:'sport', name:'Spartan Race Munich', loc:'München', start:'2026-04-17', end:'2026-04-18', free:false, desc:'Spartan Race Trifecta Weekend in München – drei Distanzen (Sprint, Super, Beast) auf einer Strecke. Schlamm, Hindernisse, Teamspirit. Einer der härtesten OCR-Wettkämpfe der Welt.', genre:'OCR / Hindernislauf', ticket:'https://de.spartan.com', outdoor:true, ageMin:0, price:'Teilnehmergebühr', oepnv:'München ÖPNV', parking:'Vor Ort'},
+  {cat:'sport', name:'Rats-Runners Emskirchen', loc:'Emskirchen', start:'2026-05-17', end:'2026-05-17', free:false, desc:'Hindernislauf der Rats-Runners Rennserie in Emskirchen. Schlamm, Wasser, Spaß für Einsteiger und Profis.', genre:'Hindernislauf / OCR', ticket:'https://rats-runners.de', outdoor:true, ageMin:0, price:'Teilnehmergebühr', oepnv:'Bahn nach Emskirchen', parking:'Vor Ort'},
+  {cat:'sport', name:'Spartan Trifecta Weekend Kulmbach', loc:'Kulmbach', start:'2026-06-12', end:'2026-06-14', free:false, desc:'Spartan Trifecta Weekend in Kulmbach – alle drei Renndistanzen an einem Wochenende. Für alle, die die härteste Herausforderung suchen.', genre:'OCR / Hindernislauf', ticket:'https://de.spartan.com', outdoor:true, ageMin:0, price:'Teilnehmergebühr', oepnv:'Bahn nach Kulmbach', parking:'Vor Ort'},
+  {cat:'sport', name:'Rats-Runners Sulzbach-Rosenberg', loc:'Sulzbach-Rosenberg', start:'2026-06-21', end:'2026-06-21', free:false, desc:'Hindernislauf der Rats-Runners Rennserie in Sulzbach-Rosenberg.', genre:'Hindernislauf / OCR', ticket:'https://rats-runners.de', outdoor:true, ageMin:0, price:'Teilnehmergebühr', oepnv:'Bahn nach Sulzbach-Rosenberg', parking:'Vor Ort'},
+  {cat:'sport', name:'INN Run – OCR Hindernislauf', loc:'Passau', start:'2026-06-20', end:'2026-06-20', free:false, desc:'Der INN Run in Passau – Hindernislauf am Fluss Inn. Schlamm, Wasser und Action für die ganze Familie in schöner Landschaft.', genre:'Hindernislauf / OCR', ticket:'https://www.innrun.de', outdoor:true, ageMin:0, price:'Teilnehmergebühr', oepnv:'Bahn nach Passau Hbf', parking:'Vor Ort'},
+  {cat:'sport', name:'XLETIX Challenge München-Erding', loc:'Erding (bei München)', start:'2026-07-18', end:'2026-07-18', free:false, desc:'XLETIX Challenge – einer der bekanntesten deutschen Hindernisläufe. Spaßbetonte Hindernisse, Team-Atmosphäre, für alle Fitnesslevel.', genre:'Hindernislauf / OCR', ticket:'https://www.xletix.com/events/muenchen-erding-2026', outdoor:true, ageMin:0, price:'Teilnehmergebühr', oepnv:'Bahn nach Erding', parking:'Vor Ort'},
+  {cat:'sport', name:'Rock the Race', loc:'Würzburg', start:'2026-07-26', end:'2026-07-26', free:false, desc:'Rock the Race Würzburg – actionreicher Hindernislauf mit Musik und Partyatmosphäre. Für Einzelläufer und Teams.', genre:'Hindernislauf / Fun-Run', ticket:'https://rocktherace.de', outdoor:true, ageMin:0, price:'Teilnehmergebühr', oepnv:'Bahn nach Würzburg Hbf', parking:'Vor Ort'},
+  {cat:'sport', name:'Rats-Runners Auhausen', loc:'Auhausen', start:'2026-08-02', end:'2026-08-02', free:false, desc:'Hindernislauf der Rats-Runners Rennserie in Auhausen.', genre:'Hindernislauf / OCR', ticket:'https://rats-runners.de', outdoor:true, ageMin:0, price:'Teilnehmergebühr', oepnv:'Mit dem Auto', parking:'Vor Ort'},
+  {cat:'sport', name:'Muddy Angel Run München', loc:'Haar (bei München)', start:'2026-08-01', end:'2026-08-01', free:false, desc:'Der Muddy Angel Run – Europas größter Ladies Run! Spaß, Schlamm und Gemeinschaft für Frauen. Auch für Männer geöffnet als Supporter.', genre:'Hindernislauf / Ladies Run', ticket:'https://www.muddyangelrun.com', outdoor:true, ageMin:0, price:'Teilnehmergebühr', oepnv:'S-Bahn nach Haar', parking:'Vor Ort'},
+  {cat:'sport', name:'Rats-Runners Weißenburg', loc:'Weißenburg i. Bay.', start:'2026-08-16', end:'2026-08-16', free:false, desc:'Hindernislauf der Rats-Runners Rennserie in Weißenburg i. Bay.', genre:'Hindernislauf / OCR', ticket:'https://rats-runners.de', outdoor:true, ageMin:0, price:'Teilnehmergebühr', oepnv:'Bahn nach Weißenburg', parking:'Vor Ort'},
+  {cat:'sport', name:'Runterra – Im Zeichen des Phönix', loc:'Zirndorf', start:'2026-09-19', end:'2026-09-19', free:false, desc:'Runterra Hindernislauf in Zirndorf – Im Zeichen des Phönix. Mythenreiche Hindernisse und Teamgeist auf dem Parcours in Mittelfranken.', genre:'Hindernislauf / OCR', ticket:'https://www.runterra.de', outdoor:true, ageMin:0, price:'Teilnehmergebühr', oepnv:'S-Bahn S1 nach Zirndorf', parking:'Vor Ort'},
+
+  // ─── MESSEN ──────────────────────────────────────────────────────────────────
+  {cat:'messe', name:'IFH Intherm – Sanitär, Heizung, Gebäudetechnik', loc:'Nürnberg – Messe Nürnberg', start:'2026-04-14', end:'2026-04-17', free:false, desc:'Internationale Fachmesse für Sanitär, Heizung und Gebäudetechnik. Eine der wichtigsten Branchenmessen Deutschlands.', genre:'Fachmesse / SHK-Branche', ticket:'https://www.intherm.de', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U1 bis Messe', parking:'Messe Nürnberg'},
+  {cat:'messe', name:'heise Jobs IT-Tag – IT & Karriere', loc:'München', start:'2026-04-15', end:'2026-04-15', free:false, desc:'IT- und Karrieremesse von heise: Direktkontakt zu Tech-Unternehmen, Vorträge und Networking für IT-Fachkräfte.', genre:'Karrieremesse / IT', ticket:'https://www.heisejobs.de', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'München ÖPNV', parking:'Vor Ort'},
+  {cat:'messe', name:'ARCHITECT@WORK – Architektur & Design', loc:'München', start:'2026-04-15', end:'2026-04-16', free:false, desc:'Fachmesse für Architekten und Planer mit innovativen Produkten und Materialien. Kompaktes Format mit persönlicher Beratung.', genre:'Fachmesse / Architektur', ticket:'https://www.architectatwork.de', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'München ÖPNV', parking:'Vor Ort'},
+  {cat:'messe', name:'AGRARSCHAU Allgäu – Landwirtschaft & Technik', loc:'Dietmannsried – Allgäu', start:'2026-04-16', end:'2026-04-20', free:false, desc:'Regionale Agrarmesse im Allgäu mit Landtechnik, Tierschau und Ausstellern aus der Landwirtschaft.', genre:'Fachmesse / Landwirtschaft', ticket:'', outdoor:true, ageMin:0, price:'Tagesticket', oepnv:'Bahn nach Dietmannsried', parking:'Messegelände'},
+  {cat:'messe', name:'Bildungsmesse Inn-Salzach – Ausbildung & Beruf', loc:'Mühldorf a. Inn', start:'2026-04-17', end:'2026-04-18', free:true, desc:'Regionale Bildungs- und Karrieremesse für Ausbildungssuchende, Schüler und Berufswechsler in der Region Inn-Salzach.', genre:'Bildungsmesse / Karriere', ticket:'', outdoor:false, ageMin:0, price:'Kostenlos', oepnv:'Bahn nach Mühldorf', parking:'Vor Ort'},
+  {cat:'messe', name:'Tattoo Convention Simbach', loc:'Simbach a. Inn', start:'2026-04-18', end:'2026-04-19', free:false, desc:'Tattoo-Convention mit nationalen und internationalen Künstlern. Live-Tätowierungen, Ausstellungen und Wettbewerbe.', genre:'Convention / Tattoo', ticket:'', outdoor:false, ageMin:18, price:'Tagesticket', oepnv:'Bahn nach Simbach', parking:'Vor Ort'},
+  {cat:'messe', name:'LMU KarriereGipfel – Hochschul-Karrieremesse', loc:'München – LMU', start:'2026-04-21', end:'2026-04-21', free:true, desc:'Hochschul-Karrieremesse der LMU München: Arbeitgeber treffen Studierende und Absolventen. Networking, Bewerbungsgespräche, Vorträge.', genre:'Karrieremesse / Hochschule', ticket:'', outdoor:false, ageMin:0, price:'Kostenlos', oepnv:'U3/U6 bis Universität', parking:'Begrenzt'},
+  {cat:'messe', name:'MMM-Messe – Versicherungen & Finanzdienstleistung', loc:'München – MOC', start:'2026-04-21', end:'2026-04-21', free:false, desc:'Fachmesse für Versicherungen und Finanzdienstleistungen im MOC München. Networking und Produktvorstellungen für Branchenprofis.', genre:'Fachmesse / Finance', ticket:'', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U2 bis Scheidplatz', parking:'MOC Parkhaus'},
+  {cat:'messe', name:'vocatium Oberbayern – Ausbildung & Studium', loc:'Fürstenfeldbruck', start:'2026-04-21', end:'2026-04-22', free:true, desc:'Vertiefende Berufsorientierungsmesse mit Voranmeldung. Schüler treffen gezielt passende Aussteller für Ausbildung und Studium.', genre:'Bildungsmesse / Ausbildung', ticket:'', outdoor:false, ageMin:0, price:'Kostenlos', oepnv:'S4 bis Fürstenfeldbruck', parking:'Vor Ort'},
+  {cat:'messe', name:'CONTACT – Recruitingmesse TH Ingolstadt', loc:'Ingolstadt', start:'2026-04-21', end:'2026-04-22', free:true, desc:'Karrieremesse der Technischen Hochschule Ingolstadt: Direktkontakt zu Unternehmen aus Technik, Wirtschaft und Informatik.', genre:'Karrieremesse / Technik', ticket:'', outdoor:false, ageMin:0, price:'Kostenlos', oepnv:'Bahn nach Ingolstadt Hbf', parking:'TH Ingolstadt'},
+  {cat:'messe', name:'vocatium Mittelfranken', loc:'Erlangen', start:'2026-04-22', end:'2026-04-23', free:true, desc:'Vertiefende Berufsorientierungsmesse für Schüler in Mittelfranken. Persönliche Gesprächstermine mit regionalen Ausbildungsbetrieben.', genre:'Bildungsmesse / Ausbildung', ticket:'', outdoor:false, ageMin:0, price:'Kostenlos', oepnv:'Bahn nach Erlangen', parking:'Vor Ort'},
+  {cat:'messe', name:'AZUBISpot – Azubi- & Karrieremesse', loc:'Aichach', start:'2026-04-22', end:'2026-04-22', free:true, desc:'Regionale Azubi- und Karrieremesse in Aichach: Unternehmen aus der Region stellen Ausbildungsplätze und duale Studienplätze vor.', genre:'Bildungsmesse / Ausbildung', ticket:'', outdoor:false, ageMin:0, price:'Kostenlos', oepnv:'Bahn nach Aichach', parking:'Vor Ort'},
+  {cat:'messe', name:'akustika – Musik & Akustik', loc:'Nürnberg – Messe Nürnberg', start:'2026-04-24', end:'2026-04-26', free:false, desc:'Fachmesse für Musikinstrumente, HiFi, Akustik und professionelle Audiotechnik in Nürnberg.', genre:'Fachmesse / Musik & Audio', ticket:'https://www.akustika.de', outdoor:false, ageMin:0, price:'Tagesticket', oepnv:'U1 bis Messe', parking:'Messe Nürnberg'},
+  {cat:'messe', name:'E-BIKE DAYS München', loc:'München – Olympiapark', start:'2026-04-24', end:'2026-04-26', free:false, desc:'Die E-Bike-Messe im Olympiapark München: Neuheiten testen, Hersteller treffen, Teststrecken und Rahmenprogramm.', genre:'Messe / E-Mobilität', ticket:'', outdoor:true, ageMin:0, price:'Tagesticket', oepnv:'U3 bis Olympiazentrum', parking:'Olympiapark'},
+  {cat:'messe', name:'Ceramitec – Keramik-Industrie (international)', loc:'München – Messe München', start:'2026-04-24', end:'2026-04-26', free:false, desc:'Internationale Leitmesse der keramischen Industrie: Maschinen, Anlagen und Rohstoffe für die Keramik-Produktion weltweit.', genre:'Fachmesse / Industrie', ticket:'https://www.ceramitec.com', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U2 bis Messestadt West', parking:'Messe München'},
+  {cat:'messe', name:'IFAT Munich – Umwelttechnologien (Weltleitmesse)', loc:'München – Messe München', start:'2026-05-04', end:'2026-05-08', free:false, desc:'Weltleitmesse für Wasser-, Abwasser-, Abfall- und Rohstoffwirtschaft. Über 3.000 Aussteller aus 60+ Ländern.', genre:'Weltleitmesse / Umwelttechnik', ticket:'https://www.ifat.de', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U2 bis Messestadt West', parking:'Messe München'},
+  {cat:'messe', name:'Interzoo – Heimtierbranche (Weltleitmesse)', loc:'Nürnberg – Messe Nürnberg', start:'2026-05-12', end:'2026-05-15', free:false, desc:'Weltleitmesse der Heimtierbranche: Futter, Zubehör, Tierbedarf und Innovationen aus aller Welt. Nur für Fachbesucher.', genre:'Weltleitmesse / Heimtiere', ticket:'https://www.interzoo.com', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U1 bis Messe', parking:'Messe Nürnberg'},
+  {cat:'messe', name:'Stone+tec – Naturstein & Technologien', loc:'Nürnberg – Messe Nürnberg', start:'2026-06-17', end:'2026-06-20', free:false, desc:'Internationale Fachmesse für Naturstein, Steintechnik und Steindesign. Bearbeitungsmaschinen, Werkzeuge und Designinspirationen.', genre:'Fachmesse / Bau & Design', ticket:'https://www.stone-tec.com', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U1 bis Messe', parking:'Messe Nürnberg'},
+  {cat:'messe', name:'Intersolar Europe – Solar & Energie', loc:'München – Messe München', start:'2026-06-23', end:'2026-06-25', free:false, desc:'Weltweit führende Fachmesse für die Solarwirtschaft und Energiewende. Photovoltaik, Batteriespeicher, Solarwärme.', genre:'Fachmesse / Energie', ticket:'https://www.intersolar.de', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U2 bis Messestadt West', parking:'Messe München'},
+  {cat:'messe', name:'GaLaBau – Garten-, Landschafts- & Sportplatzbau', loc:'Nürnberg – Messe Nürnberg', start:'2026-09-15', end:'2026-09-18', free:false, desc:'Internationale Fachmesse für Garten-, Landschafts- und Sportplatzbau. Maschinen, Pflanzen, Outdoor-Design.', genre:'Fachmesse / Garten & Landschaft', ticket:'https://www.galabau-messe.com', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U1 bis Messe', parking:'Messe Nürnberg'},
+  {cat:'messe', name:'EXPO REAL – Internationale Immobilienmesse', loc:'München – Messe München', start:'2026-10-05', end:'2026-10-07', free:false, desc:'Europas größte Immobilienmesse: Investment, Stadtentwicklung, PropTech. 40.000+ Fachbesucher aus 70 Ländern.', genre:'Fachmesse / Immobilien', ticket:'https://www.exporeal.net', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U2 bis Messestadt West', parking:'Messe München'},
+  {cat:'messe', name:'electronica – Elektronik (Weltleitmesse)', loc:'München – Messe München', start:'2026-11-10', end:'2026-11-13', free:false, desc:'Weltleitmesse der Elektronik: Halbleiter, Embedded Systems, Sensorik, KI-Hardware. Größte Elektronik-Messe der Welt.', genre:'Weltleitmesse / Elektronik', ticket:'https://www.electronica.de', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U2 bis Messestadt West', parking:'Messe München'},
 ];
 
 
@@ -347,38 +384,7 @@ const events = [
 
 ];
 
-const sonsigeEvents = [
-  // ─── MESSEN ──────────────────────────────────────────────────────────────
-  // April 2026
-  {cat:'messe', name:'IFH Intherm – Sanitär, Heizung, Gebäudetechnik', loc:'Nürnberg – Messe Nürnberg', start:'2026-04-14', end:'2026-04-17', free:false, desc:'Internationale Fachmesse für Sanitär, Heizung und Gebäudetechnik. Eine der wichtigsten Branchenmessen Deutschlands.', genre:'Fachmesse / SHK-Branche', ticket:'https://www.intherm.de', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U1 bis Messe', parking:'Messe Nürnberg'},
-  {cat:'messe', name:'heise Jobs IT-Tag – IT & Karriere', loc:'München', start:'2026-04-15', end:'2026-04-15', free:false, desc:'IT- und Karrieremesse von heise: Direktkontakt zu Tech-Unternehmen, Vorträge und Networking für IT-Fachkräfte.', genre:'Karrieremesse / IT', ticket:'https://www.heisejobs.de', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'München ÖPNV', parking:'Vor Ort'},
-  {cat:'messe', name:'ARCHITECT@WORK – Architektur & Design', loc:'München', start:'2026-04-15', end:'2026-04-16', free:false, desc:'Fachmesse für Architekten und Planer mit innovativen Produkten und Materialien. Kompaktes Format mit persönlicher Beratung.', genre:'Fachmesse / Architektur', ticket:'https://www.architectatwork.de', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'München ÖPNV', parking:'Vor Ort'},
-  {cat:'messe', name:'AGRARSCHAU Allgäu – Landwirtschaft & Technik', loc:'Dietmannsried – Allgäu', start:'2026-04-16', end:'2026-04-20', free:false, desc:'Regionale Agrarmesse im Allgäu mit Landtechnik, Tierschau und Ausstellern aus der Landwirtschaft.', genre:'Fachmesse / Landwirtschaft', ticket:'', outdoor:true, ageMin:0, price:'Tagesticket', oepnv:'Bahn nach Dietmannsried', parking:'Messegelände'},
-  {cat:'messe', name:'Bildungsmesse Inn-Salzach – Ausbildung & Beruf', loc:'Mühldorf a. Inn', start:'2026-04-17', end:'2026-04-18', free:true, desc:'Regionale Bildungs- und Karrieremesse für Ausbildungssuchende, Schüler und Berufswechsler in der Region Inn-Salzach.', genre:'Bildungsmesse / Karriere', ticket:'', outdoor:false, ageMin:0, price:'Kostenlos', oepnv:'Bahn nach Mühldorf', parking:'Vor Ort'},
-  {cat:'messe', name:'Tattoo Convention Simbach', loc:'Simbach a. Inn', start:'2026-04-18', end:'2026-04-19', free:false, desc:'Tattoo-Convention mit nationalen und internationalen Künstlern. Live-Tätowierungen, Ausstellungen und Wettbewerbe.', genre:'Convention / Tattoo', ticket:'', outdoor:false, ageMin:18, price:'Tagesticket', oepnv:'Bahn nach Simbach', parking:'Vor Ort'},
-  {cat:'messe', name:'LMU KarriereGipfel – Hochschul-Karrieremesse', loc:'München – LMU', start:'2026-04-21', end:'2026-04-21', free:true, desc:'Hochschul-Karrieremesse der LMU München: Arbeitgeber treffen Studierende und Absolventen. Networking, Bewerbungsgespräche, Vorträge.', genre:'Karrieremesse / Hochschule', ticket:'', outdoor:false, ageMin:0, price:'Kostenlos', oepnv:'U3/U6 bis Universität', parking:'Begrenzt'},
-  {cat:'messe', name:'MMM-Messe – Versicherungen & Finanzdienstleistung', loc:'München – MOC', start:'2026-04-21', end:'2026-04-21', free:false, desc:'Fachmesse für Versicherungen und Finanzdienstleistungen im MOC München. Networking und Produktvorstellungen für Branchenprofis.', genre:'Fachmesse / Finance', ticket:'', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U2 bis Scheidplatz', parking:'MOC Parkhaus'},
-  {cat:'messe', name:'vocatium Oberbayern – Ausbildung & Studium', loc:'Fürstenfeldbruck', start:'2026-04-21', end:'2026-04-22', free:true, desc:'Vertiefende Berufsorientierungsmesse mit Voranmeldung. Schüler treffen gezielt passende Aussteller für Ausbildung und Studium.', genre:'Bildungsmesse / Ausbildung', ticket:'', outdoor:false, ageMin:0, price:'Kostenlos', oepnv:'S4 bis Fürstenfeldbruck', parking:'Vor Ort'},
-  {cat:'messe', name:'CONTACT – Recruitingmesse TH Ingolstadt', loc:'Ingolstadt', start:'2026-04-21', end:'2026-04-22', free:true, desc:'Karrieremesse der Technischen Hochschule Ingolstadt: Direktkontakt zu Unternehmen aus Technik, Wirtschaft und Informatik.', genre:'Karrieremesse / Technik', ticket:'', outdoor:false, ageMin:0, price:'Kostenlos', oepnv:'Bahn nach Ingolstadt Hbf', parking:'TH Ingolstadt'},
-  {cat:'messe', name:'vocatium Mittelfranken', loc:'Erlangen', start:'2026-04-22', end:'2026-04-23', free:true, desc:'Vertiefende Berufsorientierungsmesse für Schüler in Mittelfranken. Persönliche Gesprächstermine mit regionalen Ausbildungsbetrieben.', genre:'Bildungsmesse / Ausbildung', ticket:'', outdoor:false, ageMin:0, price:'Kostenlos', oepnv:'Bahn nach Erlangen', parking:'Vor Ort'},
-  {cat:'messe', name:'AZUBISpot – Azubi- & Karrieremesse', loc:'Aichach', start:'2026-04-22', end:'2026-04-22', free:true, desc:'Regionale Azubi- und Karrieremesse in Aichach: Unternehmen aus der Region stellen Ausbildungsplätze und duale Studienplätze vor.', genre:'Bildungsmesse / Ausbildung', ticket:'', outdoor:false, ageMin:0, price:'Kostenlos', oepnv:'Bahn nach Aichach', parking:'Vor Ort'},
-  {cat:'messe', name:'akustika – Musik & Akustik', loc:'Nürnberg – Messe Nürnberg', start:'2026-04-24', end:'2026-04-26', free:false, desc:'Fachmesse für Musikinstrumente, HiFi, Akustik und professionelle Audiotechnik in Nürnberg.', genre:'Fachmesse / Musik & Audio', ticket:'https://www.akustika.de', outdoor:false, ageMin:0, price:'Tagesticket', oepnv:'U1 bis Messe', parking:'Messe Nürnberg'},
-  {cat:'messe', name:'E-BIKE DAYS München', loc:'München – Olympiapark', start:'2026-04-24', end:'2026-04-26', free:false, desc:'Die E-Bike-Messe im Olympiapark München: Neuheiten testen, Hersteller treffen, Teststrecken und Rahmenprogramm.', genre:'Messe / E-Mobilität', ticket:'', outdoor:true, ageMin:0, price:'Tagesticket', oepnv:'U3 bis Olympiazentrum', parking:'Olympiapark'},
-  {cat:'messe', name:'Ceramitec – Keramik-Industrie (international)', loc:'München – Messe München', start:'2026-04-24', end:'2026-04-26', free:false, desc:'Internationale Leitmesse der keramischen Industrie: Maschinen, Anlagen und Rohstoffe für die Keramik-Produktion weltweit.', genre:'Fachmesse / Industrie', ticket:'https://www.ceramitec.com', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U2 bis Messestadt West', parking:'Messe München'},
-  // Mai 2026
-  {cat:'messe', name:'IFAT Munich – Umwelttechnologien (Weltleitmesse)', loc:'München – Messe München', start:'2026-05-04', end:'2026-05-08', free:false, desc:'Weltleitmesse für Wasser-, Abwasser-, Abfall- und Rohstoffwirtschaft. Über 3.000 Aussteller aus 60+ Ländern.', genre:'Weltleitmesse / Umwelttechnik', ticket:'https://www.ifat.de', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U2 bis Messestadt West', parking:'Messe München'},
-  {cat:'messe', name:'Interzoo – Heimtierbranche (Weltleitmesse)', loc:'Nürnberg – Messe Nürnberg', start:'2026-05-12', end:'2026-05-15', free:false, desc:'Weltleitmesse der Heimtierbranche: Futter, Zubehör, Tierbedarf und Innovationen aus aller Welt. Nur für Fachbesucher.', genre:'Weltleitmesse / Heimtiere', ticket:'https://www.interzoo.com', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U1 bis Messe', parking:'Messe Nürnberg'},
-  // Juni 2026
-  {cat:'messe', name:'Stone+tec – Naturstein & Technologien', loc:'Nürnberg – Messe Nürnberg', start:'2026-06-17', end:'2026-06-20', free:false, desc:'Internationale Fachmesse für Naturstein, Steintechnik und Steindesign. Bearbeitungsmaschinen, Werkzeuge und Designinspirationen.', genre:'Fachmesse / Bau & Design', ticket:'https://www.stone-tec.com', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U1 bis Messe', parking:'Messe Nürnberg'},
-  {cat:'messe', name:'Intersolar Europe – Solar & Energie', loc:'München – Messe München', start:'2026-06-23', end:'2026-06-25', free:false, desc:'Weltweit führende Fachmesse für die Solarwirtschaft und Energiewende. Photovoltaik, Batteriespeicher, Solarwärme.', genre:'Fachmesse / Energie', ticket:'https://www.intersolar.de', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U2 bis Messestadt West', parking:'Messe München'},
-  // September 2026
-  {cat:'messe', name:'GaLaBau – Garten-, Landschafts- & Sportplatzbau', loc:'Nürnberg – Messe Nürnberg', start:'2026-09-15', end:'2026-09-18', free:false, desc:'Internationale Fachmesse für Garten-, Landschafts- und Sportplatzbau. Maschinen, Pflanzen, Outdoor-Design.', genre:'Fachmesse / Garten & Landschaft', ticket:'https://www.galabau-messe.com', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U1 bis Messe', parking:'Messe Nürnberg'},
-  // Oktober 2026
-  {cat:'messe', name:'EXPO REAL – Internationale Immobilienmesse', loc:'München – Messe München', start:'2026-10-05', end:'2026-10-07', free:false, desc:'Europas größte Immobilienmesse: Investment, Stadtentwicklung, PropTech. 40.000+ Fachbesucher aus 70 Ländern.', genre:'Fachmesse / Immobilien', ticket:'https://www.exporeal.net', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U2 bis Messestadt West', parking:'Messe München'},
-  // November 2026
-  {cat:'messe', name:'electronica – Elektronik (Weltleitmesse)', loc:'München – Messe München', start:'2026-11-10', end:'2026-11-13', free:false, desc:'Weltleitmesse der Elektronik: Halbleiter, Embedded Systems, Sensorik, KI-Hardware. Größte Elektronik-Messe der Welt.', genre:'Weltleitmesse / Elektronik', ticket:'https://www.electronica.de', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U2 bis Messestadt West', parking:'Messe München'},
-
-];
+const sonsigeEvents = []; // Leer – Messen sind jetzt unter Family
 
 
 function getCoords(loc) {
@@ -429,11 +435,10 @@ function getPublicCount(e) { return publicCounts[eventKey(e)] || 0; }
 
 
 let activeFilters=new Set(['alle']), searchTerm='', viewMode='list', quickFilter='alle', sortMode='date', leafletMap=null, showPast=false;
-let appMode = 'party'; // 'party' | 'family' | 'sonstige'
+let appMode = 'party'; // 'party' | 'family'
 
 function getActiveEvents() {
   if (appMode === 'family') return familyEvents;
-  if (appMode === 'sonstige') return sonsigeEvents;
   return events;
 }
 let wishlist = new Set(JSON.parse(localStorage.getItem('viana_wl')||'[]'));
@@ -458,7 +463,7 @@ function getFiltered() {
   const q=searchTerm.toLowerCase(), today=new Date();today.setHours(0,0,0,0);
   const allFiltered_pre = sourceEvents.filter(e => showPast || new Date(e.end) >= today);
   let filtered=allFiltered_pre.filter(e=>{
-    const matchCat=activeFilters.has('alle')?true:(appMode==='family'||appMode==='sonstige')?true:(activeFilters.has(e.cat)||(activeFilters.has('volksfest')&&(e.cat==='kaerwa'||e.cat==='bierfest')));
+    const matchCat=activeFilters.has('alle')?true:appMode==='family'?(familyFilter==='alle'||e.cat===familyFilter):(activeFilters.has(e.cat)||(activeFilters.has('volksfest')&&(e.cat==='kaerwa'||e.cat==='bierfest')));
     const matchSearch=!q||e.name.toLowerCase().includes(q)||e.loc.toLowerCase().includes(q)||(e.genre||'').toLowerCase().includes(q)||(e.desc||'').toLowerCase().includes(q);
     let matchQuick=true;
     if(quickFilter==='today') matchQuick=isToday(e.start);
@@ -692,7 +697,7 @@ function updateWishlistUI() {
 
 function renderWishlistPanel() {
   const body=document.getElementById('wl-body'), footer=document.getElementById('wl-footer');
-  const allEvts=[...events,...familyEvents,...sonsigeEvents];
+  const allEvts=[...events,...familyEvents];
   const saved=allEvts.filter(e=>wishlist.has(e.name+e.start)).sort((a,b)=>a.start.localeCompare(b.start));
   const going=allEvts.filter(e=>goingList.has(e.name+e.start)).sort((a,b)=>a.start.localeCompare(b.start));
   if(!saved.length&&!going.length){
@@ -718,7 +723,7 @@ function removeFromGoing(key) {
   goingList.delete(key);
   saveGoingList();
   // Öffentlichen Zähler um -1 reduzieren
-  const e=[...events,...familyEvents,...sonsigeEvents].find(ev=>ev.name+ev.start===key);
+  const e=[...events,...familyEvents].find(ev=>ev.name+ev.start===key);
   if(e) savePublicCount(e,-1);
   updateWishlistUI();render();
 }
@@ -984,34 +989,37 @@ function selectSuggestion(idx) {
 
 
 // ── MODE SWITCHER ─────────────────────────────────────────────────────────────
+let familyFilter = 'alle'; // active family category filter
+
 function resetTabUI() {
-  activeFilters=new Set(['alle']); quickFilter='alle'; searchTerm='';
+  activeFilters=new Set(['alle']); quickFilter='alle'; searchTerm=''; familyFilter='alle';
   document.getElementById('search').value='';
   document.querySelectorAll('.pill').forEach(p=>{p.classList.toggle('active',p.dataset.cat==='alle');});
-  activeFilters=new Set(['alle']);
+  document.querySelectorAll('[data-fcat]').forEach(p=>{p.classList.toggle('active',p.dataset.fcat==='alle');});
   document.querySelectorAll('.qpill').forEach(p=>{p.classList.toggle('active',p.dataset.quick==='alle');});
   document.getElementById('tab-party').className='mode-tab';
   document.getElementById('tab-family').className='mode-tab';
-  document.getElementById('tab-sonstige').className='mode-tab';
 }
 document.getElementById('tab-party').addEventListener('click', () => {
   appMode='party'; resetTabUI();
   document.getElementById('tab-party').className='mode-tab active-party';
-  document.querySelector('.filter-pills').style.display='';
+  document.getElementById('filter-pills-party').style.display='';
+  document.getElementById('filter-pills-family').style.display='none';
   buildMonthTimeline(); updateCountdown(); render();
 });
 document.getElementById('tab-family').addEventListener('click', () => {
   appMode='family'; resetTabUI();
   document.getElementById('tab-family').className='mode-tab active-family';
-  document.querySelector('.filter-pills').style.display='none';
+  document.getElementById('filter-pills-party').style.display='none';
+  document.getElementById('filter-pills-family').style.display='';
   buildMonthTimeline(); updateCountdown(); render();
 });
-document.getElementById('tab-sonstige').addEventListener('click', () => {
-  appMode='sonstige'; resetTabUI();
-  document.getElementById('tab-sonstige').className='mode-tab active-sonstige';
-  document.querySelector('.filter-pills').style.display='none';
-  buildMonthTimeline(); updateCountdown(); render();
-});
+document.querySelectorAll('[data-fcat]').forEach(p=>p.addEventListener('click',()=>{
+  familyFilter=p.dataset.fcat;
+  document.querySelectorAll('[data-fcat]').forEach(x=>x.classList.remove('active'));
+  p.classList.add('active');
+  render();
+}));
 
 
 function checkDeepLink() {
@@ -1063,13 +1071,13 @@ document.getElementById('sort-select').addEventListener('change',e=>{sortMode=e.
 document.getElementById('wl-open-btn').addEventListener('click',()=>{renderWishlistPanel();document.getElementById('wishlist-panel').classList.add('open');});
 document.getElementById('wl-close').addEventListener('click',()=>document.getElementById('wishlist-panel').classList.remove('open'));
 document.getElementById('wl-share-wa').addEventListener('click',()=>{
-  const saved=[...events,...familyEvents,...sonsigeEvents].filter(e=>wishlist.has(e.name+e.start)).sort((a,b)=>a.start.localeCompare(b.start));
+  const saved=[...events,...familyEvents].filter(e=>wishlist.has(e.name+e.start)).sort((a,b)=>a.start.localeCompare(b.start));
   if(!saved.length)return;
   const list=saved.map(e=>`• ${e.name} – ${dateStr(e.start,e.end)}`).join('\n');
   window.open(`https://wa.me/?text=${encodeURIComponent('Hey! 👋 Meine Nürnberg Events 2026 – wer kommt mit?\n\n'+list)}`, '_blank');
 });
 document.getElementById('wl-copy-link').addEventListener('click',()=>{
-  const saved=[...events,...familyEvents,...sonsigeEvents].filter(e=>wishlist.has(e.name+e.start)).sort((a,b)=>a.start.localeCompare(b.start));
+  const saved=[...events,...familyEvents].filter(e=>wishlist.has(e.name+e.start)).sort((a,b)=>a.start.localeCompare(b.start));
   if(!saved.length)return;
   navigator.clipboard.writeText(`Meine Nürnberg Events 2026:\n\n${saved.map(e=>`• ${e.name} – ${dateStr(e.start,e.end)} – ${e.loc}`).join('\n')}`).catch(()=>{});
   showToast('📋 Liste kopiert!');

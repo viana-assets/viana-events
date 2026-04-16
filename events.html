@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <link rel="stylesheet" href="css/base.css?v=20260416d">
-<link rel="stylesheet" href="css/events.css?v=20260416h">
+<link rel="stylesheet" href="css/events.css?v=20260416j">
 <style>
 /* ── BURGER BUTTON ── */
 .burger-btn {
@@ -126,7 +126,6 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
   <div class="mode-tabs">
     <button class="mode-tab active-party" id="tab-party">🎉 Party</button>
     <button class="mode-tab" id="tab-family">👨‍👩‍👧 Family</button>
-    <button class="mode-tab" id="tab-sonstige">🏛️ Sonstige</button>
   </div>
   <div class="stats-bar">
     <div class="stat"><span class="stat-num" id="total-count">—</span><span class="stat-label">Events gesamt</span></div>
@@ -154,7 +153,7 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
     <input id="search" type="text" placeholder="Suchen…" autocomplete="off">
     <div class="search-suggestions" id="search-suggestions"></div>
   </div>
-  <div class="filter-pills">
+  <div class="filter-pills" id="filter-pills-party">
     <button class="pill active" id="pill-alle" data-cat="alle">Alle</button>
     <button class="pill pill-privat" data-cat="privat">🔒 Privat</button>
     <button class="pill" data-cat="afterwork">🌅 After Work / Club</button>
@@ -164,6 +163,16 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
     <button class="pill" data-cat="weinfest">🍷 Weinfeste</button>
     <button class="pill" data-cat="strand">🏖️ Stadtstrand</button>
     <button class="pill" data-cat="sonstige">✨ Sonstige</button>
+  </div>
+  <div class="filter-pills" id="filter-pills-family" style="display:none">
+    <button class="pill active" id="fpill-alle" data-fcat="alle">Alle</button>
+    <button class="pill" data-fcat="zoo">🦁 Zoo & Tiere</button>
+    <button class="pill" data-fcat="freizeit">🎡 Freizeit</button>
+    <button class="pill" data-fcat="kinder">🎠 Kinder</button>
+    <button class="pill" data-fcat="volksfest">🍺 Volksfeste</button>
+    <button class="pill" data-fcat="stadtfest">🎪 Stadtfeste</button>
+    <button class="pill" data-fcat="sport">🏃 Sport</button>
+    <button class="pill" data-fcat="messe">🏛️ Messen</button>
   </div>
   <div class="view-toggle">
     <button class="view-btn active" id="btn-list">≡ Liste</button>
@@ -267,7 +276,7 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
-<script src="js/events.js?v=20260416i"></script>
+<script src="js/events.js?v=20260416j"></script>
 <script src="js/cookie-banner.js?v=20260416d"></script>
 <script>
 // ── BURGER MENU ──
