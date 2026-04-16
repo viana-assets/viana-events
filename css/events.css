@@ -295,16 +295,17 @@ html{scrollbar-width:auto;scrollbar-color:#6b7280 #1e2029}
 
 /* ── VIANA EVENTS – Goldener Rahmen ── */
 .event-row.viana-event {
-  border-color: #c9a227 !important;
+  border: 2px solid #c9a227 !important;
   background: linear-gradient(90deg, rgba(201,162,39,0.09) 0%, var(--surface) 100%);
-  box-shadow: 0 0 0 1px rgba(201,162,39,0.25);
+  box-shadow: 0 0 12px rgba(201,162,39,0.2);
 }
 .event-row.viana-event::before {
   background: #c9a227 !important;
+  width: 4px !important;
 }
 .event-card.viana-event {
-  border-color: #c9a227 !important;
-  box-shadow: 0 0 0 1px rgba(201,162,39,0.25);
+  border: 2px solid #c9a227 !important;
+  box-shadow: 0 0 12px rgba(201,162,39,0.2);
   background: linear-gradient(135deg, rgba(201,162,39,0.09) 0%, var(--surface) 100%);
 }
 .event-card.viana-event::before {
