@@ -48,8 +48,10 @@ h1 span{color:var(--accent)}
 .pill.active{background:var(--accent);color:#0e0f13;border-color:var(--accent);font-weight:600}
 .pill[data-cat="festival"].active{background:var(--festival);border-color:var(--festival)}
 .pill[data-cat="kaerwa"].active{background:var(--kaerwa);border-color:var(--kaerwa)}
+.pill[data-cat="volksfest"].active{background:var(--kaerwa);border-color:var(--kaerwa)}
 .pill[data-cat="afterwork"].active{background:var(--afterwork);border-color:var(--afterwork)}
 .pill[data-cat="bierfest"].active{background:var(--bierfest);border-color:var(--bierfest)}
+.pill[data-cat="weinfest"].active{background:#a855f7;border-color:#a855f7}
 .pill[data-cat="sonstige"].active{background:var(--sonstige);border-color:var(--sonstige)}
 .pill[data-cat="russian"].active{background:#f472b6;border-color:#f472b6}
 .pill[data-cat="strand"].active{background:#06b6d4;border-color:#06b6d4}
