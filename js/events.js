@@ -501,7 +501,8 @@ function eventRowHTML(e) {
   const favHtml = e.viana
     ? `<img class="event-fav event-fav-viana" src="assets/icon-96x96.png" alt="Viana" loading="lazy">`
     : (fav ? `<img class="event-fav" src="https://www.google.com/s2/favicons?domain=${fav}&sz=32" alt="" loading="lazy" onerror="this.style.display='none'">` : '');
-  return `<div class="event-row${highlightClass}${vianaClass}" data-idx="${idx}" style="--cat-color:${col};position:relative">
+  const vianaRowStyle = e.viana ? ';background:linear-gradient(105deg,rgba(201,162,39,0.28) 0%,rgba(201,162,39,0.12) 50%,rgba(201,162,39,0.06) 100%);box-shadow:inset 0 0 0 2px rgba(201,162,39,0.6),0 0 20px rgba(201,162,39,0.18)' : '';
+  return `<div class="event-row${highlightClass}${vianaClass}" data-idx="${idx}" style="--cat-color:${col};position:relative${vianaRowStyle}">
     <div class="row-corner">
       ${pubCount>0?`<span class="row-dabei-badge">✅ ${pubCount}</span>`:''}
       <div class="row-action-btns">
