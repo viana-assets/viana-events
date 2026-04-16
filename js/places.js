@@ -15,7 +15,7 @@ const PLACE_CATS = [
   { id:'aktivitaeten', icon:'🎯',  name:'Aktivitäten & Indoor',   color:'#a78bfa', desc:'Bowling, Lasertag, Trampolinhallen, Kletterhallen',       count:29 },
   { id:'escaperooms',  icon:'🔐',  name:'Escape Rooms',           color:'#e8963a', desc:'Rätsel, Teamevents, Live Escape Games',                  count:15 },
   { id:'kultur',       icon:'🎭',  name:'Kulturorte',             color:'#5b8ff9', desc:'Theater, Konzerthäuser, Galerien, Kinos',                count:29 },
-  { id:'badeseen',     icon:'🏖️',  name:'Badeseen',               color:'#34d399', desc:'Naturbäder, Baggerseen, Seen zum Schwimmen',             count:25 },
+  { id:'badeseen',     icon:'🏖️',  name:'Badeseen',               color:'#34d399', desc:'Naturbäder, Baggerseen, Seen zum Schwimmen',             count:28 },
   { id:'camping',      icon:'⛺',  name:'Campingplätze',          color:'#c8974e', desc:'Campingplätze, Wohnmobilstellplätze, Glamping',          count:28 },
 ];
 
@@ -444,6 +444,7 @@ const PLACES = {
   badeseen: [
     // ── Nürnberg direkt ──
     { name:'Norikusbucht Nürnberg', addr:'Am Wöhrder See (Südufer), 90489 Nürnberg', city:'Nürnberg', lat:49.4490, lng:11.1019, tags:['Badesee','Nürnberg','Urban','Kostenlos'], preis:'Kostenlos', oeffnung:'Sommer tägl.', web:'', maps:'https://maps.google.com/?q=Norikusbucht+Nürnberg', highlight:'Einzige offizielle Badestelle am Wöhrder See – Sandstrand, Grünanlage, Wasserspielplatz' },
+    { name:'Jägersee Nürnberg', addr:'Jägersee, 90480 Nürnberg', city:'Nürnberg', lat:49.4308, lng:11.1472, tags:['Badesee','Nürnberg','Naherholung','Kostenlos'], preis:'Kostenlos', oeffnung:'Sommer (unbewacht)', web:'', maps:'https://maps.google.com/?q=Jägersee+Nürnberg', highlight:'Ruhiger Badesee im Süden Nürnbergs – Liegewiesen, Naherholung im Grünen' },
     // ── Nürnberger Umland (< 30 km) ──
     { name:'Birkensee Röthenbach', addr:'Birkensee, 90552 Röthenbach an der Pegnitz', city:'Röthenbach', lat:49.4783, lng:11.2122, tags:['Badesee','FKK','Nürnberger Land'], preis:'Kostenlos', oeffnung:'Sommer', web:'urlaub.nuernberger-land.de', maps:'https://maps.google.com/?q=Birkensee+Röthenbach+an+der+Pegnitz', highlight:'Idyllisch im Wald, beliebter FKK-Bereich – Nürnberger Land' },
     { name:'Happurger Baggersee', addr:'Happurger Baggersee, 91230 Happurg', city:'Hersbruck', lat:49.4852, lng:11.4422, tags:['Baggersee','Fränkische Schweiz','Bewacht'], preis:'Kostenlos', oeffnung:'Sommer tägl.', web:'', maps:'https://maps.google.com/?q=Happurger+Baggersee', highlight:'Wasserwacht vor Ort, EU-Wasserqualität „ausgezeichnet", Tauchen erlaubt' },
@@ -451,6 +452,8 @@ const PLACES = {
     { name:'Naturbad Weißenbrunn', addr:'Badstraße 6, 91227 Leinburg', city:'Leinburg', lat:49.4444, lng:11.2639, tags:['Naturbad','Familie','Kostenlos'], preis:'Eintritt frei (Spende erbeten)', oeffnung:'Sommer', web:'', maps:'https://maps.google.com/?q=Naturbad+Weißenbrunn+Leinburg', highlight:'Eintritt frei, Naturbad mit Bach, Sandspielplatz, Beachvolleyball – Nürnberger Land' },
     { name:'Naturfreibad Großhabersdorf', addr:'Nürnberger Str. 12, 90613 Großhabersdorf', city:'Großhabersdorf', lat:49.4422, lng:10.8667, tags:['Naturbad','Familie','Mittelfranken'], preis:'Eintritt', oeffnung:'Sommer', web:'', maps:'https://maps.google.com/?q=Naturfreibad+Großhabersdorf', highlight:'Eines der größten Naturfreibäder Mittelfrankens – Sprungfelsen, Rutsche, ohne Chemie' },
     { name:'Rothsee', addr:'Erholungszentrum Birkach, 91161 Hilpoltstein', city:'Roth', lat:49.1958, lng:10.9711, tags:['Badesee','Segeln','Familie'], preis:'Kostenlos', oeffnung:'Sommer', web:'', maps:'https://maps.google.com/?q=Rothsee+Hilpoltstein', highlight:'2,1 km² Stausee, 12 km Rundweg, EU-Wasserqualität „ausgezeichnet" – Landkreis Roth' },
+    { name:'Mosbacher Weiher', addr:'Mosbach, 91207 Lauf an der Pegnitz', city:'Lauf a.d. Pegnitz', lat:49.5125, lng:11.2669, tags:['Badesee','Nürnberger Land','Kostenlos'], preis:'Kostenlos', oeffnung:'Sommer (unbewacht)', web:'', maps:'https://maps.google.com/?q=Mosbacher+Weiher+Lauf+Pegnitz', highlight:'Beliebter Badesee im Nürnberger Land – Liegewiesen, Naherholung' },
+    { name:'Kesselfleischweiher Georgensgmünd', addr:'Georgensgmünd, 91166 Georgensgmünd', city:'Roth', lat:49.1942, lng:11.0086, tags:['Badesee','Landkreis Roth','Kostenlos','Naherholung'], preis:'Kostenlos', oeffnung:'Sommer (unbewacht)', web:'', maps:'https://maps.google.com/?q=Kesselfleischweiher+Georgensgmünd', highlight:'Idyllischer Badesee bei Georgensgmünd – Landkreis Roth, ruhige Liegewiesen' },
     // ── Erlangen & Umgebung ──
     { name:'Dechsendorfer Weiher', addr:'Erlangen-Dechsendorf', city:'Erlangen', lat:49.6017, lng:10.9594, tags:['Badesee','Erlangen','Familie'], preis:'Kostenlos', oeffnung:'Sommer (unbewacht)', web:'visit-erlangen.de', maps:'https://maps.google.com/?q=Dechsendorfer+Weiher+Erlangen', highlight:'Bekanntester See in Erlangen – Grillen, Kiosk, Liegewiesen (auf eigene Gefahr)' },
     { name:'Angersee / Baiersdorfer Weiher', addr:'Baiersdorf, 91083 Baiersdorf', city:'Erlangen', lat:49.6572, lng:11.0350, tags:['Badesee','Sandstrand','Erlangen Nähe'], preis:'Kostenlos', oeffnung:'Sommer (unbewacht)', web:'', maps:'https://maps.google.com/?q=Angersee+Baiersdorf', highlight:'Kleiner Sandstrand, grüne Liegewiesen – nordöstlich von Erlangen (auf eigene Gefahr)' },
@@ -901,7 +904,10 @@ function openPlaceModal(idx) {
   // Actions
   const actionsEl = document.getElementById('pm-actions');
   if (actionsEl) {
+    const transitDest = (p.lat && p.lng) ? `${p.lat},${p.lng}` : encodeURIComponent(p.addr || p.name);
+    const transitUrl = `https://www.google.com/maps/dir/?api=1&destination=${transitDest}&travelmode=transit`;
     let acts = `<a href="${p.maps}" target="_blank" rel="noopener" class="pm-action pm-action-maps">📍 In Maps öffnen</a>`;
+    acts += `<a href="${transitUrl}" target="_blank" rel="noopener" class="pm-action pm-action-transit">🚌 Mit ÖPNV hin</a>`;
     if (p.web) acts += `<a href="https://${p.web}" target="_blank" rel="noopener" class="pm-action pm-action-web">🌐 Website besuchen</a>`;
     actionsEl.innerHTML = acts;
   }
