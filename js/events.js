@@ -83,6 +83,7 @@ const COORDS = {
   'Marienbergpark, Nürnberg':[49.461,11.017],'Stadionpark Nürnberg':[49.427,11.122],
   'Zeppelinfeld, Nürnberg':[49.423,11.122],'Pegnitzwiesen, Theodor-Heuss-Brücke':[49.453,11.063],
   'Bootshaus Nürnberg, Dutzendteich':[49.422,11.118],
+  'Große Straße, Nürnberg':[49.426,11.126],
   'Design Offices, Königstorgraben 11, 5. OG':[49.447,11.078],
   // ── München ──
   'München':[48.135,11.582],
@@ -383,6 +384,7 @@ const events = [
   {cat:'weinfest', name:'Weinfest Bad Reichenhall', loc:'Bad Reichenhall – Königlich Bayerischer Kurgarten', start:'2026-08-14', end:'2026-08-16', free:true, desc:'Exklusives Weinfest im Kurgarten von Bad Reichenhall – internationale Weine in elegantem Kurort-Ambiente in den Alpen. Termin 2026 noch nicht bestätigt.', genre:'Weinfest / Kurbad', ticket:'', outdoor:true, ageMin:0, price:'Eintritt', oepnv:'Bahn nach Bad Reichenhall', parking:'Kurort Bad Reichenhall'},
   {cat:'weinfest', name:'Weinfest Schwabmünchen', loc:'Schwabmünchen – Marktplatz', start:'2026-09-11', end:'2026-09-13', free:true, desc:'Herbstliches Weinfest auf dem Marktplatz Schwabmünchen – Weine aus der Region und aus Baden-Württemberg, gemütliche Stimmung. Termin 2026 noch nicht bestätigt.', genre:'Weinfest / Herbst', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'Bahn nach Schwabmünchen', parking:'Marktplatz'},
   {cat:'weinfest', name:'Weinfest Oberstdorf', loc:'Oberstdorf – Allgäu', start:'2026-09-18', end:'2026-09-20', free:true, desc:'Weinfest im Kurort Oberstdorf – internationale Weine mit Blick auf die Allgäuer Alpen. Hochgenuss in einzigartiger Bergkulisse. Termin 2026 noch nicht bestätigt.', genre:'Weinfest / Alpen', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'Bahn nach Oberstdorf', parking:'Kurort Oberstdorf'},
+  {cat:'festival', name:'Black Coffee – Open Air', loc:'Große Straße, Nürnberg', start:'2026-04-30', end:'2026-04-30', free:false, desc:'17–23 Uhr. Grammy-Gewinner Black Coffee (Afro House / Electronic) live auf der Großen Straße am Dutzendteich. Erstes Nürnberg-Konzert der Ibiza-Legende – über 10.000 Besucher erwartet. Strikt ab 18 Jahren, keine Ausnahmen.', genre:'Afro House / Electronic', ticket:'https://blackcoffee.ticket.io/', new:true, outdoor:true, ageMin:18, price:'Tickets auf ticket.io', oepnv:'Tram 6/10 oder U1 bis Frankenstraße', parking:'Parkplatz Zeppelinfeld / Dutzendteich'},
 
 ];
 
