@@ -539,7 +539,6 @@ function eventRowHTML(e) {
       <div class="row-action-btns">
         <button class="row-heart-btn${isSaved?' saved':''}" onclick="event.stopPropagation();toggleWishlist(${idx})" title="Merken">${isSaved?'❤️':'🤍'}</button>
         <button class="row-going-btn${goingList.has(e.name+e.start)?' going':''}" onclick="event.stopPropagation();toggleGoing(${idx})" title="Ich bin dabei">👍</button>
-        ${e.music?`<button class="music-play-btn music-play-btn-row" data-music="${e.music}" onclick="event.stopPropagation();toggleMusic(this,'${e.music}')" title="Musik abspielen">▶</button>`:''}
       </div>
     </div>
     <div class="event-date-col">
@@ -549,7 +548,7 @@ function eventRowHTML(e) {
       ${isMultiDay?`<div style="font-size:9px;color:var(--accent);font-weight:600;margin-top:3px;line-height:1.2;white-space:nowrap">bis ${ed.getDate()}. ${MONTHS_S[ed.getMonth()]}.</div>`:''}
     </div>
     <div class="event-info">
-      <div class="event-name-row">${favHtml}<span class="event-name">${e.name}</span></div>
+      <div class="event-name-row">${favHtml}<span class="event-name">${e.name}</span>${e.music?`<button class="music-play-btn music-play-btn-inline" data-music="${e.music}" onclick="event.stopPropagation();toggleMusic(this,'${e.music}')" title="Musik abspielen">▶</button>`:''}</div>
       <div class="event-loc">📍 ${e.loc}</div>
       <div class="event-meta">
         ${countdownLabel(diff)}

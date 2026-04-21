@@ -419,3 +419,12 @@ html{scrollbar-width:auto;scrollbar-color:#6b7280 #1e2029}
   margin-top: 0;
   border-radius: 50%;
 }
+.music-play-btn-inline {
+  width: 26px; height: 26px;
+  font-size: 10px;
+  margin-top: 0;
+  margin-left: 6px;
+  border-radius: 50%;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
