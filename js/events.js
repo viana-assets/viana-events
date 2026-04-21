@@ -305,7 +305,7 @@ const events = [
 
   // ─── THE GARRISON EVENTS ─────────────────────────────────────────────────
   {cat:'russian', name:'The Garrison Events – Party Night', loc:'Osnabrück', start:'2026-04-18', end:'2026-04-18', free:false, desc:'The Garrison Events – russische Party-Reihe auf Deutschlandtour. Aktuelle Infos auf @the_garrison_events_ (Instagram).', genre:'Russian Party', ticket:'https://linktr.ee/the_garrison_events', outdoor:false, ageMin:18, price:'Infos via Instagram', oepnv:'Bahn nach Osnabrück Hbf', parking:'Vorhanden'},
-  {cat:'privat', name:'Viana Дача Party', loc:'Viana Дача Party Nürnberg', lat:49.38481, lng:11.10000, start:'2026-04-25', end:'2026-04-25', free:true, desc:'Die Viana Gartenparty – ein unvergesslicher Tag für die ganze Community! Shisha, Grillen, Cocktails, Spiele, Sonnen und Kinderbetreuung. Entspannte Atmosphäre im privaten Garten – organisiert von Viana Events.', genre:'Garden Party / Community', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos (Einladung)', oepnv:'Nürnberg ÖPNV', parking:'Vorhanden', viana:true, new:true},
+  {cat:'privat', name:'Viana Дача Party', loc:'Viana Дача Party Nürnberg', music:'assets/music/viana-dacha-party.mp3', lat:49.38481, lng:11.10000, start:'2026-04-25', end:'2026-04-25', free:true, desc:'Die Viana Gartenparty – ein unvergesslicher Tag für die ganze Community! Shisha, Grillen, Cocktails, Spiele, Sonnen und Kinderbetreuung. Entspannte Atmosphäre im privaten Garten – organisiert von Viana Events.', genre:'Garden Party / Community', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos (Einladung)', oepnv:'Nürnberg ÖPNV', parking:'Vorhanden', viana:true, new:true},
   {cat:'russian', name:'The Garrison Events – Party Night', loc:'Kassel', start:'2026-04-25', end:'2026-04-25', free:false, desc:'The Garrison Events – russische Party-Reihe auf Deutschlandtour. Aktuelle Infos auf @the_garrison_events_ (Instagram).', genre:'Russian Party', ticket:'https://linktr.ee/the_garrison_events', outdoor:false, ageMin:18, price:'Infos via Instagram', oepnv:'Bahn nach Kassel Hbf', parking:'Vorhanden'},
   {cat:'russian', name:'The Garrison Events – Party Night', loc:'Kiel', start:'2026-05-02', end:'2026-05-02', free:false, desc:'The Garrison Events – russische Party-Reihe auf Deutschlandtour. Aktuelle Infos auf @the_garrison_events_ (Instagram).', genre:'Russian Party', ticket:'https://linktr.ee/the_garrison_events', outdoor:false, ageMin:18, price:'Infos via Instagram', oepnv:'Bahn nach Kiel Hbf', parking:'Vorhanden'},
   // ─── NEU APRIL 2026 UPDATE ────────────────────────────────────────────
@@ -566,6 +566,7 @@ function eventRowHTML(e) {
       <span class="cat-badge" style="background:${col}">${CAT_LABELS[e.cat]}</span>
       ${pubCount>0?`<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:999px;background:rgba(52,211,153,.1);color:#34d399;border:1px solid rgba(52,211,153,.25)">✅ ${pubCount} dabei</span>`:''}
       ${e.ticket?`<a class="web-row-btn" href="${e.ticket}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🌐</a>`:''}
+      ${e.music?`<button class="music-play-btn" data-music="${e.music}" onclick="event.stopPropagation();toggleMusic(this,'${e.music}')" title="Musik abspielen">▶</button>`:''}
     </div>
   </div>`;
 }
@@ -592,6 +593,7 @@ function eventCardHTML(e) {
       ${e.new?'<span class="badge badge-new">NEU</span>':''}
       ${e.viana?'<span class="viana-badge">⭐ Viana Event</span>':''}
       ${isGoing?'<span class="going-badge">✅ Dabei</span>':''}
+      ${e.music?`<button class="music-play-btn music-play-btn-card" data-music="${e.music}" onclick="event.stopPropagation();toggleMusic(this,'${e.music}')" title="Musik abspielen">▶</button>`:''}
     </div>
   </div>`;
 }
@@ -632,6 +634,55 @@ function render() {
   }).join('');
   cal.querySelectorAll('[data-idx]').forEach(el=>el.addEventListener('click',()=>openModal(parseInt(el.dataset.idx))));
   updateScrollObserver();
+  initVianaSparkles();
+}
+
+/* ── VIANA SPARKLES ── */
+function injectSparkles(container) {
+  container.querySelectorAll('.viana-sparkle').forEach(s=>s.remove());
+  const SHAPES = ['dot','dot','dot','star','star','cross'];
+  const count = 9;
+  for (let i = 0; i < count; i++) {
+    const s = document.createElement('span');
+    const shape = SHAPES[Math.floor(Math.random()*SHAPES.length)];
+    s.className = 'viana-sparkle viana-sparkle-' + shape;
+    const top = 4 + Math.random() * 88;
+    const left = 3 + Math.random() * 93;
+    const dur = (1.4 + Math.random() * 2.2).toFixed(2);
+    const delay = (Math.random() * 4).toFixed(2);
+    const size = (2.5 + Math.random() * 3.5).toFixed(1);
+    s.style.cssText = `top:${top}%;left:${left}%;--dur:${dur}s;--delay:${delay}s;--sz:${size}px`;
+    container.appendChild(s);
+  }
+}
+function initVianaSparkles() {
+  document.querySelectorAll('.viana-event').forEach(el => injectSparkles(el));
+}
+
+/* ── MUSIC PLAYER ── */
+let _audio = null, _activeBtn = null;
+function toggleMusic(btn, src) {
+  if (_audio && !_audio.paused && _activeBtn === btn) {
+    _audio.pause();
+    btn.textContent = '▶';
+    btn.classList.remove('playing');
+    return;
+  }
+  if (_audio) {
+    _audio.pause();
+    if (_activeBtn) { _activeBtn.textContent = '▶'; _activeBtn.classList.remove('playing'); }
+  }
+  _audio = new Audio(src);
+  _audio.volume = 0.75;
+  _activeBtn = btn;
+  btn.textContent = '⏸';
+  btn.classList.add('playing');
+  _audio.play().catch(()=>{});
+  _audio.addEventListener('ended', () => {
+    btn.textContent = '▶';
+    btn.classList.remove('playing');
+    _activeBtn = null;
+  });
 }
 
 function renderMap(filtered) {
