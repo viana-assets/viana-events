@@ -16,6 +16,7 @@
     }
   ],
   "rewrites": [
-    { "source": "/places", "destination": "/places.html" }
+    { "source": "/places", "destination": "/places.html" },
+    { "source": "/vorschlagen", "destination": "/vorschlagen.html" }
   ]
 }
