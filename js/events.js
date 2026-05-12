@@ -117,6 +117,13 @@ const COORDS = {
   'Thalmässing':[49.077,11.212],'Höchstadt an der Aisch':[49.699,10.805],
   'Bad Windsheim':[49.500,10.416],'Ebern':[50.106,10.797],
   'Selb':[50.170,12.133],'Spalt':[49.171,10.929],
+  // ── Neu hinzugefügt KW 20 2026 ──
+  'Georgensgmünd':[49.203,11.013],'Am Bruckespan, Georgensgmünd':[49.203,11.013],
+  'Meistersingerhalle Nürnberg':[49.428,11.092],
+  'Orpheum Nürnberg':[49.455,11.064],
+  'Stadthalle Fürth':[49.475,10.988],
+  'Nürnberg – Meistersingerhalle':[49.428,11.092],
+  'Fürth – Stadthalle':[49.475,10.988],
 };
 
 const familyEvents = [
@@ -177,6 +184,13 @@ const familyEvents = [
   {cat:'messe', name:'electronica – Elektronik (Weltleitmesse)', loc:'München – Messe München', start:'2026-11-10', end:'2026-11-13', free:false, desc:'Weltleitmesse der Elektronik: Halbleiter, Embedded Systems, Sensorik, KI-Hardware. Größte Elektronik-Messe der Welt.', genre:'Weltleitmesse / Elektronik', ticket:'https://www.electronica.de', outdoor:false, ageMin:0, price:'Fachbesucher', oepnv:'U2 bis Messestadt West', parking:'Messe München'},
 
   {cat:'kinder', name:'Kooles Kidz Kino (3K) – Cineplex Fürth', loc:'Fürth – Cineplex', start:'2026-06-07', end:'2026-06-07', free:false, desc:'Kooles Kidz Kino (3K) im Cineplex Fürth – immer am letzten Sonntag in den Ferien. Sonntag, 7. Juni, ab 10:00 Uhr. Kein 3D, reduzierte Lautstärke, ohne Werbung – perfekt für die Kleinsten. Filme: „Meine Freundin Conni – Abenteuer mit Kranich Klaus", „Jazzy – Chaos im Regenwald", „Tom & Jerry – Der verlorene Kompass" u.v.m. Tolles Rahmenprogramm: Glücksrad, Kinderschminken, Kinoquiz und vieles mehr.', genre:'Kinderkino / Familie', ticket:'https://www.cineplex.de', new:true, outdoor:false, ageMin:0, price:'5€ Onlineticket / 6€ Kinokasse', oepnv:'U1 Fürth Hauptbahnhof, kurzer Fußweg', parking:'Parkhaus City-Center Fürth'},
+
+  // ── KW 20 2026 – Russische Kulturevents (Family) ──
+  {cat:'family', name:'Spektakl „Skameika" – Russisches Theater', loc:'Nürnberg – Meistersingerhalle', start:'2026-05-29', end:'2026-05-29', free:false, desc:'„Skameika" (Die Bank) von Alexander Gelmann – legendäres Kammerstück auf der deutschen Bühne. Über Liebe, Einsamkeit und Sehnsucht nach menschlicher Nähe. Russischsprachige Aufführung. 19:30 Uhr, Meistersingerhalle Nürnberg.', genre:'Russisches Theater / Drama', ticket:'https://nuernberg24.ru/en/event', outdoor:false, ageMin:14, price:'Tickets via nuernberg24.ru', oepnv:'U2 bis Messe/Stadion oder Tram 9', parking:'Parkplatz Meistersingerhalle'},
+  {cat:'family', name:'Irina Prikhodko – Stand-up „Mein Tag"', loc:'Orpheum Nürnberg', start:'2026-05-29', end:'2026-05-29', free:false, desc:'Irina Prikhodko auf Europatournee mit der Premiere ihres deutschen Stand-up-Programms „Mein Tag" – über das Leben im Ausland, Sprachen und Kulturunterschiede. 20:00 Uhr, Orpheum Nürnberg.', genre:'Russischer Stand-up / Comedy', ticket:'https://nuernberg24.ru/en/event/9531', outdoor:false, ageMin:16, price:'Tickets via nuernberg24.ru', oepnv:'U1 Hauptbahnhof oder Tram 4', parking:'Parkhaus Hauptbahnhof'},
+  {cat:'family', name:'„Abendessen für Idioten" – Russisches Theater', loc:'Fürth – Stadthalle', start:'2026-06-01', end:'2026-06-01', free:false, desc:'Komödie „Abendessen für Idioten" nach Francis Véber – kultige russische Comedy-Aufführung mit internationalem Ensemble. 19:00 Uhr, Stadthalle Fürth.', genre:'Russisches Theater / Komödie', ticket:'https://nuernberg24.ru/en/event/9423', outdoor:false, ageMin:14, price:'Tickets via nuernberg24.ru', oepnv:'U1 Fürth Hauptbahnhof, 5 min Fußweg', parking:'Parkhaus Fürth Innenstadt'},
+  {cat:'family', name:'Лучшие песни группы „КИНО" – Symphonic Concert', loc:'Fürth – Stadthalle', start:'2026-12-03', end:'2026-12-03', free:false, desc:'Die besten Songs der Kultband „KINO" (Viktor Tsoi) mit dem Tschechischen Symphonieorchester (Czech Live Symphony Orchestra). Ein unvergesslicher Abend für alle Fans russischer Rockmusik. 20:00 Uhr, Stadthalle Fürth.', genre:'Russische Rockmusik / Symphoniekonzert', ticket:'https://nuernberg24.ru/en/event/9187', outdoor:false, ageMin:0, price:'Tickets via nuernberg24.ru', oepnv:'U1 Fürth Hauptbahnhof, 5 min Fußweg', parking:'Parkhaus Fürth Innenstadt'},
+  {cat:'family', name:'Theatre The Chaika – Festliches Programm', loc:'Fürth – Stadthalle', start:'2026-12-14', end:'2026-12-14', free:false, desc:'Theatre THE CHAIKA lädt ein zu einer lebhaften Aufführung mit festlicher Atmosphäre – ein wunderbarer Abend für die ganze Familie vor den Feiertagen. 19:30 Uhr, Stadthalle Fürth.', genre:'Russisches Theater / Familie', ticket:'https://nuernberg24.ru/en/event/9442', outdoor:false, ageMin:0, price:'Tickets via nuernberg24.ru', oepnv:'U1 Fürth Hauptbahnhof, 5 min Fußweg', parking:'Parkhaus Fürth Innenstadt'},
 ];
 
 
@@ -470,6 +484,13 @@ const events = [
   {cat:'volksfest', name:'175. Brucker Volksfest (Frühlingsfest)', loc:'Fürstenfeldbruck – Volksfestplatz', start:'2026-04-24', end:'2026-05-03', free:true, desc:'175. Brucker Volksfest auf dem Volksfestplatz Fürstenfeldbruck – 10 Tage Festsaisonauftakt, Bierzelte, Fahrgeschäfte, Tradition und Gemeinschaft.', genre:'Volksfest / Frühlingsfest', ticket:'https://www.fuerstenfeldbruck.de', new:true, outdoor:true, ageMin:0, price:'Eintritt frei', oepnv:'S4 bis Fürstenfeldbruck', parking:'Volksfestplatz FFB'},
   {cat:'volksfest', name:'Spalter Volksfest („O\'zapft is")', loc:'Spalt', start:'2026-05-13', end:'2026-05-17', free:true, desc:'Spalter Volksfest in der Hopfen- und Bierstadt Spalt – Mi 13. bis So 17. Mai 2026. Festlich geschmücktes Festzelt mit großem Barbereich, Live-Musik und attraktiven Fahrgeschäften.', genre:'Volksfest / Bier', ticket:'https://spalt-tourismus.de', new:true, outdoor:true, ageMin:0, price:'Eintritt frei', oepnv:'Bus ab Roth', parking:'Vor Ort'},
   {cat:'kaerwa', name:'Spalter Wirtshauskirchweih', loc:'Spalt – Innenstadt', start:'2026-10-16', end:'2026-10-19', free:true, desc:'Traditionelle Spalter Wirtshauskirchweih in der Hopfen- und Bierstadt – 4 Tage Genuss, Kultur & Musik in den Spalter Wirtshäusern.', genre:'Kirchweih / Bier / Kultur', ticket:'https://spalt-tourismus.de', new:true, outdoor:false, ageMin:0, price:'Eintritt frei', oepnv:'Bus ab Roth', parking:'Vor Ort'},
+
+  // ── KW 20 2026 Update ──
+  {cat:'festival', name:'Thai Food Festival Georgensgmünd', loc:'Am Bruckespan, Georgensgmünd', start:'2026-07-18', end:'2026-07-19', free:true, desc:'Thai Food Festival am Gelände Am Bruckespan in Georgensgmünd – authentische Thai-Küche, Thai Street Food und kulturelle Darbietungen. Kulinarisches Wochenendfestival im Landkreis Roth, ca. 30 km südlich von Nürnberg.', genre:'Food Festival / Thai Kultur', ticket:'', outdoor:true, ageMin:0, price:'Eintritt voraussichtlich frei', oepnv:'S-Bahn S1 bis Roth, dann Bus Richtung Georgensgmünd', parking:'Vor Ort am Gelände'},
+
+  // Fehlende Nürnberger Kärwa
+  {cat:'kaerwa', name:'Kleinreuth b. Schweinau Kirchweih', loc:'Nürnberg-Kleinreuth', start:'2026-07-03', end:'2026-07-06', free:true, desc:'Traditionelle Stadtteil-Kärwa in Kleinreuth bei Schweinau.', genre:'Kärwa', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'Bus ab Nürnberg Hbf', parking:'Straße'},
+
 
 ];
 
@@ -1285,7 +1306,6 @@ document.getElementById('wl-copy-link').addEventListener('click',()=>{
   showToast('📋 Liste kopiert!');
 });
 
-document.getElementById('modal-bg').addEventListener('click',e=>{if(e.target===document.getElementById('modal-bg')){document.getElementById('modal-bg').classList.remove('open');history.replaceState(null,'',location.pathname);}});
 document.getElementById('modal-close').addEventListener('click',()=>{document.getElementById('modal-bg').classList.remove('open');history.replaceState(null,'',location.pathname);});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('modal-bg').classList.remove('open');document.getElementById('wishlist-panel').classList.remove('open');history.replaceState(null,'',location.pathname);}});
 
