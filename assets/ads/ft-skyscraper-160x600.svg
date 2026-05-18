@@ -1,0 +1,87 @@
+<svg viewBox="0 0 160 600" width="160" height="600" xmlns="http://www.w3.org/2000/svg" font-family="'DM Sans', Arial, sans-serif">
+  <!-- Hintergrund -->
+  <rect width="160" height="600" fill="#16181f" rx="10"/>
+  <rect width="160" height="600" fill="none" stroke="rgba(91,143,249,0.25)" stroke-width="1" rx="10"/>
+  <!-- Top-Glow blau -->
+  <ellipse cx="80" cy="-10" rx="90" ry="60" fill="rgba(91,143,249,0.08)"/>
+
+  <!-- Zahnrad-Icon -->
+  <g transform="translate(80,72)">
+    <!-- Äußerer Zahnkranz -->
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#5b8ff9" stroke-width="4"/>
+    <circle cx="0" cy="0" r="18" fill="none" stroke="#5b8ff9" stroke-width="3"/>
+    <circle cx="0" cy="0" r="6" fill="#5b8ff9"/>
+    <!-- Zähne -->
+    <rect x="-5" y="-38" width="10" height="10" rx="2" fill="#5b8ff9"/>
+    <rect x="-5" y="28"  width="10" height="10" rx="2" fill="#5b8ff9"/>
+    <rect x="-38" y="-5" width="10" height="10" rx="2" fill="#5b8ff9"/>
+    <rect x="28"  y="-5" width="10" height="10" rx="2" fill="#5b8ff9"/>
+    <!-- Diagonale Zähne (gedreht) -->
+    <g transform="rotate(45)">
+      <rect x="-5" y="-38" width="10" height="10" rx="2" fill="#5b8ff9"/>
+      <rect x="-5" y="28"  width="10" height="10" rx="2" fill="#5b8ff9"/>
+      <rect x="-38" y="-5" width="10" height="10" rx="2" fill="#5b8ff9"/>
+      <rect x="28"  y="-5" width="10" height="10" rx="2" fill="#5b8ff9"/>
+    </g>
+    <!-- Speichen -->
+    <line x1="0" y1="-18" x2="0"  y2="-30" stroke="#5b8ff9" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="0" y1="18"  x2="0"  y2="30"  stroke="#5b8ff9" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-18" y1="0" x2="-30" y2="0"  stroke="#5b8ff9" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="18"  y1="0" x2="30"  y2="0"  stroke="#5b8ff9" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Trennlinie -->
+  <line x1="20" y1="130" x2="140" y2="130" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Firmenname -->
+  <text x="80" y="156" text-anchor="middle" fill="#f1f2f4" font-size="14" font-weight="800" font-family="'Syne', Arial, sans-serif" letter-spacing="-0.3">FÖRDER</text>
+  <text x="80" y="174" text-anchor="middle" fill="#5b8ff9" font-size="14" font-weight="800" font-family="'Syne', Arial, sans-serif" letter-spacing="-0.3">TECHNIK</text>
+  <text x="80" y="190" text-anchor="middle" fill="#9ca3af" font-size="10" font-weight="500">Wartung &amp; Service</text>
+
+  <!-- Trennlinie -->
+  <line x1="20" y1="204" x2="140" y2="204" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Claim -->
+  <text x="80" y="224" text-anchor="middle" fill="#9ca3af" font-size="10.5">Wir halten Ihre</text>
+  <text x="80" y="240" text-anchor="middle" fill="#9ca3af" font-size="10.5">Technik am Laufen!</text>
+
+  <!-- Trennlinie -->
+  <line x1="20" y1="254" x2="140" y2="254" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Services -->
+  <rect x="14" y="263" width="132" height="24" rx="6" fill="rgba(255,255,255,0.04)"/>
+  <text x="26" y="279" fill="#d1d5db" font-size="11">⚙️ Wartung</text>
+
+  <rect x="14" y="291" width="132" height="24" rx="6" fill="rgba(255,255,255,0.04)"/>
+  <text x="26" y="307" fill="#d1d5db" font-size="11">🔧 Service</text>
+
+  <rect x="14" y="319" width="132" height="24" rx="6" fill="rgba(255,255,255,0.04)"/>
+  <text x="26" y="335" fill="#d1d5db" font-size="11">🛠️ Reparatur</text>
+
+  <rect x="14" y="347" width="132" height="24" rx="6" fill="rgba(255,255,255,0.04)"/>
+  <text x="26" y="363" fill="#d1d5db" font-size="11">📋 Förderbänder</text>
+
+  <!-- Trennlinie -->
+  <line x1="20" y1="385" x2="140" y2="385" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Region + Reichweite -->
+  <text x="80" y="402" text-anchor="middle" fill="#6b7280" font-size="10">📍 Nürnberg</text>
+  <text x="80" y="416" text-anchor="middle" fill="#6b7280" font-size="10">Deutschlandweit &amp; DACH</text>
+
+  <!-- Telefon -->
+  <text x="80" y="437" text-anchor="middle" fill="#5b8ff9" font-size="11.5" font-weight="600">☎ 0911 / 48916966</text>
+
+  <!-- Trennlinie -->
+  <line x1="20" y1="451" x2="140" y2="451" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- CTA Button -->
+  <rect x="14" y="461" width="132" height="40" rx="9" fill="#5b8ff9"/>
+  <text x="80" y="486" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700" font-family="'DM Sans', Arial, sans-serif">Termin buchen →</text>
+
+  <!-- Website -->
+  <text x="80" y="524" text-anchor="middle" fill="#6b7280" font-size="8.5">foerdertechnik-wartung-</text>
+  <text x="80" y="536" text-anchor="middle" fill="#6b7280" font-size="8.5">und-service.de</text>
+
+  <!-- Anzeige-Label -->
+  <text x="80" y="554" text-anchor="middle" fill="rgba(107,114,128,0.5)" font-size="8" letter-spacing="0.08em">ANZEIGE</text>
+</svg>

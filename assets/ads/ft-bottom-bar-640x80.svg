@@ -1,0 +1,23 @@
+<svg viewBox="0 0 640 80" width="640" height="80" xmlns="http://www.w3.org/2000/svg" font-family="'DM Sans', Arial, sans-serif">
+  <rect width="640" height="80" fill="#16181f"/>
+  <line x1="0" y1="0" x2="640" y2="0" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+
+  <!-- Zahnrad-Icon -->
+  <g transform="translate(44,40)">
+    <circle cx="0" cy="0" r="22" fill="none" stroke="#5b8ff9" stroke-width="3"/>
+    <circle cx="0" cy="0" r="13" fill="none" stroke="#5b8ff9" stroke-width="2"/>
+    <circle cx="0" cy="0" r="4"  fill="#5b8ff9"/>
+    <rect x="-4" y="-29" width="8" height="8" rx="1.5" fill="#5b8ff9"/>
+    <rect x="-4" y="21"  width="8" height="8" rx="1.5" fill="#5b8ff9"/>
+    <rect x="-29" y="-4" width="8" height="8" rx="1.5" fill="#5b8ff9"/>
+    <rect x="21"  y="-4" width="8" height="8" rx="1.5" fill="#5b8ff9"/>
+  </g>
+
+  <line x1="80" y1="16" x2="80" y2="64" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+  <text x="96" y="33" fill="#f1f2f4" font-size="14" font-weight="700" font-family="'Syne', Arial, sans-serif">Fördertechnik Wartung &amp; Service</text>
+  <text x="96" y="52" fill="#9ca3af" font-size="11">Wir halten Ihre Technik am Laufen · Nürnberg · Deutschlandweit · ☎ 0911 48916966</text>
+
+  <rect x="446" y="20" width="164" height="40" rx="9" fill="#5b8ff9"/>
+  <text x="528" y="45" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700">Termin buchen →</text>
+</svg>

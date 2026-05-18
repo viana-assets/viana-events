@@ -1,0 +1,31 @@
+<svg viewBox="0 0 160 600" width="160" height="600" xmlns="http://www.w3.org/2000/svg" font-family="'DM Sans', Arial, sans-serif">
+  <rect width="160" height="600" fill="#16181f" rx="10"/>
+  <rect width="160" height="600" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1" rx="10"/>
+  <rect x="0" y="0" width="160" height="600" fill="none" stroke="rgba(232,150,58,0.15)" stroke-width="1" stroke-dasharray="6,4" rx="10"/>
+
+  <!-- Icon -->
+  <text x="80" y="200" text-anchor="middle" font-size="42">📣</text>
+
+  <!-- Headline -->
+  <text x="80" y="248" text-anchor="middle" fill="#f1f2f4" font-size="13" font-weight="700" font-family="'Syne', Arial, sans-serif">Ihre Werbung</text>
+  <text x="80" y="266" text-anchor="middle" fill="#f1f2f4" font-size="13" font-weight="700" font-family="'Syne', Arial, sans-serif">hier schalten</text>
+
+  <line x1="30" y1="282" x2="130" y2="282" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <text x="80" y="304" text-anchor="middle" fill="#6b7280" font-size="10.5">Tausende Event-Besucher</text>
+  <text x="80" y="320" text-anchor="middle" fill="#6b7280" font-size="10.5">aus Nürnberg, Fürth,</text>
+  <text x="80" y="336" text-anchor="middle" fill="#6b7280" font-size="10.5">Erlangen &amp; Umgebung</text>
+
+  <line x1="30" y1="352" x2="130" y2="352" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <text x="80" y="373" text-anchor="middle" fill="#9ca3af" font-size="10">Ab € 100 / Monat</text>
+
+  <!-- E-Mail -->
+  <text x="80" y="400" text-anchor="middle" fill="#e8963a" font-size="10" font-weight="600">info@viana-assets.com</text>
+
+  <!-- CTA Button -->
+  <rect x="14" y="418" width="132" height="38" rx="8" fill="rgba(232,150,58,0.15)" stroke="rgba(232,150,58,0.4)" stroke-width="1"/>
+  <text x="80" y="441" text-anchor="middle" fill="#e8963a" font-size="12" font-weight="700">Jetzt anfragen →</text>
+
+  <text x="80" y="548" text-anchor="middle" fill="rgba(107,114,128,0.5)" font-size="8" letter-spacing="0.08em">ANZEIGE</text>
+</svg>

@@ -590,12 +590,16 @@ function getPublicCount(e) { return publicCounts[eventKey(e)] || 0; }
 let activeFilters=new Set(['alle']), searchTerm='', viewMode='list', quickFilter='alle', sortMode='date', leafletMap=null, showPast=false;
 let appMode = 'party'; // 'party' | 'family'
 
+// Kategorien die zu Family verschoben wurden – in Party ausblenden
+const FAMILY_ONLY_CATS = new Set(['volksfest', 'weinfest', 'kaerwa']);
+
 function getActiveEvents() {
   if (appMode === 'family') {
-    const extras = events.filter(e => e.cat === 'volksfest' || e.cat === 'weinfest');
+    const extras = events.filter(e => FAMILY_ONLY_CATS.has(e.cat));
     return [...familyEvents, ...extras];
   }
-  return events;
+  // Party-Modus: Family-Kategorien rausfiltern
+  return events.filter(e => !FAMILY_ONLY_CATS.has(e.cat));
 }
 let wishlist = new Set(JSON.parse(localStorage.getItem('viana_wl')||'[]'));
 let goingList = new Set(JSON.parse(localStorage.getItem('viana_going')||'[]'));
@@ -619,7 +623,9 @@ function getFiltered() {
   const q=searchTerm.toLowerCase(), today=new Date();today.setHours(0,0,0,0);
   const allFiltered_pre = sourceEvents.filter(e => showPast || new Date(e.end) >= today);
   let filtered=allFiltered_pre.filter(e=>{
-    const matchCat=appMode==='family'?(familyFilter==='alle'||e.cat===familyFilter):(activeFilters.has('alle')?true:(activeFilters.has(e.cat)||(activeFilters.has('volksfest')&&(e.cat==='kaerwa'||e.cat==='bierfest'))));
+    const matchCat=appMode==='family'
+      ?(familyFilter==='alle'||(familyFilter==='volksfest'?(e.cat==='volksfest'||e.cat==='kaerwa'):e.cat===familyFilter))
+      :(activeFilters.has('alle')?true:(activeFilters.has(e.cat)));
     const matchSearch=!q||e.name.toLowerCase().includes(q)||e.loc.toLowerCase().includes(q)||(e.genre||'').toLowerCase().includes(q)||(e.desc||'').toLowerCase().includes(q);
     let matchQuick=true;
     if(quickFilter==='today') matchQuick=isToday(e.start);
@@ -738,27 +744,52 @@ window.togglePast = togglePast;
    Erscheint alle 10 Events in der Liste (nur auf Mobile < 1024px sichtbar).
    Zum Anpassen: href, Emoji/img, Titel, Beschreibung und CTA-Text ändern.
    ─────────────────────────────────────────────────────────────────────────── */
+// ── WERBEKUNDEN-POOL ──────────────────────────────────────────────────────────
+// Für neuen Kunden: Eintrag hinzufügen, fertig.
+const AD_CLIENTS = [
+  {
+    href:  'https://mobil-reifen-wechseln.de/',
+    img:   'assets/ads/mrw-infeed-600x80.svg',
+    alt:   'Mobiler Reifenwechsel – Direkt bei Ihnen vor Ort',
+    barImg:'assets/ads/mrw-bottom-bar-640x80.svg',
+    barAlt:'Mobiler Reifenwechsel – Termin buchen',
+  },
+  {
+    href:  'https://foerdertechnik-wartung-und-service.de/',
+    img:   'assets/ads/ft-infeed-600x80.svg',
+    alt:   'Fördertechnik Wartung & Service – Nürnberg',
+    barImg:'assets/ads/ft-bottom-bar-640x80.svg',
+    barAlt:'Fördertechnik Wartung & Service – Termin buchen',
+  },
+];
+
+// In-Feed: abwechselnd Kunde 1 → Kunde 2 → Kunde 1 → …
+let _inFeedAdIdx = 0;
 function inFeedAdHTML() {
+  const client = AD_CLIENTS[_inFeedAdIdx % AD_CLIENTS.length];
+  _inFeedAdIdx++;
   return `<div class="ad-infeed" aria-label="Werbung">
-    <span class="ad-infeed-label">Anzeige</span>
-    <a href="mailto:info@viana-events.de?subject=Werbung%20anfragen"
-       class="ad-infeed-inner" target="_blank" rel="noopener">
-      <!-- Logo/Bild: Emoji durch <img src="..."> ersetzen wenn Kunde gebucht hat -->
-      <div class="ad-infeed-img">📣</div>
-      <div class="ad-infeed-body">
-        <div class="ad-infeed-title">Hier könnte Ihre Werbung stehen</div>
-        <div class="ad-infeed-desc">Werbefläche direkt im Event-Feed – sehen Sie tausende Nutzer täglich.</div>
-      </div>
-      <span class="ad-infeed-cta">Anfragen</span>
+    <a href="${client.href}" target="_blank" rel="noopener sponsored" style="display:block;text-decoration:none">
+      <img src="${client.img}" alt="${client.alt}"
+           style="width:100%;height:auto;display:block;border-radius:10px">
     </a>
   </div>`;
 }
 
-/* ── BOTTOM BAR CLOSE ────────────────────────────────────────────────────── */
+/* ── BOTTOM BAR: zufälligen Kunden laden + Close ────────────────────────── */
 (function initBottomBar() {
   const bar = document.getElementById('ad-bottom-bar');
   const closeBtn = document.getElementById('ad-bottom-bar-close');
-  if (!bar || !closeBtn) return;
+  const link = bar ? bar.querySelector('a') : null;
+  const img  = bar ? bar.querySelector('img') : null;
+  if (!bar || !closeBtn || !link || !img) return;
+
+  // Zufällig einen Kunden wählen
+  const client = AD_CLIENTS[Math.floor(Math.random() * AD_CLIENTS.length)];
+  link.href = client.href;
+  img.src   = client.barImg;
+  img.alt   = client.barAlt;
+
   // Body-Padding setzen damit Content nicht verdeckt wird
   document.body.classList.add('has-bottom-ad');
   closeBtn.addEventListener('click', () => {

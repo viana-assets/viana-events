@@ -1,0 +1,27 @@
+<svg viewBox="0 0 600 80" width="600" height="80" xmlns="http://www.w3.org/2000/svg" font-family="'DM Sans', Arial, sans-serif">
+  <rect width="600" height="80" fill="#16181f" rx="10"/>
+  <rect width="600" height="80" fill="none" stroke="rgba(91,143,249,0.25)" stroke-width="1" stroke-dasharray="4,4" rx="10"/>
+  <rect x="0" y="0" width="3" height="80" fill="#5b8ff9" rx="3"/>
+
+  <!-- Zahnrad -->
+  <g transform="translate(44,40)">
+    <circle cx="0" cy="0" r="22" fill="none" stroke="#5b8ff9" stroke-width="3"/>
+    <circle cx="0" cy="0" r="13" fill="none" stroke="#5b8ff9" stroke-width="2"/>
+    <circle cx="0" cy="0" r="4"  fill="#5b8ff9"/>
+    <rect x="-4" y="-29" width="8" height="8" rx="1.5" fill="#5b8ff9"/>
+    <rect x="-4" y="21"  width="8" height="8" rx="1.5" fill="#5b8ff9"/>
+    <rect x="-29" y="-4" width="8" height="8" rx="1.5" fill="#5b8ff9"/>
+    <rect x="21"  y="-4" width="8" height="8" rx="1.5" fill="#5b8ff9"/>
+  </g>
+
+  <line x1="80" y1="16" x2="80" y2="64" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+  <text x="96" y="30" fill="#f1f2f4" font-size="14" font-weight="700" font-family="'Syne', Arial, sans-serif">Fördertechnik Wartung &amp; Service</text>
+  <text x="96" y="48" fill="#9ca3af" font-size="11">Wartung, Service &amp; Reparatur von Fördersystemen – deutschlandweit.</text>
+  <text x="96" y="63" fill="#6b7280" font-size="10">📍 Nürnberg    ☎ 0911 / 48916966    foerdertechnik-wartung-und-service.de</text>
+
+  <rect x="456" y="22" width="120" height="36" rx="8" fill="#5b8ff9"/>
+  <text x="516" y="45" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">Termin →</text>
+
+  <text x="590" y="11" text-anchor="end" fill="rgba(107,114,128,0.5)" font-size="8" letter-spacing="0.08em">ANZEIGE</text>
+</svg>
