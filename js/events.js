@@ -98,6 +98,9 @@ const COORDS = {
   'Neustadt/Aisch':[49.582,10.610],
   'Cineplex Fürth':[49.477,10.988],
   'Fürth – Cineplex':[49.477,10.988],
+  'PARKS Nürnberg':[49.460,11.090],
+  'PARKS Nürnberg (Stadtpark, Berliner Platz 9)':[49.460,11.090],
+  'Nürnberg – PARKS Stadtpark':[49.460,11.090],
   // ── München ──
   'München':[48.135,11.582],
   'München – Traumhänger Open Air':[48.135,11.582],
@@ -520,6 +523,18 @@ const events = [
   // Neue Russian Events
   {cat:'russian', name:'Ilya Akselrod – Stand-up Nürnberg', loc:'Orpheum Nürnberg', start:'2026-11-29', end:'2026-11-29', free:false, desc:'Ilya Akselrod auf Deutschlandtour mit neuem Stand-up-Programm. Humor, lebhafte Geschichten und einzigartige Energy – ein Abend, den man nicht verpassen sollte. 20:00 Uhr, Orpheum Nürnberg.', genre:'Russian Stand-up / Comedy', ticket:'https://nuernberg24.ru/en/event/9436', outdoor:false, ageMin:16, price:'Tickets via nuernberg24.ru', oepnv:'U1 Hauptbahnhof oder Tram 4', parking:'Parkhaus Hauptbahnhof'},
 
+  // ─── 🎉 AFTER WORK PARTY – SUMMER EDITION 2026 @ PARKS NÜRNBERG ──
+  {cat:'afterwork', name:'After Work Party – Summer Edition #1 (Season Opening)', loc:'PARKS Nürnberg (Stadtpark, Berliner Platz 9)', start:'2026-05-07', end:'2026-05-08', free:false, desc:'Saison-Opening der After Work Party Summer Edition im PARKS Nürnberg. House Musik mit DJ Werner & Marc Vuelta & Friends im Sommergarten. Donnerstag-Abend im Stadtpark. 18:00–01:00 Uhr.', genre:'House / After Work / Sommergarten', ticket:'https://www.parks-nuernberg.de/ticketshop/', new:true, outdoor:true, ageMin:18, price:'5€', oepnv:'U2/U3 Rathenauplatz · Bus zum Stadtpark', parking:'Parkhäuser Innenstadt'},
+  {cat:'afterwork', name:'After Work Party – Summer Edition #2', loc:'PARKS Nürnberg (Stadtpark, Berliner Platz 9)', start:'2026-05-21', end:'2026-05-22', free:false, desc:'After Work Party Summer Edition im PARKS Nürnberg. House Musik mit DJ Werner im Sommergarten. Donnerstag (Vorabend Christi Himmelfahrt), 18:00–01:00 Uhr.', genre:'House / After Work / Sommergarten', ticket:'https://www.parks-nuernberg.de/events/after-work-party-summer-edition-2/', new:true, outdoor:true, ageMin:18, price:'5€', oepnv:'U2/U3 Rathenauplatz · Bus zum Stadtpark', parking:'Parkhäuser Innenstadt'},
+  {cat:'afterwork', name:'After Work Party – Summer FESTIVAL Edition', loc:'PARKS Nürnberg (Stadtpark, Berliner Platz 9)', start:'2026-06-04', end:'2026-06-05', free:false, desc:'Festival Edition! Bereits ab 14:00 Uhr Programm, ab 18:00 Uhr Party-Bühne. House Musik mit DJ Werner, Marc Alexander Wirtz & Friends, dazu Streetbunny Crew x DJ Wombat Filistine. Bis 01:00 Uhr im PARKS Stadtpark.', genre:'House / Festival / Open Air', ticket:'https://www.parks-nuernberg.de/events/after-work-party-festival-edition/', new:true, outdoor:true, ageMin:18, price:'5€', oepnv:'U2/U3 Rathenauplatz · Bus zum Stadtpark', parking:'Parkhäuser Innenstadt'},
+  {cat:'afterwork', name:'After Work Party – Summer Edition #4', loc:'PARKS Nürnberg (Stadtpark, Berliner Platz 9)', start:'2026-06-18', end:'2026-06-19', free:false, desc:'After Work Party Summer Edition im PARKS Nürnberg. House Musik mit DJ Werner im Sommergarten. 18:00–01:00 Uhr.', genre:'House / After Work / Sommergarten', ticket:'https://www.parks-nuernberg.de/events/after-work-party-summer-edition-3/', new:true, outdoor:true, ageMin:18, price:'5€', oepnv:'U2/U3 Rathenauplatz · Bus zum Stadtpark', parking:'Parkhäuser Innenstadt'},
+  {cat:'afterwork', name:'After Work Party – Summer Edition #5', loc:'PARKS Nürnberg (Stadtpark, Berliner Platz 9)', start:'2026-07-09', end:'2026-07-10', free:false, desc:'After Work Party Summer Edition im PARKS Nürnberg. House Musik mit DJ Werner im Sommergarten. 18:00–01:00 Uhr.', genre:'House / After Work / Sommergarten', ticket:'https://www.parks-nuernberg.de/events/after-work-party-summer-edition-4/', new:true, outdoor:true, ageMin:18, price:'5€', oepnv:'U2/U3 Rathenauplatz · Bus zum Stadtpark', parking:'Parkhäuser Innenstadt'},
+  {cat:'afterwork', name:'After Work Party – Summer Edition #6', loc:'PARKS Nürnberg (Stadtpark, Berliner Platz 9)', start:'2026-07-30', end:'2026-07-31', free:false, desc:'After Work Party Summer Edition im PARKS Nürnberg. House Musik mit DJ Werner im Sommergarten. 18:00–01:00 Uhr.', genre:'House / After Work / Sommergarten', ticket:'https://www.parks-nuernberg.de/events/after-work-party-summer-edition-5/', new:true, outdoor:true, ageMin:18, price:'5€', oepnv:'U2/U3 Rathenauplatz · Bus zum Stadtpark', parking:'Parkhäuser Innenstadt'},
+  {cat:'afterwork', name:'After Work Party – Summer Edition SPECIAL', loc:'PARKS Nürnberg (Stadtpark, Berliner Platz 9)', start:'2026-08-13', end:'2026-08-14', free:false, desc:'After Work Party SPECIAL im PARKS Nürnberg. House Musik mit DJ Werner im Sommergarten. Vorabend Mariä Himmelfahrt – verlängertes Wochenende! 18:00–01:00 Uhr.', genre:'House / After Work / Sommergarten', ticket:'https://www.parks-nuernberg.de/events/after-work-party-summer-edition-special/', new:true, outdoor:true, ageMin:18, price:'5€', oepnv:'U2/U3 Rathenauplatz · Bus zum Stadtpark', parking:'Parkhäuser Innenstadt'},
+  {cat:'afterwork', name:'After Work Party – Summer Edition #8', loc:'PARKS Nürnberg (Stadtpark, Berliner Platz 9)', start:'2026-08-27', end:'2026-08-28', free:false, desc:'After Work Party Summer Edition im PARKS Nürnberg. House Musik mit DJ Werner im Sommergarten. 18:00–01:00 Uhr.', genre:'House / After Work / Sommergarten', ticket:'https://www.parks-nuernberg.de/events/after-work-party-summer-edition-6/', new:true, outdoor:true, ageMin:18, price:'5€', oepnv:'U2/U3 Rathenauplatz · Bus zum Stadtpark', parking:'Parkhäuser Innenstadt'},
+  {cat:'afterwork', name:'After Work Party – Summer Edition #9', loc:'PARKS Nürnberg (Stadtpark, Berliner Platz 9)', start:'2026-09-10', end:'2026-09-11', free:false, desc:'After Work Party Summer Edition im PARKS Nürnberg. House Musik mit DJ Werner im Sommergarten. 18:00–01:00 Uhr.', genre:'House / After Work / Sommergarten', ticket:'https://www.parks-nuernberg.de/events/after-work-party-summer-edition-7/', new:true, outdoor:true, ageMin:18, price:'5€', oepnv:'U2/U3 Rathenauplatz · Bus zum Stadtpark', parking:'Parkhäuser Innenstadt'},
+  {cat:'afterwork', name:'After Work Party – Summer Edition #10 (Saison-Finale)', loc:'PARKS Nürnberg (Stadtpark, Berliner Platz 9)', start:'2026-09-24', end:'2026-09-25', free:false, desc:'Saison-Finale der After Work Party Summer Edition im PARKS Nürnberg. House Musik mit DJ Werner im Sommergarten. 18:00–01:00 Uhr.', genre:'House / After Work / Sommergarten', ticket:'https://www.parks-nuernberg.de/events/after-work-party-summer-edition-8/', new:true, outdoor:true, ageMin:18, price:'5€', oepnv:'U2/U3 Rathenauplatz · Bus zum Stadtpark', parking:'Parkhäuser Innenstadt'},
+
 ];
 
 const sonsigeEvents = []; // Leer – Messen sind jetzt unter Family
@@ -576,7 +591,10 @@ let activeFilters=new Set(['alle']), searchTerm='', viewMode='list', quickFilter
 let appMode = 'party'; // 'party' | 'family'
 
 function getActiveEvents() {
-  if (appMode === 'family') return familyEvents;
+  if (appMode === 'family') {
+    const extras = events.filter(e => e.cat === 'volksfest' || e.cat === 'weinfest');
+    return [...familyEvents, ...extras];
+  }
   return events;
 }
 let wishlist = new Set(JSON.parse(localStorage.getItem('viana_wl')||'[]'));
@@ -601,7 +619,7 @@ function getFiltered() {
   const q=searchTerm.toLowerCase(), today=new Date();today.setHours(0,0,0,0);
   const allFiltered_pre = sourceEvents.filter(e => showPast || new Date(e.end) >= today);
   let filtered=allFiltered_pre.filter(e=>{
-    const matchCat=activeFilters.has('alle')?true:appMode==='family'?(familyFilter==='alle'||e.cat===familyFilter):(activeFilters.has(e.cat)||(activeFilters.has('volksfest')&&(e.cat==='kaerwa'||e.cat==='bierfest')));
+    const matchCat=appMode==='family'?(familyFilter==='alle'||e.cat===familyFilter):(activeFilters.has('alle')?true:(activeFilters.has(e.cat)||(activeFilters.has('volksfest')&&(e.cat==='kaerwa'||e.cat==='bierfest'))));
     const matchSearch=!q||e.name.toLowerCase().includes(q)||e.loc.toLowerCase().includes(q)||(e.genre||'').toLowerCase().includes(q)||(e.desc||'').toLowerCase().includes(q);
     let matchQuick=true;
     if(quickFilter==='today') matchQuick=isToday(e.start);
@@ -716,6 +734,39 @@ function togglePast() {
 }
 window.togglePast = togglePast;
 
+/* ── IN-FEED WERBEBANNER ─────────────────────────────────────────────────────
+   Erscheint alle 10 Events in der Liste (nur auf Mobile < 1024px sichtbar).
+   Zum Anpassen: href, Emoji/img, Titel, Beschreibung und CTA-Text ändern.
+   ─────────────────────────────────────────────────────────────────────────── */
+function inFeedAdHTML() {
+  return `<div class="ad-infeed" aria-label="Werbung">
+    <span class="ad-infeed-label">Anzeige</span>
+    <a href="mailto:info@viana-events.de?subject=Werbung%20anfragen"
+       class="ad-infeed-inner" target="_blank" rel="noopener">
+      <!-- Logo/Bild: Emoji durch <img src="..."> ersetzen wenn Kunde gebucht hat -->
+      <div class="ad-infeed-img">📣</div>
+      <div class="ad-infeed-body">
+        <div class="ad-infeed-title">Hier könnte Ihre Werbung stehen</div>
+        <div class="ad-infeed-desc">Werbefläche direkt im Event-Feed – sehen Sie tausende Nutzer täglich.</div>
+      </div>
+      <span class="ad-infeed-cta">Anfragen</span>
+    </a>
+  </div>`;
+}
+
+/* ── BOTTOM BAR CLOSE ────────────────────────────────────────────────────── */
+(function initBottomBar() {
+  const bar = document.getElementById('ad-bottom-bar');
+  const closeBtn = document.getElementById('ad-bottom-bar-close');
+  if (!bar || !closeBtn) return;
+  // Body-Padding setzen damit Content nicht verdeckt wird
+  document.body.classList.add('has-bottom-ad');
+  closeBtn.addEventListener('click', () => {
+    bar.style.display = 'none';
+    document.body.classList.remove('has-bottom-ad');
+  });
+})();
+
 function render() {
   const filtered=getFiltered();
   const sourceEvents = getActiveEvents();
@@ -740,7 +791,19 @@ function render() {
   const pastBanner = (!showPast && pastCount>0) ? `<div style="text-align:center;padding:.75rem;margin-bottom:1rem"><button onclick="togglePast()" style="padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:transparent;color:var(--muted);cursor:pointer;font-family:DM Sans,sans-serif;font-size:12px;transition:all .15s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">🕐 ${pastCount} vergangene Events einblenden</button></div>` : (showPast ? `<div style="text-align:center;padding:.75rem;margin-bottom:1rem"><button onclick="togglePast()" style="padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:transparent;color:var(--muted);cursor:pointer;font-family:DM Sans,sans-serif;font-size:12px" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">✕ Vergangene Events ausblenden</button></div>` : '');
   cal.innerHTML=pastBanner+Object.keys(byMonth).sort((a,b)=>+a-+b).map(m=>{
     const evs=byMonth[m];
-    const rows=viewMode==='list'?`<div class="events-list">${evs.map(eventRowHTML).join('')}</div>`:`<div class="events-grid">${evs.map(eventCardHTML).join('')}</div>`;
+    let rows;
+    if(viewMode==='list'){
+      const items=evs.map(eventRowHTML);
+      // In-Feed Ad alle 10 Events einfügen
+      const withAds=[];
+      items.forEach((html,i)=>{ withAds.push(html); if((i+1)%10===0) withAds.push(inFeedAdHTML()); });
+      rows=`<div class="events-list">${withAds.join('')}</div>`;
+    } else {
+      const items=evs.map(eventCardHTML);
+      const withAds=[];
+      items.forEach((html,i)=>{ withAds.push(html); if((i+1)%10===0) withAds.push(inFeedAdHTML()); });
+      rows=`<div class="events-grid">${withAds.join('')}</div>`;
+    }
     return `<div class="month-block" id="month-${m}"><div class="month-header"><span class="month-name">${MONTHS[m]}</span><span class="month-count">${evs.length} Event${evs.length!==1?'s':''}</span></div>${rows}</div>`;
   }).join('');
   cal.querySelectorAll('[data-idx]').forEach(el=>el.addEventListener('click',()=>openModal(parseInt(el.dataset.idx))));
@@ -1255,6 +1318,7 @@ document.getElementById('tab-party').addEventListener('click', () => {
   appMode='party'; resetTabUI();
   document.getElementById('tab-party').className='mode-tab active-party';
   document.getElementById('filter-pills-party').style.display='';
+  document.getElementById('filter-pills-family').style.display='none';
   buildMonthTimeline();
   render();
 });
@@ -1268,6 +1332,7 @@ document.getElementById('tab-family').addEventListener('click', () => {
 });
 
 document.querySelectorAll('[data-fcat]').forEach(p=>p.addEventListener('click',()=>{
+  familyFilter = p.dataset.fcat;
   document.querySelectorAll('[data-fcat]').forEach(x=>x.classList.remove('active'));
   p.classList.add('active');
   render();

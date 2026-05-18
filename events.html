@@ -104,6 +104,62 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
 </head>
 <body>
 
+<!-- ═══════════════════════════════════════════════════════
+     WERBEBANNER LINKS
+     Zum Aktivieren: href + src/alt unten befüllen.
+     Platzhalter bleibt sichtbar solange kein Bild gesetzt.
+     ═══════════════════════════════════════════════════════ -->
+<aside class="ad-side ad-side-left" aria-label="Werbung">
+  <a href="mailto:info@viana-events.de?subject=Werbung%20anfragen" class="ad-side-inner" id="ad-left-link" target="_blank" rel="noopener">
+    <!-- Wenn Werbebild vorhanden: img-Tag einkommentieren + src/alt setzen, placeholder auskommentieren -->
+    <!-- <img src="assets/ads/banner-links.jpg" alt="Anzeige"> -->
+    <div class="ad-placeholder">
+      <div class="ad-placeholder-icon">📣</div>
+      <div class="ad-placeholder-label">Hier könnte Ihre Werbung stehen</div>
+      <span class="ad-placeholder-cta">Jetzt anfragen</span>
+    </div>
+  </a>
+  <div class="ad-label">Anzeige</div>
+</aside>
+
+<!-- ═══════════════════════════════════════════════════════
+     WERBEBANNER RECHTS
+     ═══════════════════════════════════════════════════════ -->
+<aside class="ad-side ad-side-right" aria-label="Werbung">
+  <a href="mailto:info@viana-events.de?subject=Werbung%20anfragen" class="ad-side-inner" id="ad-right-link" target="_blank" rel="noopener">
+    <!-- <img src="assets/assets/ads/banner-rechts.jpg" alt="Anzeige"> -->
+    <div class="ad-placeholder">
+      <div class="ad-placeholder-icon">📣</div>
+      <div class="ad-placeholder-label">Hier könnte Ihre Werbung stehen</div>
+      <span class="ad-placeholder-cta">Jetzt anfragen</span>
+    </div>
+  </a>
+  <div class="ad-label">Anzeige</div>
+</aside>
+
+<!-- ═══════════════════════════════════════════════════════
+     MOBILE AD – STICKY BOTTOM BAR
+     Zum Aktivieren mit echtem Kunden:
+       1. href auf Kunden-URL setzen
+       2. ad-bottom-bar-img: Emoji ersetzen durch <img src="...">
+       3. ad-bottom-bar-title / -sub / -cta Text anpassen
+     ═══════════════════════════════════════════════════════ -->
+<div class="ad-bottom-bar" id="ad-bottom-bar" role="complementary" aria-label="Werbung">
+  <span class="ad-bottom-bar-label">Anzeige</span>
+  <button class="ad-bottom-bar-close" id="ad-bottom-bar-close" aria-label="Schließen">×</button>
+  <a href="mailto:info@viana-events.de?subject=Werbung%20anfragen" class="ad-bottom-bar-inner" target="_blank" rel="noopener">
+    <!-- Logo/Bild des Werbekunden -->
+    <div class="ad-bottom-bar-img">📣</div>
+    <!-- Text -->
+    <div class="ad-bottom-bar-text">
+      <div class="ad-bottom-bar-title">Hier könnte Ihre Werbung stehen</div>
+      <div class="ad-bottom-bar-sub">Werbefläche buchen ab €100/Monat</div>
+    </div>
+    <!-- Call-to-Action -->
+    <span class="ad-bottom-bar-cta">Anfragen</span>
+  </a>
+</div>
+
 <!-- BURGER BUTTON -->
 <button class="burger-btn" id="burger-btn" aria-label="Menü öffnen">☰</button>
 
@@ -161,8 +217,6 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
     <button class="pill" data-cat="afterwork">🌅 After Work / Club</button>
     <button class="pill" data-cat="festival">🎵 Festivals</button>
     <button class="pill" data-cat="russian"><svg width="16" height="11" viewBox="0 0 16 11" style="vertical-align:middle;margin-right:4px;border-radius:2px"><rect width="16" height="4" fill="#fff"/><rect y="4" width="16" height="4" fill="#003DA5"/><rect y="8" width="16" height="3" fill="#CC0000"/></svg>Russian</button>
-    <button class="pill" data-cat="volksfest">🍺 Volksfeste</button>
-    <button class="pill" data-cat="weinfest">🍷 Weinfeste</button>
     <button class="pill" data-cat="strand">🏖️ Stadtstrand</button>
     <button class="pill" data-cat="beachparty">🏝️ Beach Party</button>
     <button class="pill" data-cat="sonstige">✨ Sonstige</button>
@@ -173,6 +227,7 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
     <button class="pill" data-fcat="freizeit">🎡 Freizeit</button>
     <button class="pill" data-fcat="kinder">🎠 Kinder</button>
     <button class="pill" data-fcat="volksfest">🍺 Volksfeste</button>
+    <button class="pill" data-fcat="weinfest">🍷 Weinfeste</button>
     <button class="pill" data-fcat="stadtfest">🎪 Stadtfeste</button>
     <button class="pill" data-fcat="sport">🏃 Sport</button>
     <button class="pill" data-fcat="messe">🏛️ Messen</button>
