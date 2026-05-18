@@ -102,6 +102,11 @@ const COORDS = {
   'München':[48.135,11.582],
   'München – Traumhänger Open Air':[48.135,11.582],
   // ── Weiter entfernt (Russian Events etc.) ──
+  'Stuttgart':[48.776,9.182],'Stuttgart-Stammheim':[48.834,9.180],
+  'Club Vivally, Stuttgart':[48.834,9.180],'Club Vivally Stuttgart':[48.834,9.180],
+  'Dornstadt':[48.450,9.943],'Dornstadt bei Ulm':[48.450,9.943],
+  'Club MEDUZA, Dornstadt':[48.450,9.943],'Club Meduza Dornstadt':[48.450,9.943],
+  'Ulm':[48.401,9.987],
   'Straubing':[48.884,12.575],'Büren':[51.551,8.561],
   'Gießen':[50.584,8.678],'Kassel':[51.312,9.481],
   'Osnabrück':[52.279,8.047],'Kiel':[54.323,10.123],
@@ -124,6 +129,15 @@ const COORDS = {
   'Stadthalle Fürth':[49.475,10.988],
   'Nürnberg – Meistersingerhalle':[49.428,11.092],
   'Fürth – Stadthalle':[49.475,10.988],
+  // ── Neu hinzugefügt KW 21 2026 ──
+  'Ottensoos':[49.524,11.328],
+  'Behringersdorf':[49.476,11.218],
+  'Schwarzenbruck':[49.370,11.225],
+  'Hersbruck':[49.511,11.432],
+  'Hersbruck – Altstadt':[49.511,11.432],
+  'Volkach – Stadtallee':[49.865,10.222],
+  'Würzburg – Weinberg am Stein':[49.796,9.915],
+  'Würzburg – Marktplatz':[49.795,9.929],
 };
 
 const familyEvents = [
@@ -360,6 +374,8 @@ const events = [
 
   {cat:'russian', name:'Russian City Beats – MAUR Live on Stage', loc:'Nürnberg – WON World of Nightlife', start:'2026-05-13', end:'2026-05-13', free:false, desc:'Russian City Beats kommt zum ersten Mal nach Nürnberg! MAUR live on stage – bekannt für "My Love", "It\'s my Life", "Политела" und viele weitere Hits. Vorfeiertag-Special im WON (ehemaliger Rascha), Regensburger Str. 334b.', genre:'Russian Live / Pop', ticket:'https://www.instagram.com/russian_city_beats', outdoor:false, ageMin:18, price:'Infos via Instagram', oepnv:'Bus/Tram Richtung Regensburger Str.', parking:'Vorhanden'},
   {cat:'russian', name:'Russian Sensation Festival × Nürnberg', loc:'Nürnberg – ONLY Club', start:'2026-05-13', end:'2026-05-14', free:false, desc:'Vorfeiertag-Mittwoch (vor Christi Himmelfahrt) im ONLY Club Nürnberg. DJ Insane präsentiert das Russian Sensation Festival – Best of Russian Music. Lineup: DJ S7VEN (Ulm) und DJ Marrakech (Dortmund). 23:00–05:00 Uhr. Bevorzugter Einlass mit Ticket bis 01:00 Uhr, danach nur nach Kapazität. Sponsored by Saebis.', genre:'Russian Party / Pop / Hits', ticket:'https://www.eventbrite.de/e/russian-sensation-festival-x-nurnberg-tickets-1986059809353', new:true, outdoor:false, ageMin:18, price:'Tickets via Eventbrite', oepnv:'U-Bahn Richtung ONLY Club Nürnberg', parking:'In Clubnähe'},
+  {cat:'russian', name:'Hawaii Стаил – Russian Style Party', loc:'Dornstadt – Club MEDUZA', start:'2026-05-23', end:'2026-05-23', free:false, desc:'Russian Style Party im Club MEDUZA Dornstadt (bei Ulm) – der Club verwandelt sich in eine tropische Partyinsel. Heiße Beats von DJ Deen West, Hawaii-Deko, Terrasse & Shisha, frisches Schaschlik, Longdrinks bis 0:00 Uhr im Angebot, gratis Shots & Gratis Hawaii Captain am Eingang. „Russian Style Party des Monats."', genre:'Russian Style / Hawaii Theme / Party', ticket:'https://www.instagram.com/russianstyleparty_augsburg/', new:true, outdoor:false, ageMin:18, price:'Infos via Instagram', oepnv:'Bahn nach Ulm, dann Bus nach Dornstadt', parking:'Vorhanden am Club'},
+  {cat:'russian', name:'WE LOVE RUSSIAN NIGHT Stuttgart (Pfingstsonntag)', loc:'Stuttgart – Club Vivally', start:'2026-05-24', end:'2026-05-25', free:false, desc:'Pfingstsonntag, 24. Mai im Club Vivally Stuttgart (Stammheimer Str. 45). Eine Nacht voller Energie mit den heißesten Russian & International Hits. Mainfloor: DJ LINKIN und DJ X-TREAM. Russian Hits, House, Hip-Hop, Party Classics. 23:00–05:00 Uhr. Dresscode: Elegant & Party Ready. Limitierte Kapazität – früh kommen empfohlen. VIP Lounge & Reservierungen: 0151 10664537.', genre:'Russian Hits / House / Hip-Hop / Party Classics', ticket:'https://www.instagram.com/we_love_russian_night/', new:true, outdoor:false, ageMin:18, price:'Tickets via Instagram-Link', oepnv:'U15 Salzwiesenstraße direkt vor dem Club', parking:'Vor Ort'},
 
   // ─── STADTSTRÄNDE & SOMMERFESTE ──────────────────────────────────────────
   {cat:'strand', name:'Lieblingsstrand – Sommerinsel Schütt', loc:'Nürnberg – Insel Schütt (Altstadt)', start:'2026-04-29', end:'2026-07-31', free:true, desc:'Nürnbergs Lieblingsstrand auf der Insel Schütt – 250t weißer Sand, Liegestühle, Palmen, Poolbar, Campari-Bar mit DJ-Pult, Aperol-Area und Schlemmermeile. Di–So geöffnet. Bargeldlos!', genre:'Stadtstrand / After Work / Party', ticket:'https://lieblingsstrand-nuernberg.de', outdoor:true, ageMin:0, price:'Kostenlos (Konsumation)', oepnv:'U1 bis Lorenzkirche oder Weißer Turm', parking:'Altstadt Parkhäuser'},
@@ -492,6 +508,17 @@ const events = [
   // Fehlende Nürnberger Kärwa
   {cat:'kaerwa', name:'Kleinreuth b. Schweinau Kirchweih', loc:'Nürnberg-Kleinreuth', start:'2026-07-03', end:'2026-07-06', free:true, desc:'Traditionelle Stadtteil-Kärwa in Kleinreuth bei Schweinau.', genre:'Kärwa', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'Bus ab Nürnberg Hbf', parking:'Straße'},
 
+  // ── KW 21 2026 Update ──
+  // Neue Kärwas Nürnberger Land (Quelle: n-land.de/kirchweihen-feste)
+  {cat:'kaerwa', name:'Kirchweih Ottensoos', loc:'Ottensoos', start:'2026-06-18', end:'2026-06-22', free:true, desc:'Traditionelle Kirchweih in Ottensoos im Nürnberger Land (ca. 40 km von Nürnberg). Do. bis Mo. – Festbetrieb im Dorf mit Musik, Tanz und fränkischen Schmankerln.', genre:'Kärwa', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'S-Bahn S3 nach Lauf a.d. Pegnitz, dann Bus', parking:'Vor Ort'},
+  {cat:'kaerwa', name:'Kirchweih Behringersdorf', loc:'Behringersdorf', start:'2026-06-19', end:'2026-06-22', free:true, desc:'Traditionelle Kirchweih in Behringersdorf (Gemeinde Schwaig bei Nürnberg) – Fr. bis Mo. Stimmungsvolle Kärwa im Nürnberger Land.', genre:'Kärwa', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'S-Bahn S2 bis Schwaig bei Nürnberg', parking:'Vor Ort'},
+  {cat:'kaerwa', name:'Kirchweih Schwarzenbruck', loc:'Schwarzenbruck', start:'2026-07-03', end:'2026-07-06', free:true, desc:'Traditionsreiche Kirchweih in Schwarzenbruck im Nürnberger Land – Fr. bis Mo. Festzelt, Blasmusik und fränkische Schmankerl. Eintritt frei.', genre:'Kärwa', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'Bus ab Nürnberg oder Feucht', parking:'Vor Ort'},
+  // Altstadtfest Hersbruck
+  {cat:'sonstige', name:'Altstadtfest Hersbruck', loc:'Hersbruck – Altstadt', start:'2026-07-31', end:'2026-08-02', free:true, desc:'Das Altstadtfest in der historischen Altstadt von Hersbruck – 3 Tage Musik, Kulinarik und gute Stimmung im Nürnberger Land. Fr. bis So., Eintritt frei.', genre:'Stadtfest / Volksfest', ticket:'https://www.hersbruck.de/', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'S-Bahn S3 nach Hersbruck', parking:'Innenstadt Hersbruck'},
+  // Neue Weinfeste
+  {cat:'weinfest', name:'Würzburger Weinparade', loc:'Würzburg – Marktplatz', start:'2026-08-27', end:'2026-09-06', free:true, desc:'Die Würzburger Weinparade auf dem Unteren Marktplatz – 11 Tage mit über 100 Weinen und Sekten im offenen Ausschank. Gastronomisches Spitzenangebot, das sonst kein Weinfest bietet. Tägl. So–Do 11–23 Uhr, Fr–Sa 11–23:30 Uhr. Eintritt frei!', genre:'Weinfest / Frankenwein', ticket:'https://www.weinparade.de/', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'Straßenbahn direkt am Marktplatz Würzburg', parking:'Innenstadt Parkhäuser Würzburg'},
+  // Neue Russian Events
+  {cat:'russian', name:'Ilya Akselrod – Stand-up Nürnberg', loc:'Orpheum Nürnberg', start:'2026-11-29', end:'2026-11-29', free:false, desc:'Ilya Akselrod auf Deutschlandtour mit neuem Stand-up-Programm. Humor, lebhafte Geschichten und einzigartige Energy – ein Abend, den man nicht verpassen sollte. 20:00 Uhr, Orpheum Nürnberg.', genre:'Russian Stand-up / Comedy', ticket:'https://nuernberg24.ru/en/event/9436', outdoor:false, ageMin:16, price:'Tickets via nuernberg24.ru', oepnv:'U1 Hauptbahnhof oder Tram 4', parking:'Parkhaus Hauptbahnhof'},
 
 ];
 
@@ -1228,18 +1255,19 @@ document.getElementById('tab-party').addEventListener('click', () => {
   appMode='party'; resetTabUI();
   document.getElementById('tab-party').className='mode-tab active-party';
   document.getElementById('filter-pills-party').style.display='';
-  document.getElementById('filter-pills-family').style.display='none';
-  buildMonthTimeline(); updateCountdown(); render();
+  buildMonthTimeline();
+  render();
 });
 document.getElementById('tab-family').addEventListener('click', () => {
   appMode='family'; resetTabUI();
   document.getElementById('tab-family').className='mode-tab active-family';
-  document.getElementById('filter-pills-party').style.display='none';
   document.getElementById('filter-pills-family').style.display='';
-  buildMonthTimeline(); updateCountdown(); render();
+  document.getElementById('filter-pills-party').style.display='none';
+  buildMonthTimeline();
+  render();
 });
+
 document.querySelectorAll('[data-fcat]').forEach(p=>p.addEventListener('click',()=>{
-  familyFilter=p.dataset.fcat;
   document.querySelectorAll('[data-fcat]').forEach(x=>x.classList.remove('active'));
   p.classList.add('active');
   render();
