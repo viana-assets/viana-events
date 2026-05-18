@@ -601,8 +601,24 @@ function getActiveEvents() {
   // Party-Modus: Family-Kategorien rausfiltern
   return events.filter(e => !FAMILY_ONLY_CATS.has(e.cat));
 }
-let wishlist = new Set(JSON.parse(localStorage.getItem('viana_wl')||'[]'));
-let goingList = new Set(JSON.parse(localStorage.getItem('viana_going')||'[]'));
+// Gespeicherte Listen laden und sofort gegen vorhandene Events bereinigen.
+// Einträge von Events die nicht mehr existieren werden automatisch entfernt –
+// für alle Nutzer gleichzeitig beim nächsten Seitenaufruf.
+function _loadAndClean(storageKey, allEventSets) {
+  const raw = new Set(JSON.parse(localStorage.getItem(storageKey)||'[]'));
+  const valid = new Set([...raw].filter(key => allEventSets.has(key)));
+  if (valid.size !== raw.size) {
+    // Veraltete Einträge gefunden → bereinigten Stand sofort speichern
+    localStorage.setItem(storageKey, JSON.stringify([...valid]));
+  }
+  return valid;
+}
+
+// Alle gültigen Event-Keys vorberechnen (Name+Datum)
+const _allEventKeys = new Set([...events, ...familyEvents].map(e => e.name + e.start));
+
+let wishlist  = _loadAndClean('viana_wl',    _allEventKeys);
+let goingList = _loadAndClean('viana_going', _allEventKeys);
 
 function saveWishlist(){ localStorage.setItem('viana_wl', JSON.stringify([...wishlist])); }
 function saveGoingList(){ localStorage.setItem('viana_going', JSON.stringify([...goingList])); }
