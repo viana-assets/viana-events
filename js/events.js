@@ -110,7 +110,7 @@ const COORDS = {
   'Dornstadt':[48.450,9.943],'Dornstadt bei Ulm':[48.450,9.943],
   'Club MEDUZA, Dornstadt':[48.450,9.943],'Club Meduza Dornstadt':[48.450,9.943],
   'Ulm':[48.401,9.987],
-  'Straubing':[48.884,12.575],'Büren':[51.551,8.561],
+  'Straubing':[48.884,12.575],'Deggendorf':[48.840,12.961],'Büren':[51.551,8.561],
   'Gießen':[50.584,8.678],'Kassel':[51.312,9.481],
   'Osnabrück':[52.279,8.047],'Kiel':[54.323,10.123],
   'Leipzig':[51.340,12.373],'Cleebronn':[49.066,9.108],
@@ -449,6 +449,7 @@ const events = [
 
   // ─── NEU KW17 2026 (Update 20. April 2026) ──────────────────────────────
   {cat:'russian', name:'ONLY Russian Open Air (Russian Sensation × Only)', loc:'Nürnberg – Serenadenhof', start:'2026-05-30', end:'2026-05-30', free:false, desc:'Erstes Russian Open Air dieses Jahr in Nürnberg – Russian Sensation × ONLY Club im Serenadenhof. Europas größte russische Eventreihe feiert Open-Air-Premiere unter freiem Himmel. 16–22 Uhr. Gute Vibes, starke Beats und beste Community. Lineup folgt in Kürze (u.a. DJ Insane, only.nuernberg, russianconnectionfestival.de).', genre:'Russian Party / Open Air', ticket:'https://www.eventbrite.de/e/russian-sensation-x-only-open-air-festival-nurnberg-tickets-1985050638897', new:true, outdoor:true, ageMin:16, price:'Infos auf Eventbrite', oepnv:'U1 bis Frankenstraße oder S-Bahn Richtung Langwasser', parking:'Parkplatz Serenadenhof'},
+  {cat:'russian', name:'Russian White Night', loc:'Deggendorf – Club Chao Chao', start:'2026-06-06', end:'2026-06-06', free:false, desc:'White Night Edition (белая ночь) von SOYUZ Events – Dresscode: Weiß! 100 White Welcome Shots für die ersten Gäste, aufwändige weiße Deko, Professional Photographer, weiße Sonnenbrillen & elegante Fächer. Music by DJ IGUAN × DJ FAMOUS (Russian Dance Music). Einlass 23:00 Uhr.', genre:'Russian Dance Music', ticket:'https://www.instagram.com/soyuz_events', outdoor:false, ageMin:16, price:'10 €', oepnv:'Bahn nach Deggendorf Hbf', parking:'Vorhanden'},
   {cat:'festival', name:'Musikfest ION – 75. Jubiläum', loc:'Nürnberg (verschiedene Spielstätten)', start:'2026-06-19', end:'2026-07-05', free:false, desc:'75. Ausgabe des internationalen Festivals für Geistliche Musik in Nürnberg. Jubiläumswochenende 19.–21. Juni mit 9 Konzerten auf 3 Spielstätten. 30 Konzerte mit The King\'s Singers, Anna Prohaska, Cameron Carpenter, Windsbacher Knabenchor u.v.m.', genre:'Klassik / Geistliche Musik / Orgel', ticket:'https://musikfest-ion.de', outdoor:false, ageMin:0, price:'ab 15 €', oepnv:'U-Bahn Nürnberg Innenstadt', parking:'Altstadt-Parkhäuser'},
   {cat:'festival', name:'Zabbath Open Air', loc:'Nürnberg – Z-Bau', start:'2026-08-29', end:'2026-08-29', free:false, desc:'Underground Metal Festival im Z-Bau Nürnberg – Open-Air-Stage, zwei Indoor-Stages, 10 Bands, Kunstausstellung und Biergarten. 2026 u.a. mit Wolvennest (Atmospheric Black Doom), Imha Tarikat (Black Metal), Bedsore (Death Metal), Hexer (Sludge/Doom) u.v.m. No Racism. No Sexism. No Homophobia.', genre:'Black Metal / Doom / Sludge / Death Metal', ticket:'https://www.tixforgigs.com/Event/72697', outdoor:true, ageMin:16, price:'Infos auf tixforgigs.com', oepnv:'U1 bis Frankenstraße', parking:'Begrenzt'},
   {cat:'festival', name:'Incantation Rites Festival', loc:'Nürnberg – Z-Bau', start:'2026-12-05', end:'2026-12-05', free:false, desc:'Incantation Rites – Death & Doom Metal Festival im Z-Bau Nürnberg mit AHAB, Sulphur Aeon, Thronehammer und weiteren Bands. Atmosphärisches Underground-Festival in Nürnbergs renommiertem Club.', genre:'Death Metal / Doom Metal', ticket:'', outdoor:false, ageMin:16, price:'TBC', oepnv:'U1 bis Frankenstraße', parking:'Begrenzt'},
@@ -1414,7 +1415,8 @@ document.querySelectorAll('[data-fcat]').forEach(p=>p.addEventListener('click',(
 function checkDeepLink() {
   const hash=decodeURIComponent(location.hash.slice(1));
   if(!hash)return;
-  const idx=events.findIndex(e=>e.name.toLowerCase().replace(/\s/g,'')==hash.toLowerCase().replace(/\s/g,''));
+  const srcEvents=getActiveEvents();
+  const idx=srcEvents.findIndex(e=>e.name.toLowerCase().replace(/\s/g,'')==hash.toLowerCase().replace(/\s/g,''));
   if(idx>=0)setTimeout(()=>openModal(idx),300);
 }
 
