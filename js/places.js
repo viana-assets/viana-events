@@ -888,6 +888,7 @@ function renderPlacesList(catId) {
     const preisBadge = p.preis ? `<span class="place-badge">💶 ${p.preis}</span>` : '';
     const oeffBadge = p.oeffnung ? `<span class="place-badge">🕐 ${p.oeffnung}</span>` : '';
     const hhBadge = p.happyhour ? `<span class="place-badge place-badge-hh">🎉 HH: ${p.happyhour}</span>` : '';
+    const sizeBadge = p.size ? `<span class="place-badge">📐 ${p.size}</span>` : '';
     const logoHtml = p.web ? `<img class="place-logo" src="https://www.google.com/s2/favicons?domain=${p.web}&sz=32" alt="" loading="lazy" onerror="this.style.display='none'">` : '';
     return `
       <div class="place-row" style="--cat-color:${catColor}" onclick="openPlaceModal(${idx})">
@@ -897,7 +898,7 @@ function renderPlacesList(catId) {
             <div class="place-name">${p.name}</div>
           </div>
           <div class="place-addr">📍 ${p.addr}</div>
-          <div class="place-meta">${tags}${preisBadge}${oeffBadge}${hhBadge}${highlightBadge}</div>
+          <div class="place-meta">${tags}${preisBadge}${sizeBadge}${oeffBadge}${hhBadge}${highlightBadge}</div>
         </div>
         <div class="place-right">
           ${distBadge}
@@ -992,6 +993,7 @@ function openPlaceModal(idx) {
   if (p.oeffnung) details += `<div class="pm-detail"><span class="pm-detail-icon">🕐</span><div><div class="pm-detail-label">Öffnungszeiten</div><div class="pm-detail-val">${p.oeffnung}</div></div></div>`;
   if (p.happyhour) details += `<div class="pm-detail pm-detail-hh"><span class="pm-detail-icon">🎉</span><div><div class="pm-detail-label">Happy Hour</div><div class="pm-detail-val">${p.happyhour}</div></div></div>`;
   if (p.preis) details += `<div class="pm-detail"><span class="pm-detail-icon">💶</span><div><div class="pm-detail-label">Preise</div><div class="pm-detail-val">${p.preis}</div></div></div>`;
+  if (p.size) details += `<div class="pm-detail"><span class="pm-detail-icon">📐</span><div><div class="pm-detail-label">Größe</div><div class="pm-detail-val">${p.size}</div></div></div>`;
   if (p.highlight) details += `<div class="pm-detail pm-detail-star"><span class="pm-detail-icon">⭐</span><div class="pm-detail-val">${p.highlight}</div></div>`;
   document.getElementById('pm-details').innerHTML = details;
 
@@ -1040,6 +1042,16 @@ document.addEventListener('DOMContentLoaded', function() {
   const btnMap  = document.getElementById('places-btn-map');
   if (btnList) btnList.addEventListener('click', () => setPlacesView('list'));
   if (btnGrid) btnGrid.addEventListener('click', () => setPlacesView('grid'));
+  if (btnMap)  btnMap.addEventListener('click',  () => setPlacesView('map'));
+});
+
+// Expose globals
+window.initPlaces   = initPlaces;
+window.backToCats   = backToCats;
+window.openCategory = openCategory;
+window.openPlaceModal  = openPlaceModal;
+window.closePlaceModal = closePlaceModal;
+));
   if (btnMap)  btnMap.addEventListener('click',  () => setPlacesView('map'));
 });
 
