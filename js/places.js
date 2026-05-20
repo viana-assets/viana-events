@@ -280,7 +280,6 @@ const PLACES = {
   shisha: [
     { name:'Maxim Fürth (Shishabar)', addr:'Rudolf-Breitscheid-Str. 23, 90762 Fürth', city:'Fürth', lat:49.4741, lng:10.9889, tags:['Shisha','Lounge','Russian Nights'], preis:'ab 15€/Kopf', oeffnung:'tägl. ab 18 Uhr', web:'', maps:'https://maps.google.com/?q=Maxim+Fürth', highlight:'Russian Events mit Trussmee' },
     { name:'SOCIETY Nürnberg (Shishabar & Club)', addr:'Färberstr. 30, 90402 Nürnberg', city:'Nürnberg', lat:49.4548, lng:11.0752, tags:['Shisha','Club','Russian Events'], preis:'Shisha ab 14€ / Eintritt 10-15€', oeffnung:'Fr/Sa + Events', web:'', maps:'https://maps.google.com/?q=SOCIETY+Club+Nürnberg', highlight:'White Rabbit Russian Events monatlich' },
-    { name:'Maxime Nürnberg', addr:'Nürnberg Innenstadt', city:'Nürnberg', lat:49.4520, lng:11.0771, tags:['Shisha','Lounge','Nürnberg'], preis:'ab 15€', oeffnung:'tägl. ab 17 Uhr', web:'', maps:'https://maps.google.com/?q=Maxime+Shisha+Nürnberg' },
     { name:'Loca Lounge Shisha Nürnberg', addr:'Nürnberg', city:'Nürnberg', lat:49.4560, lng:11.0780, tags:['Shisha','Cocktails','Lounge'], preis:'ab 12€', oeffnung:'tägl. ab 16 Uhr', web:'', maps:'https://maps.google.com/?q=Loca+Lounge+Nürnberg' },
     { name:'Dubai Lounge Nürnberg', addr:'Nürnberg', city:'Nürnberg', lat:49.4500, lng:11.0820, tags:['Shisha','Oriental','Premium'], preis:'ab 18€', oeffnung:'tägl. ab 17 Uhr', web:'', maps:'https://maps.google.com/?q=Dubai+Lounge+Nürnberg' },
     { name:'Sahara Shisha Lounge Nürnberg', addr:'Nürnberg', city:'Nürnberg', lat:49.4580, lng:11.0750, tags:['Shisha','Tee','Entspannung'], preis:'ab 12€', oeffnung:'tägl. ab 15 Uhr', web:'', maps:'https://maps.google.com/?q=Sahara+Shisha+Nürnberg' },
@@ -1051,9 +1050,6 @@ window.backToCats   = backToCats;
 window.openCategory = openCategory;
 window.openPlaceModal  = openPlaceModal;
 window.closePlaceModal = closePlaceModal;
-));
-  if (btnMap)  btnMap.addEventListener('click',  () => setPlacesView('map'));
-});
 
 // Expose globals
 window.initPlaces   = initPlaces;

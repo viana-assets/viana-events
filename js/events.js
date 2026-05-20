@@ -1032,7 +1032,7 @@ function updateCountdown() {
   document.getElementById('cd-days').innerHTML=diff===0?'Heute!':diff===1?'Morgen!':`${diff}<span> Tage</span>`;
   document.getElementById('cd-name').textContent=next.name;
   document.getElementById('cd-date').textContent=`📅 ${dateStr(next.start,next.end)} · 📍 ${next.loc}`;
-  document.getElementById('countdown-card').onclick=()=>openModal(events.indexOf(next));
+  document.getElementById('countdown-card').onclick=()=>openModal(getActiveEvents().indexOf(next));
 }
 
 function showToast(msg) {
@@ -1390,6 +1390,7 @@ document.getElementById('tab-party').addEventListener('click', () => {
   document.getElementById('filter-pills-party').style.display='';
   document.getElementById('filter-pills-family').style.display='none';
   buildMonthTimeline();
+  updateCountdown();
   render();
 });
 document.getElementById('tab-family').addEventListener('click', () => {
@@ -1398,6 +1399,7 @@ document.getElementById('tab-family').addEventListener('click', () => {
   document.getElementById('filter-pills-family').style.display='';
   document.getElementById('filter-pills-party').style.display='none';
   buildMonthTimeline();
+  updateCountdown();
   render();
 });
 
@@ -1481,4 +1483,6 @@ buildMonthTimeline();
 updateCountdown();
 updateWishlistUI();
 initLocation();
-loadPublicCoun
+render();
+checkDeepLink();
+loadPublicCounts();
