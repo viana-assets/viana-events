@@ -380,13 +380,13 @@ h1 span{color:var(--accent)}
 #search{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px 10px 40px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
 #search:focus{border-color:rgba(232,150,58,.4)}
 #search::placeholder{color:var(--muted)}
-.search-suggestions{position:absolute;top:calc(100% + 4px);left:0;width:100%;background:var(--surface2);border:1px solid rgba(255,255,255,.12);border-radius:12px;z-index:200;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.5);max-height:280px;overflow-y:auto;display:none}
-.suggestion-item{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;transition:background .12s;font-size:13px}
+.search-suggestions{position:absolute;top:calc(100% + 4px);left:0;width:100%;background:var(--surface2);border:1px solid rgba(255,255,255,.12);border-radius:12px;z-index:200;overflow:hidden;overflow-x:hidden;box-shadow:0 8px 32px rgba(0,0,0,.5);max-height:280px;overflow-y:auto;display:none}
+.suggestion-item{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;transition:background .12s;font-size:13px;min-width:0;max-width:100%;overflow:hidden}
 .suggestion-item:hover{background:rgba(255,255,255,.06)}
 .suggestion-item+.suggestion-item{border-top:1px solid var(--border)}
 .suggestion-cat{font-size:10px;font-weight:600;padding:2px 7px;border-radius:999px;color:#0e0f13;white-space:nowrap;flex-shrink:0}
-.suggestion-name{flex:1;font-weight:500}
-.suggestion-date{font-size:11px;color:var(--muted);white-space:nowrap}
+.suggestion-name{flex:1;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.suggestion-date{font-size:11px;color:var(--muted);white-space:nowrap;flex-shrink:0}
 .filter-pills{display:flex;gap:6px;flex-wrap:wrap}
 .pill{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap}
 .pill:hover{border-color:rgba(255,255,255,.2);color:var(--text)}

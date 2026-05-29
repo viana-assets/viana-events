@@ -369,7 +369,7 @@ const events = [
   {cat:'russian', name:'The Garrison Events – Party Night', loc:'Kiel', start:'2026-05-02', end:'2026-05-02', free:false, desc:'The Garrison Events – russische Party-Reihe auf Deutschlandtour. Aktuelle Infos auf @the_garrison_events_ (Instagram).', genre:'Russian Party', ticket:'https://linktr.ee/the_garrison_events', outdoor:false, ageMin:18, price:'Infos via Instagram', oepnv:'Bahn nach Kiel Hbf', parking:'Vorhanden'},
   // ─── NEU APRIL 2026 UPDATE ────────────────────────────────────────────
   {cat:'russian', name:'Full House – Party Night', loc:'Speicher.28, Neumarkt i.d.OPf.', start:'2026-05-08', end:'2026-05-08', free:false, desc:'Full House – die Party-Reihe mit russischer und internationaler Musik in Neumarkt i.d.OPf. Tickets & Infos auf fullhouse.ticket.io.', genre:'Russian Party / Club', ticket:'https://fullhouse.ticket.io', outdoor:false, ageMin:18, price:'Infos auf fullhouse.ticket.io', oepnv:'Bahn nach Neumarkt i.d.OPf. Hbf', parking:'Vorhanden'},
-  {cat:'festival', name:'Bierchen und Bühnchen', loc:'Nürnberg – Gostenhof', start:'2026-05-29', end:'2026-05-31', free:true, desc:'Das Musik- und Kneipenfestival in Gostenhof und Himpfelshof. Bands und DJs in Bars, Cafés und auf Open-Air-Bühnen – Festivalstart in die Saison. Eintritt frei!', genre:'Indie / Rock / Mix', ticket:'https://www.bierchenundbuechnchen.de', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'U2 Gostenhof', parking:'Straße'},
+  {cat:'festival', name:'Bierchen und Bühnchen', loc:'Nürnberg – Gostenhof', start:'2026-04-11', end:'2026-04-11', free:true, desc:'Das Musik- und Kneipenfestival in Gostenhof und Himpfelshof. Bands und DJs in Bars, Cafés und auf Open-Air-Bühnen – Festivalstart in die Saison. Eintritt frei!', genre:'Indie / Rock / Mix', ticket:'https://www.bierchenundbuechnchen.de', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'U2 Gostenhof', parking:'Straße'},
   {cat:'festival', name:'Andorf Open Air (20 Jahre)', loc:'Andorf bei Ansbach', start:'2026-05-22', end:'2026-05-24', free:false, desc:'20-jähriges Jubiläum! Regionales Rockfestival in Andorf. Lineup: Gossenpoeten, ØL, Iron Maidness u.a. Kleines, familiäres Festival.', genre:'Rock / Metal / Mittelalter', ticket:'', outdoor:true, ageMin:0, price:'ab ca. 15€', oepnv:'Kein ÖPNV, Fahrgemeinschaft', parking:'Vorhanden'},
   {cat:'festival', name:'Vorstadt Sound Festival', loc:'Langensendelbach bei Erlangen', start:'2026-06-19', end:'2026-06-21', free:false, desc:'Festival für alle – seit 2016 von Jugendlichen für Jugendliche in Langensendelbach. Vielfältiges Lineup: Folk, Techno, Indie, Schlager.', genre:'Mixed / Indie / Folk', ticket:'', outdoor:true, ageMin:0, price:'ab ca. 20€', oepnv:'Bus ab Erlangen Hbf', parking:'Vorhanden'},
   {cat:'festival', name:'Wasted! Open Air', loc:'Obernzenner See (Obernzenn, ~60km)', start:'2026-06-11', end:'2026-06-13', free:false, desc:'Ehrenamtliches DIY-Festival am Obernzenner See – Punk, Rock & Roll und Stoner-Rock. Rund 900 Besucher, familiäre Atmosphäre. Bands: The Sensitives, Mothers Cake.', genre:'Punk / Rock / Stoner', ticket:'https://www.wasted-openair.de', outdoor:true, ageMin:0, price:'ab ca. 30€ Weekend', oepnv:'Kein ÖPNV, Fahrgemeinschaft empfohlen', parking:'Vorhanden'},
@@ -546,7 +546,6 @@ const events = [
   {cat:'festival', name:'20. Jubiläums-Sommernachtsball', loc:'Fürth – Stadtpark', start:'2026-07-18', end:'2026-07-18', free:false, desc:'Bayerns größter Open Air Ball feiert sein 20. Jubiläum im Stadtpark Fürth – „Jubiläum unterm Sternenhimmel". Balleröffnung 19:00 Uhr mit dem Bayerischen Ministerpräsidenten Dr. Markus Söder und Oberbürgermeister Dr. Thomas Jung.', genre:'Ball / Open Air / Klassik', ticket:'https://www.sommernachtsball.de', outdoor:true, ageMin:0, price:'Tickets siehe sommernachtsball.de', oepnv:'S-Bahn / U-Bahn nach Fürth, dann Bus zum Stadtpark', parking:'Parkhäuser Fürth Innenstadt'},
 
   // Stadtfeste (Party-Pool)
-  {cat:'stadtfest', name:'Schnaittacher Frühlingsfest', loc:'Schnaittach (ca. 30 km)', start:'2026-05-29', end:'2026-06-01', free:true, desc:'Regionales Bürgerfest am Fuße der historischen Festung Rothenberg. Geselliges Beisammensein mit fränkischer Kulinarik und Live-Musik im Herzen des Marktes Schnaittach.', genre:'Bürgerfest / Regional', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'S-Bahn S3 bis Hersbruck, dann Bus nach Schnaittach', parking:'Vorhanden im Ort'},
   {cat:'stadtfest', name:'Altstadtfest Neumarkt i.d. OPf.', loc:'Neumarkt i.d. OPf. (ca. 45 km)', start:'2026-06-12', end:'2026-06-14', free:true, desc:'34. Neumarkter Altstadtfest – die gesamte Innenstadt wird zur Feiermeile. 65+ Bands auf 5 Bühnen, rund 100 Stände, Kulinarik und Vereine. Eintritt frei!', genre:'Stadtfest / Musik / Kultur', ticket:'https://neumarkt-altstadtfest.de', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'Bahn nach Neumarkt i.d.OPf.', parking:'Innenstadt Parkhäuser'},
   {cat:'stadtfest', name:'Bürgerfest Gunzenhausen', loc:'Gunzenhausen – Marktplatz (ca. 50 km)', start:'2026-07-03', end:'2026-07-05', free:true, desc:'Open-Air-Stadtfest im Fränkischen Seenland direkt auf dem historischen Marktplatz. Live-Bands, Genussmeile und fränkische Gastlichkeit. Eintritt frei!', genre:'Stadtfest / Live-Musik', ticket:'https://www.dasbuergerfest.de', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'Bahn nach Gunzenhausen', parking:'Innenstadt Gunzenhausen'},
   {cat:'stadtfest', name:'Hilpoltsteiner Burgfest', loc:'Hilpoltstein (ca. 35 km)', start:'2026-07-31', end:'2026-08-03', free:true, desc:'Historisches Spektakel im Landkreis Roth seit fast 100 Jahren. Höhepunkt: Sonntag mit prunkvollem Einzug der Pfalzgräfin im Gewand des 17. Jahrhunderts. Trödelmarkt, Sautrogrennen und Feuerwerk.', genre:'Historisches Stadtfest / Volksfest', ticket:'https://tourismus.hilpoltstein.de', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'Bahn nach Hilpoltstein über Roth', parking:'Vorhanden am Festgelände'},
@@ -627,7 +626,7 @@ let activeFilters=new Set(['alle']), searchTerm='', viewMode='list', quickFilter
 let appMode = 'party'; // 'party' | 'family'
 
 // Kategorien die zu Family verschoben wurden – in Party ausblenden
-const FAMILY_ONLY_CATS = new Set(['volksfest', 'weinfest']);
+const FAMILY_ONLY_CATS = new Set(['volksfest', 'weinfest', 'stadtfest']);
 
 function getActiveEvents() {
   if (appMode === 'family') {
@@ -1367,7 +1366,7 @@ function renderSimilarEvents(currentIdx) {
 function showSuggestions(q) {
   const el=document.getElementById('search-suggestions');
   if(!q||q.length<2){el.style.display='none';return;}
-  const src=appMode==='family'?familyEvents:events;
+  const src=getActiveEvents();
   const matches=src.filter(e=>e.name.toLowerCase().includes(q)||e.loc.toLowerCase().includes(q)||(e.genre||'').toLowerCase().includes(q)).slice(0,7);
   if(!matches.length){el.style.display='none';return;}
   el.innerHTML=matches.map(e=>{
