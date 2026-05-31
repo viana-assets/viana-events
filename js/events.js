@@ -886,7 +886,7 @@ function inFeedAdHTML() {
 function render() {
   const filtered=getFiltered();
   const sourceEvents = getActiveEvents();
-  document.getElementById('total-count').textContent=sourceEvents.length;
+  var _tc=document.getElementById('total-count'); if(_tc) _tc.textContent=sourceEvents.length;
   if(viewMode==='map'){
     document.getElementById('cal').style.display='none';
     document.getElementById('map-wrap').style.display='block';

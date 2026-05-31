@@ -139,6 +139,80 @@
     remember();
   });
 
+  // ── Manuelle Installation (z. B. Button im Burger-Menü) ──
+  function isIOS() {
+    return /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  }
+
+  function showInfo(html) {
+    if (document.getElementById('pwa-info-ov')) return;
+    var ov = document.createElement('div');
+    ov.id = 'pwa-info-ov';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.6);' +
+      'display:flex;align-items:center;justify-content:center;padding:20px;' +
+      '-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)';
+    var box = document.createElement('div');
+    box.style.cssText = 'max-width:340px;width:100%;background:#16181f;' +
+      'border:1px solid rgba(232,150,58,.35);border-radius:18px;padding:22px;' +
+      'font-family:"DM Sans",sans-serif;color:#f1f2f4;font-size:14px;line-height:1.55;' +
+      'box-shadow:0 20px 50px rgba(0,0,0,.5)';
+    box.innerHTML =
+      '<div style="font-family:\'Syne\',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:10px">' +
+      '<span style="color:#fff">Vi</span><span style="color:#e8963a">ana</span> installieren</div>' +
+      '<div>' + html + '</div>' +
+      '<button id="pwa-info-ok" style="margin-top:18px;width:100%;padding:11px;border:none;' +
+      'border-radius:999px;background:#e8963a;color:#0a0a0a;font-weight:700;font-family:inherit;' +
+      'font-size:14px;cursor:pointer">Alles klar</button>';
+    ov.appendChild(box);
+    document.body.appendChild(ov);
+    function close() { if (ov.parentNode) ov.parentNode.removeChild(ov); }
+    ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+    var ok = document.getElementById('pwa-info-ok');
+    if (ok) ok.addEventListener('click', close);
+  }
+
+  function triggerInstall() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function (choice) {
+        if (choice && choice.outcome === 'dismissed') remember();
+        deferredPrompt = null;
+        hideBar();
+      });
+      return;
+    }
+    if (isStandalone()) {
+      showInfo('Viana ist auf diesem Gerät bereits installiert. 🎉');
+      return;
+    }
+    if (isIOS()) {
+      showInfo('So fügst du Viana auf dem iPhone hinzu:<br><br>' +
+        '1. Tippe in Safari unten auf <b>Teilen</b> (das Quadrat mit dem Pfeil ⬆️)<br>' +
+        '2. Wähle <b>„Zum Home-Bildschirm"</b>.');
+    } else {
+      showInfo('So installierst du Viana:<br><br>' +
+        'Öffne das Browser-Menü (<b>⋮</b> oben rechts) und wähle ' +
+        '<b>„App installieren"</b> bzw. <b>„Zum Startbildschirm hinzufügen"</b>.');
+    }
+  }
+
+  // Alle Buttons mit data-pwa-install verdrahten (z. B. im Burger-Menü)
+  function wireInstallButtons() {
+    var els = document.querySelectorAll('[data-pwa-install]');
+    for (var i = 0; i < els.length; i++) {
+      (function (el) {
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          triggerInstall();
+        });
+        // Schon installiert? Dann Eintrag ausblenden.
+        if (isStandalone()) el.style.display = 'none';
+      })(els[i]);
+    }
+  }
+  wireInstallButtons();
+
   // ── 3) Offline-Banner ──
   // Zeigt einen dezenten Hinweis, wenn keine Internetverbindung besteht –
   // dann sind die angezeigten Events evtl. nicht der aktuelle Stand.
