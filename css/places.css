@@ -696,6 +696,28 @@
   gap: 4px;
   margin-bottom: 6px;
 }
+.place-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+.place-rating-stars {
+  color: #f59e0b;
+  letter-spacing: 1px;
+  font-size: 13px;
+  line-height: 1;
+}
+.place-rating-score {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 12px;
+}
+.place-rating-count {
+  color: var(--muted);
+  font-size: 11px;
+}
 .place-card-highlight {
   font-size: 11px;
   color: var(--muted);
