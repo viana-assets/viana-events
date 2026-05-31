@@ -5,7 +5,7 @@
    wird beim activate automatisch gelöscht.
    ═══════════════════════════════════════════════════════ */
 
-const VERSION       = 'viana-v1-20260531';
+const VERSION       = 'viana-v2-20260531';
 const STATIC_CACHE  = VERSION + '-static';
 const RUNTIME_CACHE = VERSION + '-runtime';
 

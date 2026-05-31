@@ -144,6 +144,11 @@
     return /iphone|ipad|ipod/i.test(navigator.userAgent) ||
       (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   }
+  // Auf iOS kann nur Safari zum Home-Bildschirm hinzufügen.
+  // Chrome/Firefox/Edge auf iOS (CriOS/FxiOS/EdgiOS/OPiOS) können es NICHT.
+  function isIOSnonSafari() {
+    return isIOS() && /CriOS|FxiOS|EdgiOS|OPiOS|GSA/i.test(navigator.userAgent);
+  }
 
   function showInfo(html) {
     if (document.getElementById('pwa-info-ov')) return;
@@ -184,6 +189,14 @@
     }
     if (isStandalone()) {
       showInfo('Viana ist auf diesem Gerät bereits installiert. 🎉');
+      return;
+    }
+    if (isIOSnonSafari()) {
+      showInfo('Auf dem iPhone klappt das Installieren leider nur über <b>Safari</b> ' +
+        '(Chrome &amp; Co. können das auf iOS technisch nicht).<br><br>' +
+        '1. Öffne <b>viana-events.vercel.app</b> in <b>Safari</b><br>' +
+        '2. Tippe unten auf <b>Teilen</b> (Quadrat mit Pfeil ⬆️)<br>' +
+        '3. Wähle <b>„Zum Home-Bildschirm"</b>.');
       return;
     }
     if (isIOS()) {
