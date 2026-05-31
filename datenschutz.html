@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Datenschutz – Viana Events 2026</title>
+<title>Datenschutz – Viana Events</title>
 <link rel="icon" type="image/png" href="assets/icon-96x96.png">
 <meta name="theme-color" content="#0e0f13">
 <meta name="mobile-web-app-capable" content="yes">
@@ -46,7 +46,7 @@
 
   <div class="legal-eyebrow">DSGVO</div>
   <h1 class="legal-title">Datenschutz&shy;erklärung</h1>
-  <p class="legal-sub">Zuletzt aktualisiert: April 2026</p>
+  <p class="legal-sub">Zuletzt aktualisiert: Mai 2026</p>
 
   <div class="toc">
     <h2>Inhalt</h2>
@@ -55,7 +55,7 @@
       <li><a href="#erhobene-daten">Welche Daten wir erheben</a></li>
       <li><a href="#firebase">Firebase / Google</a></li>
       <li><a href="#analytics">Google Analytics</a></li>
-      <li><a href="#cookies">Cookies &amp; LocalStorage</a></li>
+      <li><a href="#cookies">Cookies, LocalStorage &amp; App (PWA)</a></li>
       <li><a href="#fonts">Google Fonts</a></li>
       <li><a href="#werbung">Werbeanzeigen &amp; externe Links</a></li>
       <li><a href="#rechte">Deine Rechte</a></li>
@@ -118,15 +118,20 @@
   </div>
 
 <div class="legal-card" id="cookies">
-    <h2>5. Cookies &amp; LocalStorage</h2>
-    <p>Diese Website setzt <strong>keine Tracking-Cookies</strong> und kein Google Analytics.</p>
+    <h2>5. Cookies, LocalStorage &amp; App-Speicher (PWA)</h2>
+    <p>Diese Website setzt <strong>keine Tracking-Cookies</strong>. Google Analytics wird ausschließlich nach deiner Einwilligung im Cookie-Banner geladen (siehe Abschnitt 4).</p>
     <h3>LocalStorage (nur dein Browser)</h3>
     <ul>
       <li><strong>Merkliste / Wunschliste:</strong> gespeicherte Events (kein Server-Upload)</li>
       <li><strong>Theme-Einstellung:</strong> Dark / Light Mode Präferenz</li>
+      <li><strong>Einwilligungs-Status:</strong> <code>viana_consent_v1</code> – merkt deine Cookie-Entscheidung</li>
+      <li><strong>Installations-Hinweis:</strong> <code>viana_pwa_dismissed</code> – merkt, dass du den „App installieren"-Hinweis weggeklickt hast</li>
       <li><strong>Viana Places Daten:</strong> ggf. gecachte Places-Daten</li>
     </ul>
     <p>Du kannst LocalStorage jederzeit in deinen Browser-Einstellungen löschen.</p>
+    <h3>Progressive Web App (PWA) &amp; Offline-Speicher</h3>
+    <p>Viana lässt sich als App auf dem Gerät installieren. Dazu speichert ein <strong>Service Worker</strong> Dateien der Website (HTML, CSS, JavaScript, Symbole) im lokalen <strong>Cache deines Browsers</strong>, damit die Seite schneller lädt und auch offline nutzbar ist. Dieser Speicher liegt ausschließlich auf deinem Gerät, enthält <strong>keine personenbezogenen Daten</strong> und wird nicht an uns oder Dritte übertragen. Event-Daten werden weiterhin live aus Firebase geladen (vgl. Abschnitt 3) – offline siehst du den zuletzt geladenen Stand.</p>
+    <p>Du kannst diesen Speicher jederzeit löschen, indem du die App deinstallierst bzw. die Websitedaten in den Browser-Einstellungen entfernst. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer schnellen, zuverlässigen und offline-fähigen Darstellung).</p>
     <h3>Technisch notwendige Cookies</h3>
     <p>Vercel (unser Hosting-Anbieter) kann Session-Cookies für Sicherheit und Performance setzen. Diese sind technisch notwendig und benötigen keine Einwilligung (Art. 6 Abs. 1 lit. f DSGVO).</p>
   </div>
