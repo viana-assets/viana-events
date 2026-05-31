@@ -5,11 +5,11 @@
 
 // ── KATEGORIEN ────────────────────────────────────────
 const PLACE_CATS = [
-  { id:'baeder',       icon:'🏊',  name:'Bäder & Thermen',       color:'#5b8ff9', desc:'Hallenbäder, Freibäder, Spaßbäder, Saunalandschaften',    count:83 },
+  { id:'baeder',       icon:'🏊',  name:'Bäder & Thermen',       color:'#5b8ff9', desc:'Hallenbäder, Freibäder, Spaßbäder, Saunalandschaften',    count:59 },
   { id:'freizeitparks',icon:'🎢',  name:'Freizeitparks',          color:'#e8963a', desc:'Erlebnisparks, Themenparks, Familienparks',               count:24 },
   { id:'ausflugsziele', icon:'🏰', name:'Ausflugsziele',          color:'#a78bfa', desc:'Sehenswürdigkeiten, Burgen, Museen, Naturziele',          count:28 },
   { id:'clubs',        icon:'🎵',  name:'Clubs & Diskotheken',    color:'#f472b6', desc:'Nightlife, Clubs, Discos, Tanzschuppen',                  count:74 },
-  { id:'cocktailbars', icon:'🍹',  name:'Cocktailbars',           color:'#34d399', desc:'Bar-Highlights, Rooftops, Weinbars, Craft Cocktails',     count:20 },
+  { id:'cocktailbars', icon:'🍹',  name:'Cocktailbars',           color:'#34d399', desc:'Bar-Highlights, Rooftops, Weinbars, Craft Cocktails',     count:24 },
   { id:'shisha',       icon:'💨',  name:'Shishabars',             color:'#c8974e', desc:'Shishalounges, Wasserpfeife, orientalisches Flair',       count:20 },
   { id:'tierparks',    icon:'🦁',  name:'Tierparks & Wildgehege', color:'#5b8ff9', desc:'Zoos, Wildparks, Streichelzoos, Vogelparks',             count:22 },
   { id:'aktivitaeten', icon:'🎯',  name:'Aktivitäten & Indoor',   color:'#a78bfa', desc:'Bowling, Lasertag, Trampolinhallen, Kletterhallen',       count:29 },
