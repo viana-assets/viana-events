@@ -1642,3 +1642,12 @@ initLocation();
 render();
 checkDeepLink();
 loadPublicCounts();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ⚠️ NICHT ENTFERNEN! Startet das Werbesystem (verwaltet über admin.html).
+// Ohne diese Zeile bleiben ALLE Werbebanner leer. Gehört zum Werbe-Block oben
+// (loadAdConfig / applySky / applyBottom / applyAdConfig / inFeedAdHTML).
+// Bei Event-Updates NUR an die Arrays `events` / `familyEvents` ANHÄNGEN –
+// die Datei NICHT komplett neu generieren, sonst geht dieser Code verloren!
+// ═══════════════════════════════════════════════════════════════════════════
+loadAdConfig().then(applyAdConfig);
