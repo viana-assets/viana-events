@@ -112,6 +112,13 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
 :root[data-theme="light"] .nav-drawer-close{ color:var(--muted); border-color:var(--border); }
 :root[data-theme="light"] .nav-item{ color:var(--muted); border-bottom-color:rgba(0,0,0,.06); }
 :root[data-theme="light"] .nav-item:hover{ color:var(--text); background:rgba(0,0,0,.05); }
+/* Sticky-Filterleiste + Monats-/Quick-Filter im Light-Mode */
+:root[data-theme="light"] .sticky-bar{ background:rgba(255,255,255,.92); }
+:root[data-theme="light"] .month-jump:hover,
+:root[data-theme="light"] .qpill:hover{ border-color:rgba(0,0,0,.22); }
+:root[data-theme="light"] .qpill.active{ border-color:rgba(0,0,0,.28); }
+:root[data-theme="light"] .sort-select option,
+:root[data-theme="light"] .dist-select option{ background:#fff; color:#1b1d22; }
 </style>
 </head>
 <body>
