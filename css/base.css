@@ -20,6 +20,21 @@
   --sonstige: #34d399;
   --family:   #34d399;
   --russian:  #f472b6;
+
+  color-scheme: dark;
+}
+
+/* ── LIGHT MODE — aktiv via <html data-theme="light"> ──
+   Überschreibt nur die Kern-Variablen; Akzent-/Kategoriefarben bleiben.
+   Höhere Spezifität als das :root in events.css → gewinnt zuverlässig. */
+:root[data-theme="light"] {
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --surface2: #e9ebf0;
+  --border: rgba(0,0,0,0.12);
+  --text: #1b1d22;
+  --muted: #5b6470;
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }

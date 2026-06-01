@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){try{if(localStorage.getItem('viana_theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
 <title>Viana Events</title>
 <meta name="description" content="Alle Events, Festivals, Kärwas und Feste in der Metropolregion Nürnberg 2026">
 <meta name="theme-color" content="#0e0f13">
@@ -15,7 +16,7 @@
 <link rel="manifest" href="/manifest.webmanifest">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
-<link rel="stylesheet" href="css/base.css?v=20260416d">
+<link rel="stylesheet" href="css/base.css?v=20260531">
 <link rel="stylesheet" href="css/events.css?v=20260421f">
 <style>
 /* ── BURGER BUTTON ── */
@@ -102,6 +103,15 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
 @media (max-width: 600px) {
   .burger-btn { top: 12px; left: 12px; width: 40px; height: 40px; font-size: 16px; }
 }
+
+/* ── LIGHT MODE: fest verdrahtete dunkle Farben dieser Seite abfangen ── */
+:root[data-theme="light"] .burger-btn{ background:rgba(255,255,255,.92); border-color:rgba(0,0,0,.12); color:#1b1d22; }
+:root[data-theme="light"] .burger-btn:hover{ background:#fff; color:#e8963a; }
+:root[data-theme="light"] .nav-drawer{ background:var(--surface); border-right-color:var(--border); }
+:root[data-theme="light"] .nav-drawer-header{ border-bottom-color:var(--border); }
+:root[data-theme="light"] .nav-drawer-close{ color:var(--muted); border-color:var(--border); }
+:root[data-theme="light"] .nav-item{ color:var(--muted); border-bottom-color:rgba(0,0,0,.06); }
+:root[data-theme="light"] .nav-item:hover{ color:var(--text); background:rgba(0,0,0,.05); }
 </style>
 </head>
 <body>
@@ -147,7 +157,7 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
 <div class="nav-overlay" id="nav-overlay"></div>
 <nav class="nav-drawer" id="nav-drawer" aria-label="Navigation">
   <div class="nav-drawer-header">
-    <div class="nav-drawer-logo"><span style="color:#fff">Vi</span><span style="color:#e8963a">ana</span></div>
+    <div class="nav-drawer-logo"><span style="color:var(--text)">Vi</span><span style="color:#e8963a">ana</span></div>
     <button class="nav-drawer-close" id="nav-close" aria-label="Schließen">×</button>
   </div>
   <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span> Startseite</a>
@@ -155,11 +165,12 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
   <a href="places.html" class="nav-item"><span class="nav-icon">📍</span> Places</a>
   <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0"></div>
   <a href="vorschlagen.html" class="nav-item" style="color:#34d399"><span class="nav-icon">📝</span> Event vorschlagen</a>
+  <a href="#" class="nav-item" id="nav-theme"><span class="nav-icon" id="nav-theme-ico">☀️</span> <span id="nav-theme-label">Heller Modus</span></a>
   <a href="#" class="nav-item" data-pwa-install id="nav-install"><span class="nav-icon">📲</span> App installieren</a>
 </nav>
 
 <header>
-  <h1><span style="color:#fff">Vi</span><span style="color:#e8963a">ana</span> Events</h1>
+  <h1><span style="color:var(--text)">Vi</span><span style="color:#e8963a">ana</span> Events</h1>
   <p class="header-sub">Dein Veranstaltungskalender</p>
   <div class="mode-tabs">
     <button class="mode-tab active-party" id="tab-party">🎉 Party</button>
@@ -298,7 +309,7 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
 </div>
 
 <footer style="text-align:center;padding:2rem 1.5rem;background:var(--surface);margin-top:2rem;font-size:12px;color:var(--muted);border-top:1px solid var(--border)">
-  <div style="margin-bottom:8px">Ein Projekt von <strong><span style="color:#fff">Vi</span><span style="color:#e8963a">ana</span></strong> &nbsp;·&nbsp; Nürnberg 2026 &nbsp;·&nbsp; Alle Angaben ohne Gewähr</div>
+  <div style="margin-bottom:8px">Ein Projekt von <strong><span style="color:var(--text)">Vi</span><span style="color:#e8963a">ana</span></strong> &nbsp;·&nbsp; Nürnberg 2026 &nbsp;·&nbsp; Alle Angaben ohne Gewähr</div>
   <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
     <a href="impressum.html" style="color:var(--accent);text-decoration:none">Impressum</a>
     <a href="datenschutz.html" style="color:var(--accent);text-decoration:none">Datenschutz</a>
@@ -339,6 +350,30 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
 
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeNav();
+  });
+})();
+</script>
+
+<script>
+// ── DARK / LIGHT TOGGLE ──
+(function() {
+  var root = document.documentElement;
+  var item = document.getElementById('nav-theme');
+  var ico  = document.getElementById('nav-theme-ico');
+  var lbl  = document.getElementById('nav-theme-label');
+  function sync() {
+    var light = root.getAttribute('data-theme') === 'light';
+    if (ico) ico.textContent = light ? '🌙' : '☀️';
+    if (lbl) lbl.textContent = light ? 'Dunkler Modus' : 'Heller Modus';
+  }
+  sync();
+  if (item) item.addEventListener('click', function(e) {
+    e.preventDefault();
+    var light = root.getAttribute('data-theme') === 'light';
+    if (light) root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme', 'light');
+    try { localStorage.setItem('viana_theme', light ? 'dark' : 'light'); } catch (err) {}
+    sync();
   });
 })();
 </script>
