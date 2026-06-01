@@ -45,6 +45,11 @@ input:focus{border-color:rgba(232,150,58,.5)}
 
 /* Panel */
 #panel{display:none}
+.tabs{display:flex;gap:8px;margin:6px 0 22px;flex-wrap:wrap}
+.tab{font-family:inherit;font-size:14px;font-weight:600;padding:10px 18px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .15s}
+.tab:hover{color:var(--text);border-color:rgba(255,255,255,.25)}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#0a0a0a}
+.tabpane[hidden]{display:none}
 .section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;margin:26px 0 10px;display:flex;align-items:center;gap:8px}
 .section-title::before{content:'';width:3px;height:1em;background:var(--accent);border-radius:2px}
 .hint{color:var(--muted);font-size:12.5px;margin-bottom:14px}
@@ -94,22 +99,34 @@ input:focus{border-color:rgba(232,150,58,.5)}
       <button class="btn btn-ghost" id="logout-btn">Abmelden</button>
     </div>
 
-    <div class="section-title">Skyscraper (Desktop, Seitenränder)</div>
-    <div class="hint">Je ein Banner links und rechts. Empfohlene Größe 160 × 600 px (SVG).</div>
-    <div id="sec-sky"></div>
+    <div class="tabs">
+      <button class="tab active" data-tab="sky">Skyscraper</button>
+      <button class="tab" data-tab="infeed">In-Feed</button>
+      <button class="tab" data-tab="bottom">Mobile Bottom-Bar</button>
+    </div>
 
-    <div class="section-title">In-Feed (im Event-Feed, alle 10 Events)</div>
-    <div class="hint">Drei Slots. Beim Scrollen erscheinen sie nacheinander: 1 → 2 → 3 → 1 … Leere Slots werden übersprungen. Empfohlen 600 × 80 px.</div>
-    <div id="sec-infeed"></div>
+    <div class="tabpane" data-pane="sky">
+      <div class="section-title">Skyscraper (Desktop, Seitenränder)</div>
+      <div class="hint">Je ein Banner links und rechts. Empfohlene Größe 160 × 600 px (SVG).</div>
+      <div id="sec-sky"></div>
+    </div>
 
-    <div class="section-title">Mobile Bottom-Bar (Handy, unten)</div>
-    <div class="hint">Bis zu drei Banner. Pro Seitenaufruf wird zufällig eines gezeigt. Empfohlen 640 × 80 px.</div>
-    <label style="display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:12px;cursor:pointer;font-weight:600;font-size:14px;color:var(--text)">
-      <input type="checkbox" id="bottombar-enabled" style="width:18px;height:18px;accent-color:var(--accent);cursor:pointer">
-      Mobile Bottom-Bar auf dem Handy anzeigen
-      <span style="margin-left:auto;font-weight:400;font-size:12px;color:var(--muted)">aus = unten erscheint keine Werbeleiste</span>
-    </label>
-    <div id="sec-bottom"></div>
+    <div class="tabpane" data-pane="infeed" hidden>
+      <div class="section-title">In-Feed (im Event-Feed, alle 10 Events)</div>
+      <div class="hint">Drei Slots. Beim Scrollen erscheinen sie nacheinander: 1 → 2 → 3 → 1 … Leere Slots werden übersprungen. Empfohlen 600 × 80 px.</div>
+      <div id="sec-infeed"></div>
+    </div>
+
+    <div class="tabpane" data-pane="bottom" hidden>
+      <div class="section-title">Mobile Bottom-Bar (Handy, unten)</div>
+      <div class="hint">Bis zu drei Banner. Pro Seitenaufruf wird zufällig eines gezeigt. Empfohlen 640 × 80 px.</div>
+      <label style="display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:12px;cursor:pointer;font-weight:600;font-size:14px;color:var(--text)">
+        <input type="checkbox" id="bottombar-enabled" style="width:18px;height:18px;accent-color:var(--accent);cursor:pointer">
+        Mobile Bottom-Bar auf dem Handy anzeigen
+        <span style="margin-left:auto;font-weight:400;font-size:12px;color:var(--muted)">aus = unten erscheint keine Werbeleiste</span>
+      </label>
+      <div id="sec-bottom"></div>
+    </div>
 
     <div class="save-bar">
       <button class="btn btn-primary" id="save-btn">Änderungen speichern</button>
@@ -247,6 +264,14 @@ function syncBottomToggle(){
   if(cb) cb.checked = cfg.bottomBarEnabled !== false;
 }
 (function(){ const cb=document.getElementById('bottombar-enabled'); if(cb) cb.addEventListener('change', e=>{ cfg.bottomBarEnabled = e.target.checked; }); })();
+
+// ── Register / Tabs umschalten ──
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+  t.classList.add('active');
+  const pane = t.dataset.tab;
+  document.querySelectorAll('.tabpane').forEach(p => { p.hidden = (p.dataset.pane !== pane); });
+}));
 
 async function saveConfig(){
   const msg = document.getElementById('save-msg');
