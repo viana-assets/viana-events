@@ -1099,9 +1099,9 @@ function updateCountdown() {
   const future=getActiveEvents().filter(e=>new Date(e.start)>=today).sort((a,b)=>a.start.localeCompare(b.start));
   if(!future.length)return;
   const next=future[0], diff=Math.round((new Date(next.start)-today)/86400000);
-  document.getElementById('cd-days').innerHTML=diff===0?'Heute!':diff===1?'Morgen!':`${diff}<span> Tage</span>`;
-  document.getElementById('cd-name').textContent=next.name;
-  document.getElementById('cd-date').textContent=`📅 ${dateStr(next.start,next.end)} · 📍 ${next.loc}`;
+  const _cdDays=document.getElementById('cd-days'); if(_cdDays) _cdDays.innerHTML=diff===0?'Heute!':diff===1?'Morgen!':`${diff}<span> Tage</span>`;
+  const _cdName=document.getElementById('cd-name'); if(_cdName) _cdName.textContent=next.name;
+  const _cdDate=document.getElementById('cd-date'); if(_cdDate) _cdDate.textContent=`📅 ${dateStr(next.start,next.end)} · 📍 ${next.loc}`;
   document.getElementById('countdown-card').onclick=()=>openModal(getActiveEvents().indexOf(next));
 }
 
@@ -1131,7 +1131,7 @@ function toggleGoing(idx) {
 
 function updateWishlistUI() {
   const total=wishlist.size+goingList.size, btn=document.getElementById('wl-open-btn');
-  document.getElementById('wl-count').textContent=total;
+  const _wlc=document.getElementById('wl-count'); if(_wlc) _wlc.textContent=total;
   btn.style.display=total>0?'flex':'none';
   renderWishlistPanel();
 }
