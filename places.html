@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>(function(){try{if(localStorage.getItem('viana_theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
   <title>Viana Places</title>
   <meta name="description" content="Die besten Locations, Ausflugsziele, Clubs und mehr – sortiert nach Entfernung von Nürnberg">
   <link rel="icon" type="image/png" href="assets/icon-96x96.png">
@@ -16,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/base.css?v=20260416">
+  <link rel="stylesheet" href="css/base.css?v=20260531">
   <link rel="stylesheet" href="css/places.css?v=20260416">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -103,6 +104,16 @@
 }
 /* Modal offen → Burger ausblenden */
 body:has(#place-modal-bg.open) .burger-btn { display: none; }
+
+/* ── LIGHT MODE: fest verdrahtete dunkle Farben dieser Seite abfangen ── */
+:root[data-theme="light"] .burger-btn{ background:rgba(255,255,255,.92); border-color:rgba(0,0,0,.12); color:#1b1d22; }
+:root[data-theme="light"] .burger-btn:hover{ background:#fff; color:#e8963a; }
+:root[data-theme="light"] .nav-drawer{ background:var(--surface); border-right-color:var(--border); }
+:root[data-theme="light"] .nav-drawer-header{ border-bottom-color:var(--border); }
+:root[data-theme="light"] .nav-drawer-close{ color:var(--muted); border-color:var(--border); }
+:root[data-theme="light"] .nav-item{ color:var(--muted); border-bottom-color:rgba(0,0,0,.06); }
+:root[data-theme="light"] .nav-item:hover{ color:var(--text); background:rgba(0,0,0,.05); }
+:root[data-theme="light"] .leaflet-popup-content-wrapper{ background:#fff !important; color:#1b1d22 !important; border-color:rgba(0,0,0,.12) !important; }
 </style>
 </head>
 <body>
@@ -114,7 +125,7 @@ body:has(#place-modal-bg.open) .burger-btn { display: none; }
 <div class="nav-overlay" id="nav-overlay"></div>
 <nav class="nav-drawer" id="nav-drawer" aria-label="Navigation">
   <div class="nav-drawer-header">
-    <div class="nav-drawer-logo"><span style="color:#fff">Vi</span><span style="color:#e8963a">ana</span></div>
+    <div class="nav-drawer-logo"><span style="color:var(--text)">Vi</span><span style="color:#e8963a">ana</span></div>
     <button class="nav-drawer-close" id="nav-close" aria-label="Schließen">×</button>
   </div>
   <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span> Startseite</a>
@@ -122,12 +133,13 @@ body:has(#place-modal-bg.open) .burger-btn { display: none; }
   <a href="places.html" class="nav-item nav-active"><span class="nav-icon">📍</span> Places</a>
   <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0"></div>
   <a href="vorschlagen.html" class="nav-item" style="color:#34d399"><span class="nav-icon">📝</span> Event vorschlagen</a>
+  <a href="#" class="nav-item" id="nav-theme"><span class="nav-icon" id="nav-theme-ico">☀️</span> <span id="nav-theme-label">Heller Modus</span></a>
   <a href="#" class="nav-item" data-pwa-install id="nav-install"><span class="nav-icon">📲</span> App installieren</a>
 </nav>
 
 
 <header>
-  <h1 class="header-title"><span style="color:#fff">Vi</span><span style="color:#e8963a">ana</span> Places</h1>
+  <h1 class="header-title"><span style="color:var(--text)">Vi</span><span style="color:#e8963a">ana</span> Places</h1>
   <p class="header-sub">Die besten Locations, Ausflugsziele & mehr rund um Nürnberg</p>
 </header>
 
@@ -202,7 +214,7 @@ body:has(#place-modal-bg.open) .burger-btn { display: none; }
 </main>
 
 <footer style="text-align:center;padding:2.5rem 2rem;background:var(--surface);margin-top:2rem;font-size:13px;color:var(--muted)">
-  <p style="margin-bottom:8px">Ein Projekt von <strong><span style="color:#fff">Vi</span><span style="color:#e8963a">ana</span></strong> &nbsp;·&nbsp; Alle Angaben ohne Gewähr &nbsp;·&nbsp; Stand April 2026</p>
+  <p style="margin-bottom:8px">Ein Projekt von <strong><span style="color:var(--text)">Vi</span><span style="color:#e8963a">ana</span></strong> &nbsp;·&nbsp; Alle Angaben ohne Gewähr &nbsp;·&nbsp; Stand April 2026</p>
   <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:8px">
     <a href="impressum.html" style="color:var(--accent);text-decoration:none">Impressum</a>
     <a href="datenschutz.html" style="color:var(--accent);text-decoration:none">Datenschutz</a>
@@ -276,6 +288,30 @@ body:has(#place-modal-bg.open) .burger-btn { display: none; }
       closeNav();
       if (typeof closePlaceModal === 'function') closePlaceModal();
     }
+  });
+})();
+</script>
+
+<script>
+// ── DARK / LIGHT TOGGLE ──
+(function() {
+  var root = document.documentElement;
+  var item = document.getElementById('nav-theme');
+  var ico  = document.getElementById('nav-theme-ico');
+  var lbl  = document.getElementById('nav-theme-label');
+  function sync() {
+    var light = root.getAttribute('data-theme') === 'light';
+    if (ico) ico.textContent = light ? '🌙' : '☀️';
+    if (lbl) lbl.textContent = light ? 'Dunkler Modus' : 'Heller Modus';
+  }
+  sync();
+  if (item) item.addEventListener('click', function(e) {
+    e.preventDefault();
+    var light = root.getAttribute('data-theme') === 'light';
+    if (light) root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme', 'light');
+    try { localStorage.setItem('viana_theme', light ? 'dark' : 'light'); } catch (err) {}
+    sync();
   });
 })();
 </script>
