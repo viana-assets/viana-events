@@ -11,7 +11,7 @@ const COORDS = {
   // ── Kernstädte ──
   'Nürnberg':[49.452,11.077],'Erlangen':[49.598,11.004],'Fürth':[49.478,10.989],
   'Schwabach':[49.328,11.021],'Zirndorf':[49.444,10.955],'Oberasbach':[49.430,10.965],
-  'Stein':[49.418,10.973],'Herzogenaurach':[49.567,10.882],'Pyrbaum':[49.267,11.183],'Cadolzburg':[49.502,10.860],
+  'Stein':[49.418,10.973],'Herzogenaurach':[49.567,10.882],'Pyrbaum':[49.267,11.183],'Burg Rabenstein':[49.883,11.467],'Freystadt':[49.200,11.333],'Cadolzburg':[49.502,10.860],
   'Roth':[49.245,11.091],'Pleinfeld':[49.102,10.958],'Feucht':[49.378,11.213],
   'Lauf':[49.512,11.278],'Schwaig':[49.484,11.213],
   // ── Viana Events Locations ──
@@ -219,6 +219,8 @@ const familyEvents = [
   {cat:'freizeit', name:'Autokino Roßtal', loc:'Roßtal', start:'2026-06-03', end:'2026-06-06', free:false, desc:'Frankens größtes Drive-in-Kino – 4 Tage Open-Air-Kinoerlebnis vom Auto aus mit aktuellem Filmprogramm.', genre:'Kino / Open Air / Familie', ticket:'https://www.autokino-rosstal.de', outdoor:true, ageMin:0, price:'Infos auf Website', oepnv:'PKW erforderlich', parking:'Vorhanden (Autokino)'},
   {cat:'sport', name:'Womens and Girls Run Erlangen', loc:'Erlangen', start:'2026-06-02', end:'2026-06-02', free:false, desc:'Laufevent exklusiv für Frauen und Mädchen in Erlangen – verschiedene Distanzen, Spaß und Community im Vordergrund.', genre:'Laufen / Frauensport / Community', ticket:'https://www.instagram.com/inspiradu', outdoor:true, ageMin:0, price:'Teilnehmergebühr', oepnv:'Bahn bis Erlangen Hbf', parking:'Innenstadt Erlangen'},
   {cat:'sport', name:'Puma Herzoman Herzogenaurach', loc:'Herzogenaurach', start:'2026-06-28', end:'2026-06-28', free:false, desc:'Laufevent von Puma in Herzogenaurach – Sport, Community und Brand-Experience an einem Tag.', genre:'Laufen / Sport / Community', ticket:'https://www.instagram.com/inspiradu', outdoor:true, ageMin:0, price:'Infos via Instagram', oepnv:'Bus ab Erlangen oder Nürnberg', parking:'Vorhanden in Herzogenaurach'},
+  {cat:'kinder', name:'Festival Kinder lieben Comics', loc:'Erlangen – kubic / Comic-Salon', start:'2026-06-05', end:'2026-06-06', free:false, desc:'Festival „Kinder lieben Comics" im Rahmen des Comic-Salons Erlangen – Workshops, Lesungen, Zeichenkurse und mehr für Kinder und Jugendliche.', genre:'Kinder / Comics / Kultur', ticket:'https://www.comic-salon.de', outdoor:false, ageMin:0, price:'Infos auf comic-salon.de', oepnv:'Bahn bis Erlangen Hbf', parking:'Innenstadt Erlangen'},
+  {cat:'freizeit', name:'Mittelaltermarkt Burg Rabenstein', loc:'Burg Rabenstein', start:'2026-06-04', end:'2026-06-06', free:false, desc:'Mittelalterlicher Markt auf der historischen Burg Rabenstein in der Fränkischen Schweiz – Ritter, Händler, Schauvorführungen und mittelalterliches Treiben. Do bis Sa.', genre:'Mittelalter / Kultur / Familie', ticket:'', outdoor:true, ageMin:0, price:'Eintritt ca. 5 Euro', oepnv:'PKW empfohlen (ca. 50 km von Nürnberg)', parking:'Vorhanden an der Burg'},
 ];
 
 
@@ -628,6 +630,14 @@ const events = [
   {cat:'flohmarkt', name:'Kostümverkauf Staatstheater Nürnberg', loc:'Nürnberg – Staatstheater', start:'2026-06-27', end:'2026-06-27', free:true, desc:'Das Staatstheater Nürnberg verkauft originale Bühnenkostüme – seltene Gelegenheit für Theaterliebhaber.', genre:'Flohmarkt / Theater / Kultur', ticket:'', outdoor:false, ageMin:0, price:'Kostenlos (Eintritt)', oepnv:'U-Bahn Lorenzkirche', parking:'Innenstadt Parkhäuser'},
   {cat:'stadtfest', name:'Street Art Festival Betonliebe', loc:'Nürnberg-Langwasser – Gemeinschaftshaus', start:'2026-06-27', end:'2026-06-27', free:true, desc:'Graffiti-Art und Street Art im Gemeinschaftshaus Langwasser – lebendige Kunstszene, Eintritt frei.', genre:'Street Art / Graffiti / Kultur', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'U-Bahn U1 Langwasser', parking:'Parkplatz Langwasser'},
 
+  // ── Juni 2026 – Nürnbergspots KW 23 ────────────────────────────────────
+  {cat:'festival', name:'Anthrax', loc:'Nürnberg – Löwensaal', start:'2026-06-02', end:'2026-06-02', free:false, desc:'Anthrax live im Löwensaal Nürnberg. Thrash Metal Legende live auf Tour. 20 Uhr Einlass.', genre:'Thrash Metal / Rock', ticket:'https://www.loewensaal.de', outdoor:false, ageMin:16, price:'Tickets auf Webseite', oepnv:'U-Bahn Maxfeld/Nordostbahnhof', parking:'Parkhäuser in der Nähe'},
+  {cat:'festival', name:'Acid King (US)', loc:'Nürnberg – Z-Bau', start:'2026-06-04', end:'2026-06-04', free:false, desc:'Acid King aus San Francisco live im Z-Bau Nürnberg – Sludge/Doom Metal mit psychedelischen Vibes. 20 Uhr.', genre:'Doom Metal / Sludge / Psychedelic', ticket:'https://z-bau.com', outdoor:false, ageMin:16, price:'Tickets auf z-bau.com', oepnv:'U1 bis Frankenstraße', parking:'Begrenzt'},
+  {cat:'afterwork', name:'Daytime Rave – Die Rakete', loc:'Nürnberg – Die Rakete', start:'2026-06-04', end:'2026-06-05', free:false, desc:'Daytime Rave in der Rakete Nürnberg – Techno & Electronic ab 23 Uhr.', genre:'Techno / Electronic', ticket:'https://www.die-rakete.de', outdoor:false, ageMin:18, price:'Infos auf Webseite', oepnv:'U1 bis Frankenstraße', parking:'Begrenzt'},
+  {cat:'afterwork', name:'Kinky RAW', loc:'Nürnberg – Z-Bau', start:'2026-06-06', end:'2026-06-07', free:false, desc:'Kinky RAW im Z-Bau Nürnberg – queere Party-Nacht mit elektronischer Musik. 22 Uhr.', genre:'Electronic / Queer Party', ticket:'https://z-bau.com', outdoor:false, ageMin:18, price:'Infos auf z-bau.com', oepnv:'U1 bis Frankenstraße', parking:'Begrenzt'},
+  {cat:'afterwork', name:'Malefiz Block Party Vol.2', loc:'Nürnberg – Z-Bau', start:'2026-06-06', end:'2026-06-07', free:false, desc:'Malefiz Block Party Vol.2 im Z-Bau Nürnberg – urbane Sounds, Beats und Party-Feeling. 21 Uhr.', genre:'Hip Hop / Electronic / Block Party', ticket:'https://z-bau.com', outdoor:false, ageMin:18, price:'Infos auf z-bau.com', oepnv:'U1 bis Frankenstraße', parking:'Begrenzt'},
+  {cat:'stadtfest', name:'Food Truck Festival Fürth', loc:'Fürth – Südstadtpark', start:'2026-06-03', end:'2026-06-07', free:true, desc:'5 Tage Food Truck Festival in Fürth – internationale Street-Food-Küche, Live-Musik und Biergarten-Stimmung im Südstadtpark. Eintritt frei!', genre:'Street Food / Festival / Outdoor', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos (Verzehr)', oepnv:'U1 Fürth Hauptbahnhof', parking:'Innenstadt Parkhäuser Fürth'},
+  {cat:'volksfest', name:'Volksfest Freystadt', loc:'Freystadt', start:'2026-06-05', end:'2026-06-06', free:true, desc:'Traditionelles Volksfest im Nürnberger Land – Fahrgeschäfte, Musik und fränkische Schmankerl.', genre:'Volksfest / Kärwa', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'Bus ab Nürnberg Richtung Freystadt', parking:'Vorhanden im Ort'},
 ];
 
 const sonsigeEvents = []; // Leer – Messen sind jetzt unter Family
@@ -1630,7 +1640,5 @@ updateCountdown();
 updateWishlistUI();
 initLocation();
 render();
-
-// Werbung aus Firebase laden und anwenden (Skyscraper, In-Feed, Bottom-Bar)
-loadAdConfig().then(applyAdConfig);
 checkDeepLink();
+loadPublicCounts();
