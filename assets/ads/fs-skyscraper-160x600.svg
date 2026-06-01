@@ -1,0 +1,70 @@
+<svg viewBox="0 0 160 600" width="160" height="600" xmlns="http://www.w3.org/2000/svg" font-family="'DM Sans', Arial, sans-serif">
+  <defs>
+    <linearGradient id="fsGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4B96A"/>
+      <stop offset="50%" stop-color="#C9A84C"/>
+      <stop offset="100%" stop-color="#9A7C2C"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Hintergrund -->
+  <rect width="160" height="600" fill="#0a0a0a" rx="10"/>
+  <!-- Goldener Rahmen -->
+  <rect width="160" height="600" fill="none" stroke="rgba(201,168,76,0.35)" stroke-width="1" rx="10"/>
+  <!-- Top-Glow gold -->
+  <ellipse cx="80" cy="-5" rx="100" ry="65" fill="rgba(201,168,76,0.06)"/>
+
+  <!-- Logo-Bild (echtes PNG) -->
+  <image href="Logo%20Fotographie%20Silva%2090x76.png" x="20" y="26" width="120" height="101" preserveAspectRatio="xMidYMid meet"/>
+
+  <!-- Separator -->
+  <line x1="18" y1="140" x2="142" y2="140" stroke="rgba(201,168,76,0.25)" stroke-width="1"/>
+
+  <!-- Name -->
+  <text x="80" y="162" text-anchor="middle" fill="#C9A84C" font-size="10.5" letter-spacing="2.5" font-family="Georgia, serif">FOTOGRAFIE</text>
+  <text x="80" y="180" text-anchor="middle" fill="url(#fsGold)" font-size="14" letter-spacing="2" font-family="Georgia, serif" font-weight="700">SILVIKA</text>
+
+  <!-- Tagline -->
+  <text x="80" y="200" text-anchor="middle" fill="#9ca3af" font-size="9" font-style="italic">Momente für die Ewigkeit</text>
+
+  <!-- Separator -->
+  <line x1="18" y1="214" x2="142" y2="214" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+  <!-- Services -->
+  <rect x="14" y="222" width="132" height="22" rx="5" fill="rgba(201,168,76,0.09)"/>
+  <text x="80" y="237" text-anchor="middle" fill="#d1d5db" font-size="10.5">📸 Eventfotografie</text>
+
+  <rect x="14" y="248" width="132" height="22" rx="5" fill="rgba(201,168,76,0.09)"/>
+  <text x="80" y="263" text-anchor="middle" fill="#d1d5db" font-size="10.5">🎉 Partys &amp; Feiern</text>
+
+  <rect x="14" y="274" width="132" height="22" rx="5" fill="rgba(201,168,76,0.09)"/>
+  <text x="80" y="289" text-anchor="middle" fill="#d1d5db" font-size="10.5">💍 Hochzeiten</text>
+
+  <rect x="14" y="300" width="132" height="22" rx="5" fill="rgba(201,168,76,0.09)"/>
+  <text x="80" y="315" text-anchor="middle" fill="#d1d5db" font-size="10.5">🪞 Portrait &amp; Beauty</text>
+
+  <rect x="14" y="326" width="132" height="22" rx="5" fill="rgba(201,168,76,0.09)"/>
+  <text x="80" y="341" text-anchor="middle" fill="#d1d5db" font-size="10.5">👨‍👩‍👧 Familie &amp; Kinder</text>
+
+  <!-- Separator -->
+  <line x1="18" y1="362" x2="142" y2="362" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+  <!-- Region -->
+  <text x="80" y="379" text-anchor="middle" fill="#6b7280" font-size="9.5">📍 Nürnberg &amp; Umgebung</text>
+
+  <!-- Separator -->
+  <line x1="18" y1="392" x2="142" y2="392" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+  <!-- CTA Button -->
+  <rect x="14" y="402" width="132" height="38" rx="8" fill="url(#fsGold)"/>
+  <text x="80" y="426" text-anchor="middle" fill="#0a0a0a" font-size="12" font-weight="700" font-family="'DM Sans', Arial, sans-serif">Jetzt anfragen →</text>
+
+  <!-- Website -->
+  <text x="80" y="460" text-anchor="middle" fill="#9ca3af" font-size="8.5">fotografiesilvika.com</text>
+
+  <!-- Bottom glow -->
+  <ellipse cx="80" cy="605" rx="90" ry="55" fill="rgba(201,168,76,0.04)"/>
+
+  <!-- ANZEIGE -->
+  <text x="80" y="480" text-anchor="middle" fill="rgba(107,114,128,0.5)" font-size="8" letter-spacing="0.08em">ANZEIGE</text>
+</svg>

@@ -1,0 +1,46 @@
+<svg viewBox="0 0 640 80" width="640" height="80" xmlns="http://www.w3.org/2000/svg" font-family="'DM Sans', Arial, sans-serif">
+  <defs>
+    <linearGradient id="fsGoldB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4B96A"/>
+      <stop offset="50%" stop-color="#C9A84C"/>
+      <stop offset="100%" stop-color="#9A7C2C"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Hintergrund -->
+  <rect width="640" height="80" fill="#0a0a0a" rx="10"/>
+  <!-- Goldener Rahmen -->
+  <rect width="640" height="80" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="1" rx="10"/>
+  <!-- Goldener Akzent oben -->
+  <rect x="0" y="0" width="640" height="3" fill="url(#fsGoldB)" rx="3"/>
+
+  <!-- Logo -->
+  <image href="Logo%20Fotographie%20Silva%2090x76.png" x="12" y="8" width="64" height="64" preserveAspectRatio="xMidYMid meet"/>
+
+  <!-- Trennlinie -->
+  <line x1="88" y1="14" x2="88" y2="66" stroke="rgba(201,168,76,0.2)" stroke-width="1"/>
+
+  <!-- Name -->
+  <text x="100" y="27" fill="#C9A84C" font-size="10" letter-spacing="2" font-family="Georgia, serif">FOTOGRAFIE</text>
+  <text x="100" y="44" fill="url(#fsGoldB)" font-size="17" letter-spacing="1.5" font-family="Georgia, serif" font-weight="700">SILVIKA</text>
+  <text x="100" y="61" fill="#9ca3af" font-size="9.5" font-style="italic">Professionelle Fotografie · Nürnberg</text>
+
+  <!-- Trennlinie -->
+  <line x1="300" y1="14" x2="300" y2="66" stroke="rgba(201,168,76,0.15)" stroke-width="1"/>
+
+  <!-- Services -->
+  <text x="316" y="29" fill="#d1d5db" font-size="10">📸 Events &amp; Partys</text>
+  <text x="316" y="47" fill="#d1d5db" font-size="10">💍 Hochzeiten &amp; Portrait</text>
+  <text x="316" y="65" fill="#d1d5db" font-size="10">👨‍👩‍👧 Familie &amp; Kinder</text>
+
+  <!-- Trennlinie -->
+  <line x1="488" y1="14" x2="488" y2="66" stroke="rgba(201,168,76,0.15)" stroke-width="1"/>
+
+  <!-- CTA + Website -->
+  <rect x="498" y="18" width="128" height="38" rx="8" fill="url(#fsGoldB)"/>
+  <text x="562" y="42" text-anchor="middle" fill="#0a0a0a" font-size="12" font-weight="700">Jetzt anfragen →</text>
+  <text x="562" y="67" text-anchor="middle" fill="#9ca3af" font-size="8">fotografiesilvika.com</text>
+
+  <!-- ANZEIGE -->
+  <text x="632" y="10" text-anchor="end" fill="rgba(107,114,128,0.5)" font-size="8" letter-spacing="0.08em">ANZEIGE</text>
+</svg>

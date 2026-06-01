@@ -872,14 +872,66 @@ const AD_CLIENTS = [
   },
 ];
 
-// In-Feed: abwechselnd Kunde 1 → Kunde 2 → Kunde 1 → …
+// ── WERBE-CONFIG aus Firebase (verwaltet über admin.html) ───────────────────
+// Wird beim Laden geholt; fehlt sie, greifen die obigen AD_CLIENTS als Fallback.
+let adConfig = null;
+function svgDataUri(svg){ return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg); }
+function adSlotsFrom(arr){ return (arr || []).filter(s => s && s.svg); }
+function getInFeedPool(){ const s = adConfig ? adSlotsFrom(adConfig.infeed) : []; return s.length ? s : null; }
+function getBottomPool(){ const s = adConfig ? adSlotsFrom(adConfig.bottomBar) : []; return s.length ? s : null; }
+
+async function loadAdConfig(){
+  try{
+    const res = await fetch(`${FB_BASE}/config/ads?key=${FB_API_KEY}`);
+    if(!res.ok) return;
+    const data = await res.json();
+    const raw = data.fields?.json?.stringValue;
+    if(raw) adConfig = JSON.parse(raw);
+  }catch(err){ console.warn('Ad-Config laden:', err); }
+}
+
+function setSky(linkId, slot){
+  if(!slot || !slot.svg) return;
+  const a = document.getElementById(linkId); if(!a) return;
+  if(slot.href) a.href = slot.href;
+  const img = a.querySelector('img');
+  if(img){ img.src = svgDataUri(slot.svg); if(slot.alt) img.alt = slot.alt; }
+}
+
+function applyAdConfig(){
+  if(!adConfig) return;
+  setSky('ad-left-link',  adConfig.skyLeft);
+  setSky('ad-right-link', adConfig.skyRight);
+  const bpool = getBottomPool();
+  if(bpool){
+    const bar = document.getElementById('ad-bottom-bar');
+    if(bar){
+      const link = bar.querySelector('a'), img = bar.querySelector('img');
+      const s = bpool[Math.floor(Math.random() * bpool.length)];
+      if(link && s.href) link.href = s.href;
+      if(img){ img.src = svgDataUri(s.svg); img.alt = s.alt || ''; }
+    }
+  }
+  _inFeedAdIdx = 0;
+  render();
+}
+
+// In-Feed: abwechselnd Slot 1 → 2 → 3 → … (aus Config; sonst AD_CLIENTS-Fallback)
 let _inFeedAdIdx = 0;
 function inFeedAdHTML() {
-  const client = AD_CLIENTS[_inFeedAdIdx % AD_CLIENTS.length];
+  const pool = getInFeedPool();
+  let href, src, alt;
+  if(pool){
+    const s = pool[_inFeedAdIdx % pool.length];
+    href = s.href || '#'; src = svgDataUri(s.svg); alt = s.alt || '';
+  } else {
+    const client = AD_CLIENTS[_inFeedAdIdx % AD_CLIENTS.length];
+    href = client.href; src = client.img; alt = client.alt;
+  }
   _inFeedAdIdx++;
   return `<div class="ad-infeed" aria-label="Werbung">
-    <a href="${client.href}" target="_blank" rel="noopener sponsored" style="display:block;text-decoration:none">
-      <img src="${client.img}" alt="${client.alt}"
+    <a href="${href}" target="_blank" rel="noopener sponsored" style="display:block;text-decoration:none">
+      <img src="${src}" alt="${alt}"
            style="width:100%;height:auto;display:block;border-radius:10px">
     </a>
   </div>`;
@@ -1555,4 +1607,7 @@ updateCountdown();
 updateWishlistUI();
 initLocation();
 render();
+
+// Werbung aus Firebase laden und anwenden (Skyscraper, In-Feed, Bottom-Bar)
+loadAdConfig().then(applyAdConfig);
 checkDeepLink();

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Viana · Admin</title>
+<link rel="icon" type="image/png" href="assets/icon-96x96.png">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0e0f13;--surface:#16181f;--surface2:#1e2029;--border:rgba(255,255,255,.09);
+  --text:#f0f0f0;--muted:#8b93a1;--accent:#e8963a;--ok:#34d399;--err:#f43f5e;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5}
+a{color:var(--accent)}
+.wrap{max-width:860px;margin:0 auto;padding:24px 18px 80px}
+
+/* Header */
+.head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.brand{font-family:'Syne',sans-serif;font-weight:800;font-size:24px}
+.brand em{color:var(--accent);font-style:normal}
+.brand small{display:block;font-family:'DM Sans';font-weight:500;font-size:12px;color:var(--muted);margin-top:2px}
+.btn{font-family:inherit;font-size:14px;font-weight:600;padding:10px 18px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:all .15s}
+.btn:hover{border-color:rgba(255,255,255,.25)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#0a0a0a}
+.btn-primary:hover{filter:brightness(1.05)}
+.btn-ghost{background:transparent}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* Login */
+#login{max-width:380px;margin:8vh auto 0;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:28px}
+#login h1{font-family:'Syne',sans-serif;font-size:1.4rem;margin-bottom:4px}
+#login p{color:var(--muted);font-size:13px;margin-bottom:20px}
+label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin:14px 0 6px}
+input[type=email],input[type=password],input[type=url],input[type=text]{
+  width:100%;padding:11px 13px;border-radius:10px;border:1px solid var(--border);
+  background:var(--bg);color:var(--text);font-family:inherit;font-size:14px;outline:none}
+input:focus{border-color:rgba(232,150,58,.5)}
+#login .btn-primary{width:100%;margin-top:20px;padding:12px}
+.msg{margin-top:14px;font-size:13px;min-height:18px}
+.msg.err{color:var(--err)}
+.msg.ok{color:var(--ok)}
+
+/* Panel */
+#panel{display:none}
+.section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;margin:26px 0 10px;display:flex;align-items:center;gap:8px}
+.section-title::before{content:'';width:3px;height:1em;background:var(--accent);border-radius:2px}
+.hint{color:var(--muted);font-size:12.5px;margin-bottom:14px}
+
+.slot{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
+.slot-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.slot-name{font-weight:700;font-size:14px}
+.slot-size{font-size:11px;color:var(--muted);background:var(--surface2);padding:3px 9px;border-radius:999px}
+.slot-grid{display:grid;grid-template-columns:200px 1fr;gap:16px}
+@media(max-width:560px){.slot-grid{grid-template-columns:1fr}}
+
+.drop{border:2px dashed var(--border);border-radius:12px;min-height:120px;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:10px;cursor:pointer;transition:all .15s;background:var(--bg);position:relative;overflow:hidden}
+.drop:hover,.drop.over{border-color:var(--accent);background:rgba(232,150,58,.06)}
+.drop .ph{color:var(--muted);font-size:12px;pointer-events:none}
+.drop img{max-width:100%;max-height:160px;display:block}
+.drop.has-img{padding:6px;background:#fff}
+.slot-clear{font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline}
+.slot-clear:hover{color:var(--err)}
+
+.save-bar{position:sticky;bottom:0;margin-top:24px;padding:14px;background:rgba(14,15,19,.92);
+  backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.save-bar .btn-primary{padding:12px 26px}
+.spacer{flex:1}
+.note{font-size:11px;color:var(--muted);text-align:center;margin-top:30px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="login">
+  <h1>Vi<em style="color:var(--accent)">ana</em> Admin</h1>
+  <p>Bitte mit deinem Admin-Konto anmelden.</p>
+  <label for="email">E-Mail</label>
+  <input id="email" type="email" autocomplete="username" placeholder="admin@viana-assets.com">
+  <label for="pw">Passwort</label>
+  <input id="pw" type="password" autocomplete="current-password" placeholder="••••••••">
+  <button class="btn btn-primary" id="login-btn">Anmelden</button>
+  <div class="msg" id="login-msg"></div>
+</div>
+
+<!-- ── PANEL ── -->
+<div id="panel">
+  <div class="wrap">
+    <div class="head">
+      <div class="brand">Vi<em>ana</em> Admin <small id="who"></small></div>
+      <button class="btn btn-ghost" id="logout-btn">Abmelden</button>
+    </div>
+
+    <div class="section-title">Skyscraper (Desktop, Seitenränder)</div>
+    <div class="hint">Je ein Banner links und rechts. Empfohlene Größe 160 × 600 px (SVG).</div>
+    <div id="sec-sky"></div>
+
+    <div class="section-title">In-Feed (im Event-Feed, alle 10 Events)</div>
+    <div class="hint">Drei Slots. Beim Scrollen erscheinen sie nacheinander: 1 → 2 → 3 → 1 … Leere Slots werden übersprungen. Empfohlen 600 × 80 px.</div>
+    <div id="sec-infeed"></div>
+
+    <div class="section-title">Mobile Bottom-Bar (Handy, unten)</div>
+    <div class="hint">Bis zu drei Banner. Pro Seitenaufruf wird zufällig eines gezeigt. Empfohlen 640 × 80 px.</div>
+    <div id="sec-bottom"></div>
+
+    <div class="save-bar">
+      <button class="btn btn-primary" id="save-btn">Änderungen speichern</button>
+      <button class="btn btn-ghost" id="reload-btn">Verwerfen / neu laden</button>
+      <div class="spacer"></div>
+      <div class="msg" id="save-msg"></div>
+    </div>
+
+    <div class="note">
+      Banner werden in Firebase gespeichert und sofort auf der Live-Seite verwendet.<br>
+      SVG-Dateien per Drag &amp; Drop in das Feld ziehen oder anklicken zum Auswählen.
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   VIANA ADMIN – Werbebanner-Verwaltung
+   Firebase Auth (REST) + Firestore (REST), kein SDK, kein Build.
+   ═══════════════════════════════════════════════════════ */
+const FB_PROJECT = 'viana-events';
+const FB_API_KEY = 'AIzaSyDx-s-6yYdvRxP4Gy9GaWdOKBEfo8GpTXQ';
+const FB_BASE = `https://firestore.googleapis.com/v1/projects/${FB_PROJECT}/databases/(default)/documents`;
+const AUTH_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FB_API_KEY}`;
+const CFG_DOC = 'config/ads';
+
+const TOKEN_KEY = 'viana_admin_token';
+const EMAIL_KEY = 'viana_admin_email';
+
+let idToken = sessionStorage.getItem(TOKEN_KEY) || '';
+let adminEmail = sessionStorage.getItem(EMAIL_KEY) || '';
+
+function emptySlot(){ return { href:'', alt:'', svg:'' }; }
+let cfg = {
+  skyLeft: emptySlot(),
+  skyRight: emptySlot(),
+  infeed: [emptySlot(), emptySlot(), emptySlot()],
+  bottomBar: [emptySlot(), emptySlot(), emptySlot()]
+};
+
+const SLOTS = [
+  { sec:'sec-sky',    key:'skyLeft',     name:'Skyscraper LINKS',  size:'160 × 600' },
+  { sec:'sec-sky',    key:'skyRight',    name:'Skyscraper RECHTS', size:'160 × 600' },
+  { sec:'sec-infeed', key:'infeed.0',    name:'In-Feed Slot 1',    size:'600 × 80' },
+  { sec:'sec-infeed', key:'infeed.1',    name:'In-Feed Slot 2',    size:'600 × 80' },
+  { sec:'sec-infeed', key:'infeed.2',    name:'In-Feed Slot 3',    size:'600 × 80' },
+  { sec:'sec-bottom', key:'bottomBar.0', name:'Bottom-Bar Slot 1', size:'640 × 80' },
+  { sec:'sec-bottom', key:'bottomBar.1', name:'Bottom-Bar Slot 2', size:'640 × 80' },
+  { sec:'sec-bottom', key:'bottomBar.2', name:'Bottom-Bar Slot 3', size:'640 × 80' }
+];
+
+function getSlot(key){
+  if(key.indexOf('.')>-1){ const [a,i]=key.split('.'); return cfg[a][+i]; }
+  return cfg[key];
+}
+function svgDataUri(svg){ return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg); }
+
+/* ── LOGIN ── */
+async function signIn(email, password){
+  const res = await fetch(AUTH_URL, {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ email, password, returnSecureToken:true })
+  });
+  const data = await res.json();
+  if(!res.ok){ throw new Error(data.error?.message || 'Anmeldung fehlgeschlagen'); }
+  return data; // idToken, email, ...
+}
+
+document.getElementById('login-btn').addEventListener('click', doLogin);
+document.getElementById('pw').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+
+async function doLogin(){
+  const msg = document.getElementById('login-msg');
+  const btn = document.getElementById('login-btn');
+  const email = document.getElementById('email').value.trim();
+  const pw = document.getElementById('pw').value;
+  if(!email || !pw){ msg.className='msg err'; msg.textContent='Bitte E-Mail und Passwort eingeben.'; return; }
+  btn.disabled = true; msg.className='msg'; msg.textContent='Anmelden…';
+  try{
+    const data = await signIn(email, pw);
+    idToken = data.idToken; adminEmail = data.email || email;
+    sessionStorage.setItem(TOKEN_KEY, idToken);
+    sessionStorage.setItem(EMAIL_KEY, adminEmail);
+    await openPanel();
+  }catch(err){
+    msg.className='msg err';
+    msg.textContent = friendlyAuthError(err.message);
+  }finally{ btn.disabled = false; }
+}
+
+function friendlyAuthError(code){
+  if(/EMAIL_NOT_FOUND|INVALID_LOGIN_CREDENTIALS|INVALID_PASSWORD/.test(code)) return 'E-Mail oder Passwort falsch.';
+  if(/TOO_MANY_ATTEMPTS/.test(code)) return 'Zu viele Versuche. Bitte später erneut.';
+  if(/CONFIGURATION_NOT_FOUND/.test(code)) return 'Login ist in Firebase noch nicht aktiviert (Email/Passwort).';
+  return 'Anmeldung fehlgeschlagen: ' + code;
+}
+
+function logout(){
+  idToken=''; adminEmail='';
+  sessionStorage.removeItem(TOKEN_KEY); sessionStorage.removeItem(EMAIL_KEY);
+  document.getElementById('panel').style.display='none';
+  document.getElementById('login').style.display='block';
+  document.getElementById('pw').value='';
+}
+document.getElementById('logout-btn').addEventListener('click', logout);
+
+/* ── CONFIG LADEN / SPEICHERN ── */
+async function loadConfig(){
+  try{
+    const res = await fetch(`${FB_BASE}/${CFG_DOC}?key=${FB_API_KEY}`);
+    if(res.status===404) return; // noch nicht angelegt → Defaults behalten
+    if(!res.ok) return;
+    const data = await res.json();
+    const raw = data.fields?.json?.stringValue;
+    if(raw){ mergeConfig(JSON.parse(raw)); }
+  }catch(err){ console.warn('Config laden:', err); }
+}
+
+function mergeConfig(c){
+  if(!c) return;
+  if(c.skyLeft)  cfg.skyLeft  = Object.assign(emptySlot(), c.skyLeft);
+  if(c.skyRight) cfg.skyRight = Object.assign(emptySlot(), c.skyRight);
+  ['infeed','bottomBar'].forEach(k=>{
+    if(Array.isArray(c[k])){ for(let i=0;i<3;i++){ if(c[k][i]) cfg[k][i]=Object.assign(emptySlot(), c[k][i]); } }
+  });
+}
+
+async function saveConfig(){
+  const msg = document.getElementById('save-msg');
+  const btn = document.getElementById('save-btn');
+  btn.disabled=true; msg.className='msg'; msg.textContent='Speichern…';
+  const body = { fields:{ json:{ stringValue: JSON.stringify(cfg) } } };
+  try{
+    const res = await fetch(`${FB_BASE}/${CFG_DOC}?key=${FB_API_KEY}&updateMask.fieldPaths=json`, {
+      method:'PATCH',
+      headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+idToken },
+      body: JSON.stringify(body)
+    });
+    if(res.status===401 || res.status===403){
+      msg.className='msg err'; msg.textContent='Sitzung abgelaufen oder keine Berechtigung. Bitte neu anmelden.';
+      setTimeout(logout, 1800); return;
+    }
+    if(!res.ok){ const e=await res.json().catch(()=>({})); throw new Error(e.error?.message||res.status); }
+    msg.className='msg ok'; msg.textContent='✓ Gespeichert. Auf der Live-Seite sofort aktiv.';
+    setTimeout(()=>{ msg.textContent=''; }, 4000);
+  }catch(err){
+    msg.className='msg err'; msg.textContent='Fehler beim Speichern: '+err.message;
+  }finally{ btn.disabled=false; }
+}
+document.getElementById('save-btn').addEventListener('click', saveConfig);
+document.getElementById('reload-btn').addEventListener('click', async ()=>{
+  cfg = { skyLeft:emptySlot(), skyRight:emptySlot(), infeed:[emptySlot(),emptySlot(),emptySlot()], bottomBar:[emptySlot(),emptySlot(),emptySlot()] };
+  await loadConfig(); renderSlots();
+});
+
+/* ── UI ── */
+function renderSlots(){
+  ['sec-sky','sec-infeed','sec-bottom'].forEach(id=>{ document.getElementById(id).innerHTML=''; });
+  SLOTS.forEach(def=>{
+    const slot = getSlot(def.key);
+    const card = document.createElement('div');
+    card.className = 'slot';
+    card.innerHTML =
+      '<div class="slot-head"><span class="slot-name">'+def.name+'</span><span class="slot-size">'+def.size+' px</span></div>'+
+      '<div class="slot-grid">'+
+        '<div class="drop'+(slot.svg?' has-img':'')+'" data-key="'+def.key+'">'+
+          (slot.svg ? '<img src="'+svgDataUri(slot.svg)+'" alt="">' : '<span class="ph">SVG hierher ziehen<br>oder klicken</span>')+
+        '</div>'+
+        '<div>'+
+          '<label>Link (URL des Kunden)</label>'+
+          '<input type="url" data-field="href" data-key="'+def.key+'" value="'+escapeAttr(slot.href)+'" placeholder="https://kunde.de">'+
+          '<label>Beschreibung / Alt-Text</label>'+
+          '<input type="text" data-field="alt" data-key="'+def.key+'" value="'+escapeAttr(slot.alt)+'" placeholder="z. B. Mobiler Reifenwechsel">'+
+          (slot.svg ? '<div style="margin-top:10px"><button class="slot-clear" data-clear="'+def.key+'">Bild entfernen</button></div>' : '')+
+        '</div>'+
+      '</div>';
+    document.getElementById(def.sec).appendChild(card);
+  });
+  wireSlotEvents();
+}
+
+function escapeAttr(s){ return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+function wireSlotEvents(){
+  document.querySelectorAll('input[data-field]').forEach(inp=>{
+    inp.addEventListener('input', ()=>{ getSlot(inp.dataset.key)[inp.dataset.field] = inp.value; });
+  });
+  document.querySelectorAll('[data-clear]').forEach(b=>{
+    b.addEventListener('click', ()=>{ getSlot(b.dataset.clear).svg=''; renderSlots(); });
+  });
+  document.querySelectorAll('.drop').forEach(zone=>{
+    const key = zone.dataset.key;
+    zone.addEventListener('click', ()=>pickFile(key));
+    zone.addEventListener('dragover', e=>{ e.preventDefault(); zone.classList.add('over'); });
+    zone.addEventListener('dragleave', ()=>zone.classList.remove('over'));
+    zone.addEventListener('drop', e=>{
+      e.preventDefault(); zone.classList.remove('over');
+      const f = e.dataTransfer.files[0];
+      if(f) readSvg(f, key);
+    });
+  });
+}
+
+function pickFile(key){
+  const inp = document.createElement('input');
+  inp.type='file'; inp.accept='.svg,image/svg+xml';
+  inp.onchange = ()=>{ if(inp.files[0]) readSvg(inp.files[0], key); };
+  inp.click();
+}
+
+function readSvg(file, key){
+  if(!/svg/i.test(file.type) && !/\.svg$/i.test(file.name)){
+    alert('Bitte eine SVG-Datei verwenden.'); return;
+  }
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    const txt = String(reader.result);
+    if(txt.indexOf('<svg')===-1){ alert('Das sieht nicht nach einer gültigen SVG-Datei aus.'); return; }
+    if(txt.length > 200000){ alert('SVG ist sehr groß (>200 KB). Bitte ein schlankeres SVG verwenden.'); return; }
+    getSlot(key).svg = txt;
+    renderSlots();
+  };
+  reader.readAsText(file);
+}
+
+/* ── PANEL ÖFFNEN ── */
+async function openPanel(){
+  document.getElementById('login').style.display='none';
+  document.getElementById('panel').style.display='block';
+  document.getElementById('who').textContent = adminEmail ? '· '+adminEmail : '';
+  await loadConfig();
+  renderSlots();
+}
+
+/* Bereits angemeldet (Token in dieser Sitzung)? */
+if(idToken){ openPanel(); }
+</script>
+</body>
+</html>
