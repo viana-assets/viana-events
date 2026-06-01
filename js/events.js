@@ -893,28 +893,51 @@ async function loadAdConfig(){
   }catch(err){ console.warn('Ad-Config laden:', err); }
 }
 
-function setSky(linkId, slot){
-  if(!slot || !slot.svg) return;
+let adConfigLoaded = false;
+
+// Skyscraper-Fallback (falls für einen Slot nichts in der Config gesetzt ist)
+const SKY_FALLBACK = {
+  'ad-left-link':  { href:'https://mobil-reifen-wechseln.de/', img:'assets/ads/mrw-skyscraper-160x600.svg', alt:'Mobiler Reifenwechsel – Direkt bei Ihnen vor Ort' },
+  'ad-right-link': { href:'https://foerdertechnik-wartung-und-service.de/', img:'assets/ads/ft-skyscraper-160x600.svg', alt:'Fördertechnik Wartung & Service – Nürnberg' }
+};
+
+function applySky(linkId, slot){
   const a = document.getElementById(linkId); if(!a) return;
-  if(slot.href) a.href = slot.href;
   const img = a.querySelector('img');
-  if(img){ img.src = svgDataUri(slot.svg); if(slot.alt) img.alt = slot.alt; }
+  const fb = SKY_FALLBACK[linkId] || {};
+  if(slot && slot.svg){
+    a.href = slot.href || fb.href || a.href;
+    if(img){ img.src = svgDataUri(slot.svg); img.alt = slot.alt || fb.alt || ''; }
+  } else {
+    if(fb.href) a.href = fb.href;
+    if(img){ img.src = fb.img; img.alt = fb.alt || ''; }
+  }
+  if(img) img.style.visibility = 'visible';
 }
 
-function applyAdConfig(){
-  if(!adConfig) return;
-  setSky('ad-left-link',  adConfig.skyLeft);
-  setSky('ad-right-link', adConfig.skyRight);
-  const bpool = getBottomPool();
-  if(bpool){
-    const bar = document.getElementById('ad-bottom-bar');
-    if(bar){
-      const link = bar.querySelector('a'), img = bar.querySelector('img');
-      const s = bpool[Math.floor(Math.random() * bpool.length)];
-      if(link && s.href) link.href = s.href;
-      if(img){ img.src = svgDataUri(s.svg); img.alt = s.alt || ''; }
-    }
+function applyBottom(){
+  const bar = document.getElementById('ad-bottom-bar'); if(!bar) return;
+  const link = bar.querySelector('a'), img = bar.querySelector('img'); if(!img) return;
+  const pool = getBottomPool();
+  if(pool){
+    const s = pool[Math.floor(Math.random() * pool.length)];
+    if(link && s.href) link.href = s.href;
+    img.src = svgDataUri(s.svg); img.alt = s.alt || '';
+  } else {
+    const client = AD_CLIENTS[Math.floor(Math.random() * AD_CLIENTS.length)];
+    if(link) link.href = client.href;
+    img.src = client.barImg; img.alt = client.barAlt;
   }
+  img.style.visibility = 'visible';
+}
+
+// Setzt alle Werbeplätze (Config oder Fallback) – wird NACH dem Config-Laden aufgerufen,
+// damit kein altes Banner aufblitzt.
+function applyAdConfig(){
+  adConfigLoaded = true;
+  applySky('ad-left-link',  adConfig && adConfig.skyLeft);
+  applySky('ad-right-link', adConfig && adConfig.skyRight);
+  applyBottom();
   _inFeedAdIdx = 0;
   render();
 }
@@ -922,6 +945,7 @@ function applyAdConfig(){
 // In-Feed: abwechselnd Slot 1 → 2 → 3 → … (aus Config; sonst AD_CLIENTS-Fallback)
 let _inFeedAdIdx = 0;
 function inFeedAdHTML() {
+  if(!adConfigLoaded) return '';  // erst Banner zeigen, wenn Config geladen ist (kein Aufblitzen)
   const pool = getInFeedPool();
   let href, src, alt;
   if(pool){
@@ -940,21 +964,11 @@ function inFeedAdHTML() {
   </div>`;
 }
 
-/* ── BOTTOM BAR: zufälligen Kunden laden + Close ────────────────────────── */
+/* ── BOTTOM BAR: nur Close-Button (Bild wird via applyBottom() gesetzt) ────── */
 (function initBottomBar() {
   const bar = document.getElementById('ad-bottom-bar');
   const closeBtn = document.getElementById('ad-bottom-bar-close');
-  const link = bar ? bar.querySelector('a') : null;
-  const img  = bar ? bar.querySelector('img') : null;
-  if (!bar || !closeBtn || !link || !img) return;
-
-  // Zufällig einen Kunden wählen
-  const client = AD_CLIENTS[Math.floor(Math.random() * AD_CLIENTS.length)];
-  link.href = client.href;
-  img.src   = client.barImg;
-  img.alt   = client.barAlt;
-
-  // Body-Padding setzen damit Content nicht verdeckt wird
+  if (!bar || !closeBtn) return;
   document.body.classList.add('has-bottom-ad');
   closeBtn.addEventListener('click', () => {
     bar.style.display = 'none';

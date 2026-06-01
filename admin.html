@@ -327,6 +327,12 @@ function readSvg(file, key){
     const txt = String(reader.result);
     if(txt.indexOf('<svg')===-1){ alert('Das sieht nicht nach einer gültigen SVG-Datei aus.'); return; }
     if(txt.length > 200000){ alert('SVG ist sehr groß (>200 KB). Bitte ein schlankeres SVG verwenden.'); return; }
+    // Warnung: externes Bild im SVG (z. B. <image href="logo.png">) → wird auf der Website NICHT geladen
+    if(/<image\b[^>]*?(?:xlink:)?href\s*=\s*["'](?!data:)/i.test(txt)){
+      alert('Achtung: Dieses SVG verweist auf eine externe Bilddatei (z. B. ein verlinktes Logo-PNG).\n\n'
+        + 'Auf der Website wird dieses Bild NICHT angezeigt. Bitte ein SVG verwenden, in dem das Logo eingebettet ist '
+        + '(beim Export „Bilder einbetten" wählen). Du kannst es trotzdem speichern, das Logo fehlt dann aber.');
+    }
     getSlot(key).svg = txt;
     renderSlots();
   };
