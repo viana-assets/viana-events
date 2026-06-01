@@ -5,7 +5,7 @@
    wird beim activate automatisch gelöscht.
    ═══════════════════════════════════════════════════════ */
 
-const VERSION       = 'viana-v2-20260531';
+const VERSION       = 'viana-v3-20260531';
 const STATIC_CACHE  = VERSION + '-static';
 const RUNTIME_CACHE = VERSION + '-runtime';
 
@@ -67,24 +67,29 @@ self.addEventListener('fetch', (event) => {
   // Große Medien nicht cachen (Hintergrundvideo, Musik)
   if (/\.(mp4|mp3|webm|mov)$/i.test(url.pathname)) return;
 
-  // Seitenaufrufe (Navigation): network-first, damit Events immer aktuell sind.
-  if (req.mode === 'navigate') {
+  // Seitenaufrufe (Navigation) UND JS/CSS: network-first.
+  // → Online immer die aktuelle Version; Cache nur als Offline-Fallback.
+  // Verhindert, dass altes JS/CSS aus dem Cache mit frischem HTML kollidiert.
+  if (req.mode === 'navigate' || /\.(js|css)$/i.test(url.pathname)) {
     event.respondWith(
       fetch(req)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(RUNTIME_CACHE).then((c) => c.put(req, copy));
+          if (res && res.status === 200 && res.type === 'basic') {
+            const copy = res.clone();
+            caches.open(RUNTIME_CACHE).then((c) => c.put(req, copy));
+          }
           return res;
         })
         .catch(() =>
-          caches.match(req, { ignoreSearch: true })
-            .then((cached) => cached || caches.match('/index.html'))
+          caches.match(req, { ignoreSearch: true }).then((cached) =>
+            cached || (req.mode === 'navigate' ? caches.match('/index.html') : undefined)
+          )
         )
     );
     return;
   }
 
-  // Statische Assets (CSS/JS/Icons/SVG): stale-while-revalidate.
+  // Übrige statische Assets (Icons, Bilder, Fonts, Manifest): stale-while-revalidate.
   // ignoreSearch:true → trifft auch trotz ?v=… Query-Strings.
   event.respondWith(
     caches.match(req, { ignoreSearch: true }).then((cached) => {
