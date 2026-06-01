@@ -104,6 +104,11 @@ input:focus{border-color:rgba(232,150,58,.5)}
 
     <div class="section-title">Mobile Bottom-Bar (Handy, unten)</div>
     <div class="hint">Bis zu drei Banner. Pro Seitenaufruf wird zufällig eines gezeigt. Empfohlen 640 × 80 px.</div>
+    <label style="display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:12px;cursor:pointer;font-weight:600;font-size:14px;color:var(--text)">
+      <input type="checkbox" id="bottombar-enabled" style="width:18px;height:18px;accent-color:var(--accent);cursor:pointer">
+      Mobile Bottom-Bar auf dem Handy anzeigen
+      <span style="margin-left:auto;font-weight:400;font-size:12px;color:var(--muted)">aus = unten erscheint keine Werbeleiste</span>
+    </label>
     <div id="sec-bottom"></div>
 
     <div class="save-bar">
@@ -142,7 +147,8 @@ let cfg = {
   skyLeft: emptySlot(),
   skyRight: emptySlot(),
   infeed: [emptySlot(), emptySlot(), emptySlot()],
-  bottomBar: [emptySlot(), emptySlot(), emptySlot()]
+  bottomBar: [emptySlot(), emptySlot(), emptySlot()],
+  bottomBarEnabled: true
 };
 
 const SLOTS = [
@@ -233,7 +239,14 @@ function mergeConfig(c){
   ['infeed','bottomBar'].forEach(k=>{
     if(Array.isArray(c[k])){ for(let i=0;i<3;i++){ if(c[k][i]) cfg[k][i]=Object.assign(emptySlot(), c[k][i]); } }
   });
+  if(typeof c.bottomBarEnabled === 'boolean') cfg.bottomBarEnabled = c.bottomBarEnabled;
 }
+
+function syncBottomToggle(){
+  const cb = document.getElementById('bottombar-enabled');
+  if(cb) cb.checked = cfg.bottomBarEnabled !== false;
+}
+(function(){ const cb=document.getElementById('bottombar-enabled'); if(cb) cb.addEventListener('change', e=>{ cfg.bottomBarEnabled = e.target.checked; }); })();
 
 async function saveConfig(){
   const msg = document.getElementById('save-msg');
@@ -259,8 +272,8 @@ async function saveConfig(){
 }
 document.getElementById('save-btn').addEventListener('click', saveConfig);
 document.getElementById('reload-btn').addEventListener('click', async ()=>{
-  cfg = { skyLeft:emptySlot(), skyRight:emptySlot(), infeed:[emptySlot(),emptySlot(),emptySlot()], bottomBar:[emptySlot(),emptySlot(),emptySlot()] };
-  await loadConfig(); renderSlots();
+  cfg = { skyLeft:emptySlot(), skyRight:emptySlot(), infeed:[emptySlot(),emptySlot(),emptySlot()], bottomBar:[emptySlot(),emptySlot(),emptySlot()], bottomBarEnabled:true };
+  await loadConfig(); renderSlots(); syncBottomToggle();
 });
 
 /* ── UI ── */
@@ -346,6 +359,7 @@ async function openPanel(){
   document.getElementById('who').textContent = adminEmail ? '· '+adminEmail : '';
   await loadConfig();
   renderSlots();
+  syncBottomToggle();
 }
 
 /* Bereits angemeldet (Token in dieser Sitzung)? */

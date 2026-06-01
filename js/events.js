@@ -917,6 +917,12 @@ function applySky(linkId, slot){
 
 function applyBottom(){
   const bar = document.getElementById('ad-bottom-bar'); if(!bar) return;
+  // Im Admin abgeschaltet? Dann gar keine Bottom-Bar zeigen.
+  if(adConfig && adConfig.bottomBarEnabled === false){
+    bar.style.display = 'none';
+    document.body.classList.remove('has-bottom-ad');
+    return;
+  }
   const link = bar.querySelector('a'), img = bar.querySelector('img'); if(!img) return;
   const pool = getBottomPool();
   if(pool){
