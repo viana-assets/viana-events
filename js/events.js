@@ -875,7 +875,10 @@ const AD_CLIENTS = [
 // ── WERBE-CONFIG aus Firebase (verwaltet über admin.html) ───────────────────
 // Wird beim Laden geholt; fehlt sie, greifen die obigen AD_CLIENTS als Fallback.
 let adConfig = null;
-function svgDataUri(svg){ return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg); }
+function svgDataUri(svg){
+  try { return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg))); }
+  catch(e){ return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); }
+}
 function adSlotsFrom(arr){ return (arr || []).filter(s => s && s.svg); }
 function getInFeedPool(){ const s = adConfig ? adSlotsFrom(adConfig.infeed) : []; return s.length ? s : null; }
 function getBottomPool(){ const s = adConfig ? adSlotsFrom(adConfig.bottomBar) : []; return s.length ? s : null; }

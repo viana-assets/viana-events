@@ -160,7 +160,10 @@ function getSlot(key){
   if(key.indexOf('.')>-1){ const [a,i]=key.split('.'); return cfg[a][+i]; }
   return cfg[key];
 }
-function svgDataUri(svg){ return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg); }
+function svgDataUri(svg){
+  try { return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg))); }
+  catch(e){ return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); }
+}
 
 /* ── LOGIN ── */
 async function signIn(email, password){
