@@ -141,6 +141,10 @@ const COORDS = {
   'Volkach – Stadtallee':[49.865,10.222],
   'Würzburg – Weinberg am Stein':[49.796,9.915],
   'Würzburg – Marktplatz':[49.795,9.929],
+  // ── Neu hinzugefügt KW 23 2026 ──
+  'Scherleithen':[49.145,11.075],
+  'Fürth – Grüner Baum':[49.479,10.987],
+  'Erlangen – Villa Kunterbums':[49.621,10.934],
 };
 
 const familyEvents = [
@@ -638,6 +642,12 @@ const events = [
   {cat:'afterwork', name:'Malefiz Block Party Vol.2', loc:'Nürnberg – Z-Bau', start:'2026-06-06', end:'2026-06-07', free:false, desc:'Malefiz Block Party Vol.2 im Z-Bau Nürnberg – urbane Sounds, Beats und Party-Feeling. 21 Uhr.', genre:'Hip Hop / Electronic / Block Party', ticket:'https://z-bau.com', outdoor:false, ageMin:18, price:'Infos auf z-bau.com', oepnv:'U1 bis Frankenstraße', parking:'Begrenzt'},
   {cat:'stadtfest', name:'Food Truck Festival Fürth', loc:'Fürth – Südstadtpark', start:'2026-06-03', end:'2026-06-07', free:true, desc:'5 Tage Food Truck Festival in Fürth – internationale Street-Food-Küche, Live-Musik und Biergarten-Stimmung im Südstadtpark. Eintritt frei!', genre:'Street Food / Festival / Outdoor', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos (Verzehr)', oepnv:'U1 Fürth Hauptbahnhof', parking:'Innenstadt Parkhäuser Fürth'},
   {cat:'volksfest', name:'Volksfest Freystadt', loc:'Freystadt', start:'2026-06-05', end:'2026-06-06', free:true, desc:'Traditionelles Volksfest im Nürnberger Land – Fahrgeschäfte, Musik und fränkische Schmankerl.', genre:'Volksfest / Kärwa', ticket:'', outdoor:true, ageMin:0, price:'Kostenlos', oepnv:'Bus ab Nürnberg Richtung Freystadt', parking:'Vorhanden im Ort'},
+
+  // ── Juni / August 2026 – KW 23 Neuzugänge ───────────────────────────────
+  {cat:'afterwork', name:'Latino Sunset', loc:'Fürth – Grüner Baum', start:'2026-06-03', end:'2026-06-03', free:false, desc:'Das große Sommerfest im Ballsaal des Grüner Baum Fürth – Salsa, Bachata, Kizomba, Reggaeton, Hip Hop & R\'n\'B auf 3 Areas mit 3 DJs und 800 qm Partyzone. Doors: 19:30 Uhr.', genre:'Salsa / Bachata / Reggaeton / Hip Hop', ticket:'https://www.gruenerbaumfuerth.de', outdoor:false, ageMin:18, price:'10 €', oepnv:'U1 bis Fürth Hauptbahnhof', parking:'Innenstadt Parkhäuser Fürth'},
+  {cat:'festival', name:'House am See 2026 – Lost in Paradise', loc:'Erlangen – Villa Kunterbums', start:'2026-06-04', end:'2026-06-04', free:false, desc:'Open-Air-Festival an der Villa Kunterbums in Erlangen – Lost in Paradise Edition. Ab 14:00 Uhr direkt am See.', genre:'House / Electronic / Open Air', ticket:'https://karlito.ticket.io', outdoor:true, ageMin:18, price:'Tickets auf karlito.ticket.io', oepnv:'Bahn bis Erlangen Hbf', parking:'Parkplätze vor Ort'},
+  {cat:'festival', name:'Geheimkonzert Nürnberg #6 – Open Air Edition', loc:'Nürnberg – Z-Bau', start:'2026-08-15', end:'2026-08-15', free:false, desc:'Geheimkonzert by Rausgegangen – wer auf der Bühne steht, bleibt bis zum ersten Ton geheim. Open-Air-Edition im Z-Bau Nürnberg. 19:00–22:15 Uhr.', genre:'Indie / Rock / Deutschpop / Überraschung', ticket:'https://rausgegangen.de', outdoor:true, ageMin:0, price:'21,90 – 29,90 €', oepnv:'U1 bis Frankenstraße', parking:'Begrenzt'},
+  {cat:'festival', name:'Klangtherapie Festival 2026', loc:'Scherleithen', start:'2026-08-06', end:'2026-08-10', free:false, desc:'Vier Tage Techno, Liebe und Utopie in Nordbayern – Bass zwischen den Hügeln, Staub auf den Schuhen. Scherleithen, 6.–10. August 2026.', genre:'Techno / Electronic / Festival', ticket:'https://www.klangtherapie-festival.de', outdoor:true, ageMin:18, price:'Tickets auf klangtherapie-festival.de', oepnv:'PKW empfohlen', parking:'Festivalgelände'},
 ];
 
 const sonsigeEvents = []; // Leer – Messen sind jetzt unter Family
@@ -882,8 +892,14 @@ const AD_CLIENTS = [
   },
 ];
 
+// ═══════════════════════════════════════════════════════════════════════════
+// ⚠️ WERBESYSTEM – NICHT ENTFERNEN/ÜBERSCHREIBEN (verwaltet über admin.html)
+// Dieser Block + die Boot-Zeile `loadAdConfig().then(applyAdConfig)` am Dateiende
+// gehören zusammen. Bei Event-Updates NUR die Arrays oben anhängen, NICHT die
+// ganze events.js neu generieren – sonst sind alle Banner weg.
 // ── WERBE-CONFIG aus Firebase (verwaltet über admin.html) ───────────────────
 // Wird beim Laden geholt; fehlt sie, greifen die obigen AD_CLIENTS als Fallback.
+// ═══════════════════════════════════════════════════════════════════════════
 let adConfig = null;
 function svgDataUri(svg){
   try { return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg))); }
