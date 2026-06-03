@@ -2,9 +2,12 @@
    HASHTAG FILTER SYSTEM
    ═══════════════════════════════════════════ */
 
-/* Wrapper */
+/* Wrapper – width:100% + overflow:hidden verhindert Page-Overflow */
 .hashtag-filter-wrap {
   padding: 0 0 6px;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* Haupt-Pill-Zeile */
@@ -53,6 +56,10 @@
   color: var(--text, #f0f0f0);
 }
 
+/* Alle-Pill */
+.htag.htag-alle { font-weight: 600; }
+.htag.htag-alle.active { background: var(--surface2, #252535); border-color: rgba(255,255,255,0.2); color: var(--text, #f0f0f0); }
+
 /* Party & Family – eigene Farben */
 .htag.htag-party { border-color: rgba(232,150,58,0.3); }
 .htag.htag-party:hover { border-color: rgba(232,150,58,0.6); }
@@ -99,6 +106,34 @@
   padding: 1px 6px;
   min-width: 18px;
   text-align: center;
+}
+
+/* Hashtag-Chips auf Event-Karten */
+.event-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+.event-htag {
+  padding: 2px 9px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.event-htag:hover { border-color: rgba(232,150,58,0.3); color: var(--text); }
+.event-htag.event-htag-active {
+  background: rgba(232,150,58,0.15);
+  color: var(--accent);
+  border-color: rgba(232,150,58,0.4);
+  font-weight: 600;
 }
 
 /* Aktive Tags Zeile */
@@ -765,8 +800,19 @@ h1 span{color:var(--accent)}
 .month-count{font-size:12px;color:var(--muted)}
 .events-list{display:flex;flex-direction:column;gap:8px}
 /* EVENT ROW */
-.event-row{display:grid;grid-template-columns:64px 1fr auto;gap:1rem;align-items:start;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
-.event-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cat-color,var(--muted));border-radius:3px 0 0 3px}
+.event-row{display:block;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;cursor:pointer;transition:border-color .2s;position:relative;overflow:hidden}
+.event-row:hover{border-color:rgba(232,150,58,0.35)}
+.event-row::before{display:none}
+/* Mockup-Karte: Name-Zeile */
+.erow-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:5px}
+.erow-top .event-name{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:var(--text);line-height:1.3;flex:1}
+.erow-meta{font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5}
+/* Ticket-Link als Chip */
+.event-htag-link{text-decoration:none;background:rgba(91,143,249,.12);color:#5b8ff9;border-color:rgba(91,143,249,.3)!important}
+.event-htag-link:hover{background:rgba(91,143,249,.22)!important}
+/* Events-Zähler */
+.events-count-bar{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--muted);padding:8px 0 4px;font-weight:500}
+.events-count-bar span{color:var(--accent);font-weight:700}
 .event-row:hover{background:var(--surface2);border-color:rgba(255,255,255,.12);transform:translateY(-1px)}
 .event-row.today-event{border-color:rgba(232,150,58,.45);background:linear-gradient(90deg,rgba(232,150,58,.06) 0%,var(--surface) 100%)}
 .event-row.today-event::before{background:var(--accent)}
@@ -788,7 +834,7 @@ h1 span{color:var(--accent)}
 @keyframes pulse-today{0%,100%{opacity:1}50%{opacity:.6}}
 .row-countdown{font-size:10px;font-weight:600;color:var(--accent);white-space:nowrap}
 .event-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding-top:2px}
-.cat-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:999px;color:#0e0f13;white-space:nowrap}
+.cat-badge{display:none}
 .heart-btn{background:none;border:none;cursor:pointer;font-size:18px;line-height:1;padding:4px;color:var(--muted);transition:all .2s}
 .heart-btn:hover{transform:scale(1.2)}
 .heart-btn.saved{color:#f43f5e}

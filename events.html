@@ -22,7 +22,7 @@
 /* ── BURGER BUTTON ── */
 .burger-btn {
   position: fixed;
-  top: 16px; left: 16px;
+  top: 16px; right: 16px; left: auto;
   z-index: 9000;
   width: 44px; height: 44px;
   background: rgba(22,24,31,0.85);
@@ -101,7 +101,7 @@ body:has(#modal-bg.open) .burger-btn,
 body:has(#wishlist-panel.open) .burger-btn { display: none; }
 
 @media (max-width: 600px) {
-  .burger-btn { top: 12px; left: 12px; width: 40px; height: 40px; font-size: 16px; }
+  .burger-btn { top: 12px; right: 12px; left: auto; width: 40px; height: 40px; font-size: 16px; }
 }
 
 /* ── LIGHT MODE: fest verdrahtete dunkle Farben dieser Seite abfangen ── */
@@ -204,6 +204,7 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
   <!-- ── HASHTAG FILTER ── -->
   <div class="hashtag-filter-wrap">
     <div class="hashtag-row" id="hashtag-row">
+      <div class="htag htag-alle active" id="htag-alle" onclick="clearAllTags()"># alle</div>
       <div class="htag htag-party" data-tag="party">🎉 #party</div>
       <div class="htag htag-family" data-tag="family">👨‍👩‍👧 #family</div>
       <div class="htag-sep"></div>
@@ -217,6 +218,7 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
       <button class="filter-open-btn" id="filter-open-btn" onclick="openFilterSheet()">⚙️ Filter <span class="filter-badge" id="filter-badge" style="display:none">0</span></button>
     </div>
     <div class="active-tags-row" id="active-tags-row"></div>
+    <div class="events-count-bar" id="events-count-bar"><span id="events-count">—</span> Events</div>
   </div>
   <div class="view-toggle">
     <button class="view-btn active" id="btn-list">≡ Liste</button>

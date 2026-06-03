@@ -837,51 +837,27 @@ function countdownLabel(diff) {
 }
 
 function eventRowHTML(e) {
-  const col=CAT_COLORS[e.cat]||'#888', sd=new Date(e.start), ed=new Date(e.end), idx=getActiveEvents().indexOf(e);
+  const idx=getActiveEvents().indexOf(e);
   const isSaved=wishlist.has(e.name+e.start), diff=getDaysUntil(e.start), isToday_=diff===0;
-  const pubCount=getPublicCount(e);
-  const highlightClass = isToday_ ? ' today-event' : '';
   const vianaClass = e.viana ? ' viana-event' : '';
-  const isMultiDay = e.start !== e.end;
-  const fav = getTicketDomain(e.ticket);
-  const favHtml = e.viana
-    ? `<img class="event-fav event-fav-viana" src="assets/icon-96x96.png" alt="Viana" loading="lazy">`
-    : (fav ? `<img class="event-fav" src="https://www.google.com/s2/favicons?domain=${fav}&sz=32" alt="" loading="lazy" onerror="this.style.display='none'">` : '');
-  const vianaRowStyle = e.viana ? ';background:linear-gradient(105deg,rgba(201,162,39,0.28) 0%,rgba(201,162,39,0.12) 50%,rgba(201,162,39,0.06) 100%);box-shadow:inset 0 0 0 2px rgba(201,162,39,0.6),0 0 20px rgba(201,162,39,0.18)' : '';
-  return `<div class="event-row${highlightClass}${vianaClass}" data-idx="${idx}" style="--cat-color:${col};position:relative${vianaRowStyle}">
-    <div class="row-corner">
-      ${pubCount>0?`<span class="row-dabei-badge">✅ ${pubCount}</span>`:''}
-      <div class="row-action-btns">
-        <button class="row-heart-btn${isSaved?' saved':''}" onclick="event.stopPropagation();toggleWishlist(${idx})" title="Merken">${isSaved?'❤️':'🤍'}</button>
-        <button class="row-going-btn${goingList.has(e.name+e.start)?' going':''}" onclick="event.stopPropagation();toggleGoing(${idx})" title="Ich bin dabei">👍</button>
-      </div>
+  const vianaStyle = e.viana ? ';box-shadow:inset 0 0 0 2px rgba(201,162,39,0.6),0 0 20px rgba(201,162,39,0.18)' : '';
+  const sd=new Date(e.start), ed=new Date(e.end);
+  const dayStr=`${DAYS[sd.getDay()]} ${sd.getDate()}. ${MONTHS_S[sd.getMonth()]}.`;
+  const endStr=e.start!==e.end?` – ${ed.getDate()}. ${MONTHS_S[ed.getMonth()]}.`:'';
+  const price=e.free?'Kostenlos':(e.price&&e.price!=='TBC'?e.price.split('(')[0].trim():'');
+  const eTags=[...getEventTags(e)].filter(t=>t!=='party'&&t!=='family').slice(0,6);
+  const todayHighlight=isToday_?';border-color:rgba(232,150,58,.5);background:linear-gradient(135deg,rgba(232,150,58,.06) 0%,var(--surface) 100%)':(e.viana?';background:linear-gradient(105deg,rgba(201,162,39,0.18) 0%,var(--surface) 100%)':'');
+  const musicBtn=e.music?`<button class="music-play-btn music-play-btn-inline" data-music="${e.music}" onclick="event.stopPropagation();toggleMusic(this,'${e.music}')" title="Musik">▶</button>`:e.musicYt?`<button class="music-play-btn music-play-btn-inline" onclick="event.stopPropagation();toggleYtPlayer('${e.musicYt}','${(e.musicTitle||e.name).replace(/'/g,"\\'")}',this)" title="Musik">▶</button>`:'';
+  return `<div class="event-row${vianaClass}" data-idx="${idx}" style="position:relative${todayHighlight}${vianaStyle}">
+    <div class="erow-top">
+      <span class="event-name">${e.name}${e.viana?' <span class="viana-badge">⭐</span>':''}${e.new?' <span class="badge badge-new">NEU</span>':''}</span>
+      <button class="row-heart-btn${isSaved?' saved':''}" onclick="event.stopPropagation();toggleWishlist(${idx})" title="Merken">${isSaved?'❤️':'🤍'}</button>
     </div>
-    <div class="event-date-col">
-      <div class="event-day">${sd.getDate()}.</div>
-      <div class="event-month">${MONTHS_S[sd.getMonth()]}.</div>
-      <div class="event-dow">${DAYS[sd.getDay()]}</div>
-      ${isMultiDay?`<div style="font-size:9px;color:var(--accent);font-weight:600;margin-top:3px;line-height:1.2;white-space:nowrap">bis ${ed.getDate()}. ${MONTHS_S[ed.getMonth()]}.</div>`:''}
+    <div class="erow-meta">
+      📅 ${dayStr}${endStr} · 📍 ${e.loc}${price?' · '+price:''}${userLat!==null&&getEventDist(e)!==null?' · 📍 '+distLabel(getEventDist(e)):''}${musicBtn}
     </div>
-    <div class="event-info">
-      <div class="event-name-row">${favHtml}<span class="event-name">${e.name}</span>${e.music?`<button class="music-play-btn music-play-btn-inline" data-music="${e.music}" onclick="event.stopPropagation();toggleMusic(this,'${e.music}')" title="Musik abspielen">▶</button>`:e.musicYt?`<button class="music-play-btn music-play-btn-inline" onclick="event.stopPropagation();toggleYtPlayer('${e.musicYt}','${(e.musicTitle||e.name).replace(/'/g,"\\'")}',this)" title="Musik abspielen">▶</button>`:''}</div>
-      <div class="event-loc">📍 ${e.loc}</div>
-      <div class="event-meta">
-        ${countdownLabel(diff)}
-        <span class="badge badge-date">${dateStr(e.start,e.end)}</span>
-        ${userLat!==null?`<span class="dist-badge">📍 ${distLabel(getEventDist(e))}</span>`:''}
-        ${e.free?'<span class="badge badge-free">★ Kostenlos</span>':(e.price&&e.price!=='TBC'&&e.price!=='Ausverkauft'?`<span class="badge badge-date">${e.price.split('(')[0].trim()}</span>`:'')}
-        ${e.new?'<span class="badge badge-new">NEU 2026</span>':''}
-        ${e.outdoor===true?'<span class="badge" style="background:rgba(251,191,36,.1);color:#fbbf24;border-color:rgba(251,191,36,.3)">☀️ Outdoor</span>':e.outdoor===false?'<span class="badge" style="background:rgba(96,165,250,.1);color:#60a5fa;border-color:rgba(96,165,250,.3)">🏠 Indoor</span>':''}
-        ${e.ageMin>=18?'<span class="badge" style="background:rgba(232,150,58,.12);color:var(--accent);border-color:rgba(232,150,58,.3)">ab 18</span>':e.ageMin===16?'<span class="badge" style="background:rgba(232,150,58,.1);color:var(--accent);border-color:rgba(232,150,58,.25)">ab 16</span>':''}
-        ${e.dresscode?`<span class="badge badge-dc">DC: ${e.dresscode}</span>`:''}
-        ${e.viana?`<span class="viana-badge">⭐ Viana Event</span>`:''}
-      </div>
-    </div>
-    <div class="event-right">
-      <span class="cat-badge" style="background:${col}">${CAT_LABELS[e.cat]}</span>
-      ${pubCount>0?`<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:999px;background:rgba(52,211,153,.1);color:#34d399;border:1px solid rgba(52,211,153,.25)">✅ ${pubCount} dabei</span>`:''}
-      ${e.ticket?`<a class="web-row-btn" href="${e.ticket}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🌐</a>`:''}
-    </div>
+    ${isToday_?'<div style="margin-bottom:6px"><span class="today-badge">HEUTE</span></div>':diff>0&&diff<=7?`<div style="margin-bottom:6px"><span class="row-countdown">⏳ in ${diff} Tagen</span></div>`:''}
+    <div class="event-tags-row">${eTags.map(t=>`<span class="event-htag${activeTags.has(t)?' event-htag-active':''}" onclick="event.stopPropagation();toggleTag('${t}')">#${t}</span>`).join('')}${e.ticket?`<a class="event-htag event-htag-link" href="${e.ticket}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🌐 Tickets</a>`:''}</div>
   </div>`;
 }
 
@@ -1062,6 +1038,7 @@ function render() {
   const filtered=getFiltered();
   const sourceEvents = getActiveEvents();
   var _tc=document.getElementById('total-count'); if(_tc) _tc.textContent=sourceEvents.length;
+  const _ec=document.getElementById('events-count'); if(_ec) _ec.textContent=filtered.length;
   if(viewMode==='map'){
     document.getElementById('cal').style.display='none';
     document.getElementById('map-wrap').style.display='block';
@@ -1680,6 +1657,9 @@ function updateTagUI() {
        +`<span class="active-tag-clear" onclick="clearAllTags()">Alle löschen</span>`
       :'';
   }
+  // #alle pill: aktiv wenn keine Tags gesetzt
+  const alleEl=document.getElementById('htag-alle');
+  if(alleEl) alleEl.classList.toggle('active', activeTags.size===0);
   // Sheet neu bauen wenn offen
   if(document.getElementById('filter-sheet')?.classList.contains('open')) buildFilterSheet();
 }
