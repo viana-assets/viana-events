@@ -805,13 +805,14 @@ function getFiltered() {
       const eTags=getEventTags(e);
       matchTags=tagLogic==='and'?contentTags.every(t=>eTags.has(t)):contentTags.some(t=>eTags.has(t));
     }
+    const matchMonth=activeMonthFilter===null||parseInt(e.start.split('-')[1])===activeMonthFilter;
     const matchSearch=!q||e.name.toLowerCase().includes(q)||e.loc.toLowerCase().includes(q)||(e.genre||'').toLowerCase().includes(q)||(e.desc||'').toLowerCase().includes(q);
     let matchQuick=true;
     if(quickFilter==='today') matchQuick=isToday(e.start);
     else if(quickFilter==='week') matchQuick=isThisWeek(e.start);
     else if(quickFilter==='month') matchQuick=isThisMonth(e.start);
     else if(quickFilter==='next'){const d=new Date(e.start);d.setHours(0,0,0,0);matchQuick=d>=today;}
-    return matchTags&&matchSearch&&matchQuick;
+    return matchTags&&matchMonth&&matchSearch&&matchQuick;
   });
   if(sortMode==='name') filtered.sort((a,b)=>a.name.localeCompare(b.name,'de'));
   else if(sortMode==='cat') filtered.sort((a,b)=>a.cat.localeCompare(b.cat)||a.start.localeCompare(b.start));
@@ -1570,6 +1571,14 @@ function selectSuggestion(idx) {
 }
 
 
+// ── STICKY HEADER HÖHE dynamisch ─────────────────────────────────────────────
+function updateHeaderHeight() {
+  const h = document.getElementById('app-header');
+  if(h) document.documentElement.style.setProperty('--header-h', h.offsetHeight+'px');
+}
+window.addEventListener('resize', updateHeaderHeight);
+setTimeout(updateHeaderHeight, 100);
+
 // ── HASHTAG FILTER ────────────────────────────────────────────────────────────
 const SHEET_TAG_GROUPS = [
   { label:'🎉 Party & Family', tags:[{tag:'party',emoji:'🎉'},{tag:'family',emoji:'👨‍👩‍👧'}] },
@@ -1626,18 +1635,38 @@ function closeFilterSheet() {
 }
 window.closeFilterSheet = closeFilterSheet;
 
+// Aktiver Monatsfilter (null = alle)
+let activeMonthFilter = null;
+window.setMonthFilter = function(m) {
+  activeMonthFilter = (activeMonthFilter === m) ? null : m;
+  buildFilterSheet();
+  render();
+};
+
 function buildFilterSheet() {
   const body=document.getElementById('filter-sheet-body');
   if(!body) return;
-  body.innerHTML=SHEET_TAG_GROUPS.map(g=>`
+
+  // Monate (1–12, nur vorhandene anzeigen)
+  const availableMonths = [...new Set(getActiveEvents().map(e=>parseInt(e.start.split('-')[1])))].sort((a,b)=>a-b);
+  const monthNames=['Jan','Feb','Mrz','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+  const monthSection = `<div class="sheet-group">
+    <div class="sheet-group-label">🗓 Monat</div>
+    <div class="sheet-group-pills">
+      ${availableMonths.map(m=>`<div class="sheet-htag sheet-month${activeMonthFilter===m?' active':''}" onclick="setMonthFilter(${m})">${monthNames[m-1]}</div>`).join('')}
+    </div>
+  </div>`;
+
+  body.innerHTML = monthSection + SHEET_TAG_GROUPS.map(g=>`
     <div class="sheet-group">
       <div class="sheet-group-label">${g.label}</div>
       <div class="sheet-group-pills">
         ${g.tags.map(({tag,emoji})=>`<div class="sheet-htag${activeTags.has(tag)?' active':''}" onclick="toggleTag('${tag}')"><span>${emoji}</span>#${tag}</div>`).join('')}
       </div>
     </div>`).join('');
+
   const applyBtn=document.getElementById('filter-apply-btn');
-  if(applyBtn){const n=getFiltered().length;applyBtn.textContent=activeTags.size>0?`${n} Events anzeigen`:'Schließen';}
+  if(applyBtn){const n=getFiltered().length;applyBtn.textContent=(activeTags.size>0||activeMonthFilter)?`${n} Events anzeigen`:'Schließen';}
 }
 
 function updateTagUI() {
@@ -1713,25 +1742,14 @@ document.getElementById('wl-copy-link').addEventListener('click',()=>{
 });
 
 document.getElementById('modal-close').addEventListener('click',()=>{document.getElementById('modal-bg').classList.remove('open');history.replaceState(null,'',location.pathname);});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('modal-bg').classList.remove('open');document.getElementById('wishlist-panel').classList.remove('open');history.replaceState(null,'',location.pathname);}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('modal-bg').classList.remove('open');history.replaceState(null,'',location.pathname);closeFilterSheet();}});
 
-const backBtn=document.getElementById('back-to-top');
-window.addEventListener('scroll',()=>backBtn.classList.toggle('visible',window.scrollY>400));
-backBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-
+checkDeepLink();
+render();
 buildMonthTimeline();
 updateCountdown();
-updateWishlistUI();
-initLocation();
-render();
-checkDeepLink();
 loadPublicCounts();
+updateHeaderHeight();
 
-// ═══════════════════════════════════════════════════════════════════════════
-// ⚠️ NICHT ENTFERNEN! Startet das Werbesystem (verwaltet über admin.html).
-// Ohne diese Zeile bleiben ALLE Werbebanner leer. Gehört zum Werbe-Block oben
-// (loadAdConfig / applySky / applyBottom / applyAdConfig / inFeedAdHTML).
-// Bei Event-Updates NUR an die Arrays `events` / `familyEvents` ANHÄNGEN –
-// die Datei NICHT komplett neu generieren, sonst geht dieser Code verloren!
 // ═══════════════════════════════════════════════════════════════════════════
 loadAdConfig().then(applyAdConfig);

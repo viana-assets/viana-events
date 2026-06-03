@@ -171,6 +171,48 @@
 }
 .active-tag-clear:hover { color: var(--accent, #e8963a); }
 
+/* ── Compact Sticky App Header ── */
+.app-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 90;
+  background: rgba(14,15,19,0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border, rgba(255,255,255,0.07));
+  padding: 10px 16px 0;
+}
+.app-bar-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-right: 52px; /* Platz für Burger (fixed 44px + gap) */
+  margin-bottom: 8px;
+}
+.app-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -.3px;
+}
+.app-region {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: var(--muted, #888);
+  margin-top: 1px;
+}
+/* Platz für fixierten Header im Scrollbereich */
+.countdown-banner,
+.controls {
+  margin-top: 0;
+}
+body > .countdown-banner { padding-top: var(--header-h, 105px); }
+
+:root[data-theme="light"] .app-header {
+  background: rgba(244,245,247,0.96);
+}
+
 /* ── Filter Overlay ── */
 .filter-overlay {
   position: fixed;

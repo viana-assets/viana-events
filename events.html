@@ -176,10 +176,35 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
   <a href="#" class="nav-item" data-pwa-install id="nav-install"><span class="nav-icon">📲</span> App installieren</a>
 </nav>
 
-<header>
-  <h1><span style="color:var(--text)">Vi</span><span style="color:#e8963a">ana</span> Events</h1>
-  <p class="header-sub">Dein Veranstaltungskalender</p>
-</header>
+<!-- ── STICKY APP HEADER ── -->
+<div class="app-header" id="app-header">
+  <div class="app-bar-row">
+    <div class="app-bar-title">
+      <div class="app-name"><span style="color:var(--text)">Vi</span><span style="color:#e8963a">ana</span> Events</div>
+      <div class="app-region">Metropolregion Nürnberg</div>
+    </div>
+    <!-- Burger ist already fixed top-right -->
+  </div>
+  <!-- Hashtag Filter (sticky) -->
+  <div class="hashtag-filter-wrap">
+    <div class="hashtag-row" id="hashtag-row">
+      <div class="htag htag-alle active" id="htag-alle" onclick="clearAllTags()"># alle</div>
+      <div class="htag htag-party" data-tag="party">🎉 #party</div>
+      <div class="htag htag-family" data-tag="family">👨‍👩‍👧 #family</div>
+      <div class="htag-sep"></div>
+      <div class="htag" data-tag="festival">🎪 #festival</div>
+      <div class="htag" data-tag="club">🪩 #club</div>
+      <div class="htag" data-tag="russian">🇷🇺 #russian</div>
+      <div class="htag" data-tag="outdoor">🌿 #outdoor</div>
+      <div class="htag" data-tag="kostenlos">🆓 #kostenlos</div>
+      <div class="htag" data-tag="volksfest">🍺 #volksfest</div>
+      <div class="htag" data-tag="kinder">🧒 #kinder</div>
+      <button class="filter-open-btn" id="filter-open-btn" onclick="openFilterSheet()">⚙️ Filter <span class="filter-badge" id="filter-badge" style="display:none">0</span></button>
+    </div>
+    <div class="active-tags-row" id="active-tags-row"></div>
+    <div class="events-count-bar"><span id="events-count">—</span> Events</div>
+  </div>
+</div>
 
 <div class="countdown-banner">
   <div class="countdown-card" id="countdown-card">
@@ -200,25 +225,6 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     <input id="search" type="text" placeholder="Suchen…" autocomplete="off">
     <div class="search-suggestions" id="search-suggestions"></div>
-  </div>
-  <!-- ── HASHTAG FILTER ── -->
-  <div class="hashtag-filter-wrap">
-    <div class="hashtag-row" id="hashtag-row">
-      <div class="htag htag-alle active" id="htag-alle" onclick="clearAllTags()"># alle</div>
-      <div class="htag htag-party" data-tag="party">🎉 #party</div>
-      <div class="htag htag-family" data-tag="family">👨‍👩‍👧 #family</div>
-      <div class="htag-sep"></div>
-      <div class="htag" data-tag="festival">🎪 #festival</div>
-      <div class="htag" data-tag="club">🪩 #club</div>
-      <div class="htag" data-tag="russian">🇷🇺 #russian</div>
-      <div class="htag" data-tag="outdoor">🌿 #outdoor</div>
-      <div class="htag" data-tag="kostenlos">🆓 #kostenlos</div>
-      <div class="htag" data-tag="volksfest">🍺 #volksfest</div>
-      <div class="htag" data-tag="kinder">🧒 #kinder</div>
-      <button class="filter-open-btn" id="filter-open-btn" onclick="openFilterSheet()">⚙️ Filter <span class="filter-badge" id="filter-badge" style="display:none">0</span></button>
-    </div>
-    <div class="active-tags-row" id="active-tags-row"></div>
-    <div class="events-count-bar" id="events-count-bar"><span id="events-count">—</span> Events</div>
   </div>
   <div class="view-toggle">
     <button class="view-btn active" id="btn-list">≡ Liste</button>
