@@ -210,12 +210,8 @@
   color: var(--muted, #888);
   margin-top: 1px;
 }
-/* Platz für fixierten Header im Scrollbereich */
-.countdown-banner,
-.controls {
-  margin-top: 0;
-}
-body > .countdown-banner { padding-top: var(--header-h, 105px); }
+/* Platz für fixierten Header – margin-top schiebt Inhalte nach unten */
+.countdown-banner { margin-top: var(--header-h, 115px); }
 
 :root[data-theme="light"] .app-header {
   background: rgba(244,245,247,0.96);
