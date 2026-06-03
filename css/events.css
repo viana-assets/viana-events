@@ -10,17 +10,21 @@
   overflow: hidden;
 }
 
-/* Haupt-Pill-Zeile */
+/* Haupt-Pill-Zeile — genau 4 Elemente, kein Scroll */
 .hashtag-row {
   display: flex;
   gap: 6px;
   align-items: center;
-  overflow-x: auto;
-  scrollbar-width: none;
   padding: 8px 0 4px;
-  -webkit-overflow-scrolling: touch;
+  flex-wrap: nowrap;
 }
-.hashtag-row::-webkit-scrollbar { display: none; }
+/* Alle 4 Pills nehmen gleich viel Platz */
+.hashtag-row .htag,
+.hashtag-row .filter-open-btn {
+  flex: 1;
+  justify-content: center;
+  text-align: center;
+}
 
 /* Trennlinie zwischen party/family und anderen Tags */
 .htag-sep {
@@ -76,26 +80,30 @@
   font-weight: 700;
 }
 
-/* Filter-Öffnen-Button */
+/* Filter-Button — blau, prominent */
 .filter-open-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
+  gap: 5px;
+  padding: 7px 14px;
   border-radius: 20px;
-  border: 1.5px dashed var(--border, rgba(255,255,255,0.12));
-  background: transparent;
-  color: var(--muted, #888);
+  border: 1.5px solid rgba(91,143,249,0.5);
+  background: rgba(91,143,249,0.12);
+  color: #7aa8fa;
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
-  flex-shrink: 0;
   transition: all .2s;
+  letter-spacing: .3px;
 }
-.filter-open-btn:hover { border-color: rgba(255,255,255,0.25); color: var(--text, #f0f0f0); }
-.filter-open-btn.has-filters { border-style: solid; border-color: var(--accent, #e8963a); color: var(--accent, #e8963a); background: rgba(232,150,58,0.08); }
+.filter-open-btn:hover { background: rgba(91,143,249,0.2); border-color: rgba(91,143,249,0.7); }
+.filter-open-btn.has-filters {
+  background: #5b8ff9;
+  border-color: #5b8ff9;
+  color: #fff;
+}
 
 .filter-badge {
   background: var(--accent, #e8963a);

@@ -1639,25 +1639,52 @@ window.closeFilterSheet = closeFilterSheet;
 let activeMonthFilter = null;
 window.setMonthFilter = function(m) {
   activeMonthFilter = (activeMonthFilter === m) ? null : m;
-  buildFilterSheet();
-  render();
+  buildFilterSheet(); render();
+};
+window.setQuickFromSheet = function(k) {
+  quickFilter = k;
+  document.querySelectorAll('.qpill').forEach(p=>p.classList.toggle('active',p.dataset.quick===k));
+  buildFilterSheet(); render();
+};
+window.setSortFromSheet = function(k) {
+  sortMode = k;
+  const sel=document.getElementById('sort-select'); if(sel) sel.value=k;
+  buildFilterSheet(); render();
 };
 
 function buildFilterSheet() {
   const body=document.getElementById('filter-sheet-body');
   if(!body) return;
 
-  // Monate (1–12, nur vorhandene anzeigen)
-  const availableMonths = [...new Set(getActiveEvents().map(e=>parseInt(e.start.split('-')[1])))].sort((a,b)=>a-b);
+  // Monate
+  const availableMonths=[...new Set(getActiveEvents().map(e=>parseInt(e.start.split('-')[1])))].sort((a,b)=>a-b);
   const monthNames=['Jan','Feb','Mrz','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
-  const monthSection = `<div class="sheet-group">
+  const monthSection=`<div class="sheet-group">
     <div class="sheet-group-label">🗓 Monat</div>
     <div class="sheet-group-pills">
       ${availableMonths.map(m=>`<div class="sheet-htag sheet-month${activeMonthFilter===m?' active':''}" onclick="setMonthFilter(${m})">${monthNames[m-1]}</div>`).join('')}
     </div>
   </div>`;
 
-  body.innerHTML = monthSection + SHEET_TAG_GROUPS.map(g=>`
+  // Zeitfilter
+  const quickOpts=[{k:'alle',l:'Alle Zeiten'},{k:'today',l:'Heute'},{k:'week',l:'Diese Woche'},{k:'month',l:'Dieser Monat'},{k:'next',l:'Nächstes Event'}];
+  const quickSection=`<div class="sheet-group">
+    <div class="sheet-group-label">⏱ Zeitraum</div>
+    <div class="sheet-group-pills">
+      ${quickOpts.map(o=>`<div class="sheet-htag${quickFilter===o.k?' active':''}" onclick="setQuickFromSheet('${o.k}')">${o.l}</div>`).join('')}
+    </div>
+  </div>`;
+
+  // Sortierung
+  const sortOpts=[{k:'date',l:'📅 Nach Datum'},{k:'name',l:'A–Z Name'},{k:'dist',l:'📍 Entfernung'}];
+  const sortSection=`<div class="sheet-group">
+    <div class="sheet-group-label">↕ Sortierung</div>
+    <div class="sheet-group-pills">
+      ${sortOpts.map(o=>`<div class="sheet-htag${sortMode===o.k?' active':''}" onclick="setSortFromSheet('${o.k}')">${o.l}</div>`).join('')}
+    </div>
+  </div>`;
+
+  body.innerHTML = monthSection + quickSection + sortSection + SHEET_TAG_GROUPS.map(g=>`
     <div class="sheet-group">
       <div class="sheet-group-label">${g.label}</div>
       <div class="sheet-group-pills">
@@ -1732,13 +1759,14 @@ document.getElementById('wl-share-wa').addEventListener('click',()=>{
   const saved=[...events,...familyEvents].filter(e=>wishlist.has(e.name+e.start)).sort((a,b)=>a.start.localeCompare(b.start));
   if(!saved.length)return;
   const list=saved.map(e=>`• ${e.name} – ${dateStr(e.start,e.end)}`).join('\n');
-  window.open(`https://wa.me/?text=${encodeURIComponent('Hey! 👋 Meine Nürnberg Events 2026 – wer kommt mit?\n\n'+list)}`, '_blank');
+  window.open(`https://wa.me/?text=${encodeURIComponent('Hey! 👋 Meine Nürnberg Events 2026:\n\n'+list)}`,'_blank');
 });
+
 document.getElementById('wl-copy-link').addEventListener('click',()=>{
   const saved=[...events,...familyEvents].filter(e=>wishlist.has(e.name+e.start)).sort((a,b)=>a.start.localeCompare(b.start));
   if(!saved.length)return;
-  navigator.clipboard.writeText(`Meine Nürnberg Events 2026:\n\n${saved.map(e=>`• ${e.name} – ${dateStr(e.start,e.end)} – ${e.loc}`).join('\n')}`).catch(()=>{});
-  showToast('📋 Liste kopiert!');
+  navigator.clipboard.writeText('Meine Nürnberg Events: '+saved.map(e=>e.name+' - '+dateStr(e.start,e.end)).join(', ')).catch(()=>{});
+  showToast('Liste kopiert!');
 });
 
 document.getElementById('modal-close').addEventListener('click',()=>{document.getElementById('modal-bg').classList.remove('open');history.replaceState(null,'',location.pathname);});
@@ -1751,5 +1779,4 @@ updateCountdown();
 loadPublicCounts();
 updateHeaderHeight();
 
-// ═══════════════════════════════════════════════════════════════════════════
 loadAdConfig().then(applyAdConfig);

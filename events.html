@@ -191,15 +191,11 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
       <div class="htag htag-alle active" id="htag-alle" onclick="clearAllTags()"># alle</div>
       <div class="htag htag-party" data-tag="party">🎉 #party</div>
       <div class="htag htag-family" data-tag="family">👨‍👩‍👧 #family</div>
-      <div class="htag-sep"></div>
-      <div class="htag" data-tag="festival">🎪 #festival</div>
-      <div class="htag" data-tag="club">🪩 #club</div>
-      <div class="htag" data-tag="russian">🇷🇺 #russian</div>
-      <div class="htag" data-tag="outdoor">🌿 #outdoor</div>
-      <div class="htag" data-tag="kostenlos">🆓 #kostenlos</div>
-      <div class="htag" data-tag="volksfest">🍺 #volksfest</div>
-      <div class="htag" data-tag="kinder">🧒 #kinder</div>
-      <button class="filter-open-btn" id="filter-open-btn" onclick="openFilterSheet()">⚙️ Filter <span class="filter-badge" id="filter-badge" style="display:none">0</span></button>
+      <button class="filter-open-btn filter-open-btn-blue" id="filter-open-btn" onclick="openFilterSheet()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        Filter
+        <span class="filter-badge" id="filter-badge" style="display:none">0</span>
+      </button>
     </div>
     <div class="active-tags-row" id="active-tags-row"></div>
     <div class="events-count-bar"><span id="events-count">—</span> Events</div>
@@ -254,7 +250,7 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
   <button class="loc-btn loc-btn-clear" id="loc-clear-btn" style="display:none">✕ Standort löschen</button>
 </div>
 
-<div class="sticky-bar">
+<div class="sticky-bar" style="display:none" aria-hidden="true">
   <div class="month-timeline" id="month-timeline"></div>
   <div class="second-bar">
     <div class="quick-pills">
