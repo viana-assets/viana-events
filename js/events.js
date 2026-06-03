@@ -1497,7 +1497,8 @@ function initLocation() {
     document.getElementById('loc-clear-btn').style.display='';
   }
 
-  document.getElementById('loc-geo-btn').addEventListener('click', () => {
+  // Geolocation — touchend als Fallback für mobile (click kann auf fixed-Elementen buggen)
+  const _geoHandler = () => {
     if(!navigator.geolocation) { showToast('Geolocation nicht verfügbar'); return; }
     const status=document.getElementById('loc-status');
     status.className='loc-status'; status.innerHTML='⏳ Ermittle Standort…';
@@ -1511,21 +1512,34 @@ function initLocation() {
       },
       { timeout: 12000, enableHighAccuracy: false, maximumAge: 60000 }
     );
-  });
+  };
+  const geoBtn = document.getElementById('loc-geo-btn');
+  if(geoBtn) {
+    geoBtn.addEventListener('click', _geoHandler);
+    geoBtn.addEventListener('touchend', e => { e.preventDefault(); _geoHandler(); });
+  }
 
-  document.getElementById('loc-clear-btn').addEventListener('click', clearUserLocation);
+  const clearBtn = document.getElementById('loc-clear-btn');
+  if(clearBtn) clearBtn.addEventListener('click', clearUserLocation);
 
-  // PLZ – alle relevanten Events abfangen (input, change, blur, keydown Enter)
+  // PLZ — input + change für Desktop, keydown Enter als Fallback
+  // Kein blur — auf Mobile feuert blur zu früh (Tastatur noch offen)
+  let _plzTimer = null;
   const _tryPLZ = e => {
-    const plz = (e.target.value || '').trim();
-    if(/^\d{5}$/.test(plz)) geocodePLZ(plz);
-    else if(e.type==='keydown' && e.key==='Enter') showToast('Bitte eine gültige 5-stellige PLZ eingeben');
+    if(e.type==='keydown' && e.key!=='Enter') return;
+    clearTimeout(_plzTimer);
+    _plzTimer = setTimeout(() => {
+      const plz = (document.getElementById('plz-input').value || '').trim();
+      if(/^\d{5}$/.test(plz)) geocodePLZ(plz);
+      else if(e.type==='keydown') showToast('Bitte eine gültige 5-stellige PLZ eingeben');
+    }, 100);
   };
   const plzEl = document.getElementById('plz-input');
-  plzEl.addEventListener('input',   _tryPLZ);
-  plzEl.addEventListener('change',  _tryPLZ);
-  plzEl.addEventListener('blur',    _tryPLZ);
-  plzEl.addEventListener('keydown', _tryPLZ);
+  if(plzEl) {
+    plzEl.addEventListener('input',   _tryPLZ);
+    plzEl.addEventListener('change',  _tryPLZ);
+    plzEl.addEventListener('keydown', _tryPLZ);
+  }
 
   document.getElementById('dist-select').addEventListener('change', e => {
     maxDist = parseInt(e.target.value);
@@ -1584,10 +1598,15 @@ function selectSuggestion(idx) {
 // ── STICKY HEADER HÖHE dynamisch ─────────────────────────────────────────────
 function updateHeaderHeight() {
   const h = document.getElementById('app-header');
-  if(h) document.documentElement.style.setProperty('--header-h', h.offsetHeight+'px');
+  if(h && h.offsetHeight > 0)
+    document.documentElement.style.setProperty('--header-h', h.offsetHeight+'px');
 }
 window.addEventListener('resize', updateHeaderHeight);
-setTimeout(updateHeaderHeight, 100);
+// Mehrfach ausführen damit mobile Browser Zeit haben alles zu rendern
+updateHeaderHeight();
+setTimeout(updateHeaderHeight, 50);
+setTimeout(updateHeaderHeight, 200);
+setTimeout(updateHeaderHeight, 600);
 
 // ── HASHTAG FILTER ────────────────────────────────────────────────────────────
 const SHEET_TAG_GROUPS = [
@@ -1769,13 +1788,13 @@ document.getElementById('wl-share-wa').addEventListener('click',()=>{
   const saved=[...events,...familyEvents].filter(e=>wishlist.has(e.name+e.start)).sort((a,b)=>a.start.localeCompare(b.start));
   if(!saved.length)return;
   const list=saved.map(e=>`• ${e.name} – ${dateStr(e.start,e.end)}`).join('\n');
-  window.open(`https://wa.me/?text=${encodeURIComponent('Hey! 👋 Meine Nürnberg Events 2026:\n\n'+list)}`,'_blank');
+  window.open(`https://wa.me/?text=${encodeURIComponent('Hey! \ud83d\udc4b Meine N\u00fcrnberg Events 2026:\n\n'+list)}`,'_blank');
 });
 
 document.getElementById('wl-copy-link').addEventListener('click',()=>{
   const saved=[...events,...familyEvents].filter(e=>wishlist.has(e.name+e.start)).sort((a,b)=>a.start.localeCompare(b.start));
   if(!saved.length)return;
-  navigator.clipboard.writeText('Meine Nürnberg Events: '+saved.map(e=>e.name+' - '+dateStr(e.start,e.end)).join(', ')).catch(()=>{});
+  navigator.clipboard.writeText('Meine N\u00fcrnberg Events: '+saved.map(e=>e.name+' - '+dateStr(e.start,e.end)).join(', ')).catch(()=>{});
   showToast('Liste kopiert!');
 });
 

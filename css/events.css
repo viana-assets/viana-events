@@ -189,6 +189,7 @@
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border, rgba(255,255,255,0.07));
   padding: 10px 16px 0;
+  padding-top: calc(10px + env(safe-area-inset-top, 0px));
 }
 .app-bar-row {
   display: flex;
@@ -210,8 +211,10 @@
   color: var(--muted, #888);
   margin-top: 1px;
 }
-/* Platz für fixierten Header – margin-top schiebt Inhalte nach unten */
-.countdown-banner { margin-top: var(--header-h, 115px); }
+/* Platz für fixierten Header – großzügiger Fallback + safe-area für Notch */
+.countdown-banner {
+  margin-top: calc(var(--header-h, 140px) + env(safe-area-inset-top, 0px));
+}
 
 :root[data-theme="light"] .app-header {
   background: rgba(244,245,247,0.96);
