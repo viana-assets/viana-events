@@ -103,6 +103,7 @@ input:focus{border-color:rgba(232,150,58,.5)}
       <button class="tab active" data-tab="sky">Skyscraper</button>
       <button class="tab" data-tab="infeed">In-Feed</button>
       <button class="tab" data-tab="bottom">Mobile Bottom-Bar</button>
+      <button class="tab" data-tab="push">🔔 Push</button>
     </div>
 
     <div class="tabpane" data-pane="sky">
@@ -126,6 +127,45 @@ input:focus{border-color:rgba(232,150,58,.5)}
         <span style="margin-left:auto;font-weight:400;font-size:12px;color:var(--muted)">aus = unten erscheint keine Werbeleiste</span>
       </label>
       <div id="sec-bottom"></div>
+    </div>
+
+    <div class="tabpane" data-pane="push" hidden>
+      <div class="section-title">Push-Benachrichtigungen</div>
+      <div class="hint">Sendet eine Nachricht an alle Nutzer die Benachrichtigungen aktiviert haben.</div>
+
+      <div class="slot" style="margin-bottom:16px">
+        <div class="slot-head">
+          <span class="slot-name">🔐 Push Secret</span>
+          <span class="slot-size" id="push-sub-count">Abonnenten: —</span>
+        </div>
+        <label>Secret (aus Vercel Environment Variables)</label>
+        <input type="password" id="push-secret" placeholder="dein PUSH_SECRET" autocomplete="off">
+      </div>
+
+      <div class="slot">
+        <div class="slot-head"><span class="slot-name">✉️ Neue Nachricht</span></div>
+
+        <label>Schnellvorlagen</label>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+          <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px" onclick="pushTpl('heute')">🎉 Heute</button>
+          <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px" onclick="pushTpl('woche')">📅 Wochenende</button>
+          <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px" onclick="pushTpl('neu')">✨ Neue Events</button>
+          <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px" onclick="pushTpl('reminder')">⏰ Erinnerung</button>
+        </div>
+
+        <label>Titel</label>
+        <input type="text" id="push-title" placeholder="z.B. 🎉 Heute in Nürnberg" maxlength="80">
+        <label>Nachricht</label>
+        <input type="text" id="push-body" placeholder="z.B. 8 Events – darunter Latino Sunset & House am See" maxlength="200">
+        <label>Link beim Öffnen</label>
+        <select id="push-url" style="margin-bottom:20px">
+          <option value="/events.html">Events-Seite</option>
+          <option value="/places.html">Places-Seite</option>
+          <option value="/">Startseite</option>
+        </select>
+        <button class="btn btn-primary" id="push-send-btn" onclick="sendAdminPush()" style="width:100%;padding:13px">📤 Push senden</button>
+        <div class="msg" id="push-msg" style="margin-top:12px"></div>
+      </div>
     </div>
 
     <div class="save-bar">
@@ -385,7 +425,77 @@ async function openPanel(){
   await loadConfig();
   renderSlots();
   syncBottomToggle();
+  loadSubCount();
 }
+
+/* ── PUSH ADMIN ── */
+const PUSH_SECRET_KEY = 'viana_push_secret';
+const PUSH_TEMPLATES = {
+  heute:    { title:'🎉 Heute in Nürnberg', body:'Events warten auf dich – schau rein was heute los ist!' },
+  woche:    { title:'📅 Wochenend-Tipps',   body:'Diese Woche in der Metropolregion: Festivals, Volksfeste & mehr.' },
+  neu:      { title:'✨ Neue Events',         body:'Frisch eingetragen: neue Veranstaltungen für deine Region!' },
+  reminder: { title:'⏰ Erinnerung',          body:'Vergiss dein Event nicht – klick für alle Details.' }
+};
+
+function pushTpl(key) {
+  const t = PUSH_TEMPLATES[key];
+  document.getElementById('push-title').value = t.title;
+  document.getElementById('push-body').value  = t.body;
+}
+window.pushTpl = pushTpl;
+
+async function loadSubCount() {
+  try {
+    const r = await fetch(`${FB_BASE}/push_subscriptions?key=${FB_API_KEY}&pageSize=300`);
+    const d = await r.json();
+    const n = (d.documents || []).length;
+    const el = document.getElementById('push-sub-count');
+    if (el) el.textContent = `Abonnenten: ${n}`;
+  } catch(e) {}
+}
+
+async function sendAdminPush() {
+  const secret = document.getElementById('push-secret').value.trim();
+  const title  = document.getElementById('push-title').value.trim();
+  const body   = document.getElementById('push-body').value.trim();
+  const url    = document.getElementById('push-url').value;
+  const btn    = document.getElementById('push-send-btn');
+  const msg    = document.getElementById('push-msg');
+
+  if (!secret) { msg.className='msg err'; msg.textContent='Bitte Push Secret eingeben.'; return; }
+  if (!title)  { msg.className='msg err'; msg.textContent='Bitte Titel eingeben.'; return; }
+  if (!body)   { msg.className='msg err'; msg.textContent='Bitte Nachricht eingeben.'; return; }
+
+  // Secret für diese Sitzung merken
+  sessionStorage.setItem(PUSH_SECRET_KEY, secret);
+
+  btn.disabled = true; msg.className='msg'; msg.textContent='⏳ Wird gesendet…';
+  try {
+    const r = await fetch('/api/send-push', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+secret },
+      body: JSON.stringify({ title, body, url })
+    });
+    const data = await r.json();
+    if (r.ok) {
+      msg.className = 'msg ok';
+      msg.textContent = `✅ Gesendet an ${data.sent} Abonnenten${data.failed > 0 ? ` (${data.failed} nicht erreichbar)` : ''}.`;
+    } else {
+      msg.className = 'msg err';
+      msg.textContent = `❌ ${data.error || 'Fehler ' + r.status}`;
+    }
+  } catch(e) {
+    msg.className = 'msg err'; msg.textContent = '❌ Netzwerkfehler: ' + e.message;
+  }
+  btn.disabled = false;
+}
+window.sendAdminPush = sendAdminPush;
+
+// Push Secret aus Session laden wenn schon bekannt
+(function(){
+  const saved = sessionStorage.getItem(PUSH_SECRET_KEY);
+  if (saved) { const el = document.getElementById('push-secret'); if(el) el.value = saved; }
+})();
 
 /* Bereits angemeldet (Token in dieser Sitzung)? */
 if(idToken){ openPanel(); }
