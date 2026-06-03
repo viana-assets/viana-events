@@ -1516,6 +1516,11 @@ function initLocation() {
       else showToast('Bitte eine gültige 5-stellige PLZ eingeben');
     }
   });
+  // Auto-submit wenn 5 Ziffern eingegeben
+  document.getElementById('plz-input').addEventListener('input', e => {
+    const plz = e.target.value.trim();
+    if(/^\d{5}$/.test(plz)) geocodePLZ(plz);
+  });
 
   document.getElementById('dist-select').addEventListener('change', e => {
     maxDist = parseInt(e.target.value);
