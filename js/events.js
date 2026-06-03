@@ -1772,6 +1772,7 @@ document.getElementById('wl-copy-link').addEventListener('click',()=>{
 document.getElementById('modal-close').addEventListener('click',()=>{document.getElementById('modal-bg').classList.remove('open');history.replaceState(null,'',location.pathname);});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('modal-bg').classList.remove('open');history.replaceState(null,'',location.pathname);closeFilterSheet();}});
 
+initLocation();
 checkDeepLink();
 render();
 buildMonthTimeline();
