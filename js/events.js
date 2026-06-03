@@ -700,19 +700,66 @@ async function savePublicCount(e, delta) {
 function getPublicCount(e) { return publicCounts[eventKey(e)] || 0; }
 
 
-let activeFilters=new Set(['alle']), searchTerm='', viewMode='list', quickFilter='alle', sortMode='date', leafletMap=null, showPast=false;
-let appMode = 'party'; // 'party' | 'family'
+let activeTags=new Set(), tagLogic='and', searchTerm='', viewMode='list', quickFilter='alle', sortMode='date', leafletMap=null, showPast=false;
 
 // Kategorien die zu Family verschoben wurden – in Party ausblenden
 const FAMILY_ONLY_CATS = new Set(['volksfest', 'weinfest', 'stadtfest', 'flohmarkt']);
 
 function getActiveEvents() {
-  if (appMode === 'family') {
+  const hasParty = activeTags.has('party');
+  const hasFamily = activeTags.has('family');
+  if (hasParty && !hasFamily) {
+    return events.filter(e => !FAMILY_ONLY_CATS.has(e.cat));
+  }
+  if (hasFamily && !hasParty) {
     const extras = events.filter(e => FAMILY_ONLY_CATS.has(e.cat));
     return [...familyEvents, ...extras];
   }
-  // Party-Modus: Family-Kategorien rausfiltern
-  return events.filter(e => !FAMILY_ONLY_CATS.has(e.cat));
+  // Beide oder keine: alle Events dedupliziert
+  const partyPool = events.filter(e => !FAMILY_ONLY_CATS.has(e.cat));
+  const sharedPool = events.filter(e => FAMILY_ONLY_CATS.has(e.cat));
+  const all = [...partyPool, ...familyEvents, ...sharedPool];
+  const seen = new Set();
+  return all.filter(e => { const k=e.name+e.start; if(seen.has(k))return false; seen.add(k); return true; });
+}
+
+// Auto-generiert Tags aus cat, outdoor, free, genre – kein manuelles Taggen nötig
+const _partyKeys = new Set(events.map(e=>e.name+e.start));
+const _familyKeys = new Set(familyEvents.map(e=>e.name+e.start));
+
+function getEventTags(e) {
+  const tags = new Set();
+  const key = e.name + e.start;
+  // Tab-Tags
+  if (_partyKeys.has(key) && !FAMILY_ONLY_CATS.has(e.cat)) tags.add('party');
+  if (_familyKeys.has(key)) tags.add('family');
+  if (FAMILY_ONLY_CATS.has(e.cat)) { tags.add('party'); tags.add('family'); }
+  // Kategorie → Tags
+  const catMap = {
+    festival:['festival'], afterwork:['club','afterwork'], russian:['russian','club'],
+    strand:['strand','outdoor'], beachparty:['beachparty','outdoor'],
+    volksfest:['volksfest','bier'], weinfest:['weinfest'], zoo:['zoo','kinder'],
+    freizeit:['freizeit'], kinder:['kinder'], stadtfest:['stadtfest','kultur'],
+    sport:['sport'], messe:['messe'], flohmarkt:['flohmarkt'], privat:['privat'],
+  };
+  (catMap[e.cat]||[]).forEach(t=>tags.add(t));
+  // Feld-basiert
+  if (e.outdoor===true) tags.add('outdoor');
+  if (e.free) tags.add('kostenlos');
+  // Genre-basiert
+  if (e.genre) {
+    const g = e.genre.toLowerCase();
+    if (g.match(/techno/)) tags.add('techno');
+    if (g.match(/electronic|edm/)) tags.add('electronic');
+    if (g.match(/house/)) tags.add('house');
+    if (g.match(/rock|metal|punk/)) tags.add('rock');
+    if (g.match(/indie/)) tags.add('indie');
+    if (g.match(/salsa|bachata|latin|reggaeton|cumbia/)) tags.add('latino');
+    if (g.match(/hip.?hop|r\.n\.b|hiphop|rap/)) tags.add('hiphop');
+    if (g.match(/camping/)) tags.add('camping');
+    if (g.match(/jazz/)) tags.add('jazz');
+  }
+  return tags;
 }
 // Gespeicherte Listen laden und sofort gegen vorhandene Events bereinigen.
 // Einträge von Events die nicht mehr existieren werden automatisch entfernt –
@@ -750,18 +797,21 @@ function isToday(ds){ const today=new Date();today.setHours(0,0,0,0);const d=new
 function getFiltered() {
   const sourceEvents = getActiveEvents();
   const q=searchTerm.toLowerCase(), today=new Date();today.setHours(0,0,0,0);
+  const contentTags=[...activeTags].filter(t=>t!=='party'&&t!=='family');
   const allFiltered_pre = sourceEvents.filter(e => showPast || new Date(e.end) >= today);
   let filtered=allFiltered_pre.filter(e=>{
-    const matchCat=appMode==='family'
-      ?(familyFilter==='alle'||e.cat===familyFilter)
-      :(activeFilters.has('alle')?true:(activeFilters.has(e.cat)));
+    let matchTags=true;
+    if(contentTags.length>0){
+      const eTags=getEventTags(e);
+      matchTags=tagLogic==='and'?contentTags.every(t=>eTags.has(t)):contentTags.some(t=>eTags.has(t));
+    }
     const matchSearch=!q||e.name.toLowerCase().includes(q)||e.loc.toLowerCase().includes(q)||(e.genre||'').toLowerCase().includes(q)||(e.desc||'').toLowerCase().includes(q);
     let matchQuick=true;
     if(quickFilter==='today') matchQuick=isToday(e.start);
     else if(quickFilter==='week') matchQuick=isThisWeek(e.start);
     else if(quickFilter==='month') matchQuick=isThisMonth(e.start);
     else if(quickFilter==='next'){const d=new Date(e.start);d.setHours(0,0,0,0);matchQuick=d>=today;}
-    return matchCat&&matchSearch&&matchQuick;
+    return matchTags&&matchSearch&&matchQuick;
   });
   if(sortMode==='name') filtered.sort((a,b)=>a.name.localeCompare(b.name,'de'));
   else if(sortMode==='cat') filtered.sort((a,b)=>a.cat.localeCompare(b.cat)||a.start.localeCompare(b.start));
@@ -1543,43 +1593,96 @@ function selectSuggestion(idx) {
 }
 
 
-// ── MODE SWITCHER ─────────────────────────────────────────────────────────────
-let familyFilter = 'alle'; // active family category filter
+// ── HASHTAG FILTER ────────────────────────────────────────────────────────────
+const SHEET_TAG_GROUPS = [
+  { label:'🎉 Party & Family', tags:[{tag:'party',emoji:'🎉'},{tag:'family',emoji:'👨‍👩‍👧'}] },
+  { label:'🎵 Musik & Stil', tags:[
+    {tag:'festival',emoji:'🎪'},{tag:'club',emoji:'🪩'},{tag:'techno',emoji:'🔊'},
+    {tag:'electronic',emoji:'⚡'},{tag:'house',emoji:'🏠'},{tag:'rock',emoji:'🎸'},
+    {tag:'indie',emoji:'🎵'},{tag:'latino',emoji:'💃'},{tag:'hiphop',emoji:'🎤'},
+  ]},
+  { label:'🌍 Thema & Community', tags:[
+    {tag:'russian',emoji:'🇷🇺'},{tag:'volksfest',emoji:'🍺'},{tag:'weinfest',emoji:'🍷'},
+    {tag:'stadtfest',emoji:'🎪'},{tag:'zoo',emoji:'🦁'},{tag:'kinder',emoji:'🧒'},
+    {tag:'freizeit',emoji:'🎡'},{tag:'sport',emoji:'🏃'},{tag:'messe',emoji:'🏛️'},
+    {tag:'flohmarkt',emoji:'🛍️'},{tag:'strand',emoji:'🏖️'},{tag:'beachparty',emoji:'🏝️'},
+  ]},
+  { label:'📍 Rahmenbedingungen', tags:[
+    {tag:'outdoor',emoji:'🌿'},{tag:'kostenlos',emoji:'🆓'},{tag:'camping',emoji:'⛺'},
+  ]},
+];
 
-function resetTabUI() {
-  activeFilters=new Set(['alle']); quickFilter='alle'; searchTerm=''; familyFilter='alle';
-  document.getElementById('search').value='';
-  document.querySelectorAll('.pill').forEach(p=>{p.classList.toggle('active',p.dataset.cat==='alle');});
-  document.querySelectorAll('[data-fcat]').forEach(p=>{p.classList.toggle('active',p.dataset.fcat==='alle');});
-  document.querySelectorAll('.qpill').forEach(p=>{p.classList.toggle('active',p.dataset.quick==='alle');});
-  document.getElementById('tab-party').className='mode-tab';
-  document.getElementById('tab-family').className='mode-tab';
+function toggleTag(tag) {
+  if(activeTags.has(tag)) activeTags.delete(tag); else activeTags.add(tag);
+  updateTagUI(); buildMonthTimeline(); updateCountdown(); render();
 }
-document.getElementById('tab-party').addEventListener('click', () => {
-  appMode='party'; resetTabUI();
-  document.getElementById('tab-party').className='mode-tab active-party';
-  document.getElementById('filter-pills-party').style.display='';
-  document.getElementById('filter-pills-family').style.display='none';
-  buildMonthTimeline();
-  updateCountdown();
-  render();
-});
-document.getElementById('tab-family').addEventListener('click', () => {
-  appMode='family'; resetTabUI();
-  document.getElementById('tab-family').className='mode-tab active-family';
-  document.getElementById('filter-pills-family').style.display='';
-  document.getElementById('filter-pills-party').style.display='none';
-  buildMonthTimeline();
-  updateCountdown();
-  render();
-});
+window.toggleTag = toggleTag;
 
-document.querySelectorAll('[data-fcat]').forEach(p=>p.addEventListener('click',()=>{
-  familyFilter = p.dataset.fcat;
-  document.querySelectorAll('[data-fcat]').forEach(x=>x.classList.remove('active'));
-  p.classList.add('active');
+function clearAllTags() {
+  activeTags=new Set(); updateTagUI(); buildMonthTimeline(); updateCountdown(); render();
+}
+window.clearAllTags = clearAllTags;
+
+function setTagLogic(l) {
+  tagLogic=l;
+  const andEl=document.getElementById('logic-and'), orEl=document.getElementById('logic-or');
+  if(andEl) andEl.classList.toggle('active',l==='and');
+  if(orEl) orEl.classList.toggle('active',l==='or');
+  const hintEl=document.getElementById('logic-hint');
+  if(hintEl) hintEl.textContent=l==='and'?'Events müssen alle Tags haben':'Events brauchen mind. einen Tag';
   render();
-}));
+}
+window.setTagLogic = setTagLogic;
+
+function openFilterSheet() {
+  buildFilterSheet();
+  document.getElementById('filter-sheet').classList.add('open');
+  document.getElementById('filter-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+window.openFilterSheet = openFilterSheet;
+
+function closeFilterSheet() {
+  document.getElementById('filter-sheet').classList.remove('open');
+  document.getElementById('filter-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+window.closeFilterSheet = closeFilterSheet;
+
+function buildFilterSheet() {
+  const body=document.getElementById('filter-sheet-body');
+  if(!body) return;
+  body.innerHTML=SHEET_TAG_GROUPS.map(g=>`
+    <div class="sheet-group">
+      <div class="sheet-group-label">${g.label}</div>
+      <div class="sheet-group-pills">
+        ${g.tags.map(({tag,emoji})=>`<div class="sheet-htag${activeTags.has(tag)?' active':''}" onclick="toggleTag('${tag}')"><span>${emoji}</span>#${tag}</div>`).join('')}
+      </div>
+    </div>`).join('');
+  const applyBtn=document.getElementById('filter-apply-btn');
+  if(applyBtn){const n=getFiltered().length;applyBtn.textContent=activeTags.size>0?`${n} Events anzeigen`:'Schließen';}
+}
+
+function updateTagUI() {
+  // Hashtag-Pills in der Hauptzeile
+  document.querySelectorAll('.htag[data-tag]').forEach(el=>{
+    el.classList.toggle('active',activeTags.has(el.dataset.tag));
+  });
+  // Filter-Button Badge
+  const badge=document.getElementById('filter-badge'), btn=document.getElementById('filter-open-btn');
+  if(badge){badge.style.display=activeTags.size?'inline':'none';badge.textContent=activeTags.size;}
+  if(btn) btn.classList.toggle('has-filters',activeTags.size>0);
+  // Aktive Tags Zeile
+  const row=document.getElementById('active-tags-row');
+  if(row){
+    row.innerHTML=activeTags.size>0
+      ?[...activeTags].map(t=>`<span class="active-tag-chip" onclick="toggleTag('${t}')">#${t} ✕</span>`).join('')
+       +`<span class="active-tag-clear" onclick="clearAllTags()">Alle löschen</span>`
+      :'';
+  }
+  // Sheet neu bauen wenn offen
+  if(document.getElementById('filter-sheet')?.classList.contains('open')) buildFilterSheet();
+}
 
 
 function checkDeepLink() {
@@ -1591,26 +1694,11 @@ function checkDeepLink() {
 }
 
 // ── WIRE UP ───────────────────────────────────────────────────────────────────
-document.querySelectorAll('.pill').forEach(p=>p.addEventListener('click',()=>{
-  const cat=p.dataset.cat;
-  if(cat==='alle'){
-    activeFilters=new Set(['alle']);
-    document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
-    p.classList.add('active');
-  } else {
-    activeFilters.delete('alle');
-    document.getElementById('pill-alle').classList.remove('active');
-    if(activeFilters.has(cat)){
-      activeFilters.delete(cat);
-      p.classList.remove('active');
-      if(activeFilters.size===0){activeFilters.add('alle');document.getElementById('pill-alle').classList.add('active');}
-    } else {
-      activeFilters.add(cat);
-      p.classList.add('active');
-    }
-  }
-  render();
-}));
+// Hashtag-Pills in der Hauptzeile (via Event-Delegation)
+document.addEventListener('click', e => {
+  const htag = e.target.closest('.htag[data-tag]');
+  if(htag) toggleTag(htag.dataset.tag);
+});
 
 document.getElementById('search').addEventListener('input',e=>{
   searchTerm=e.target.value;

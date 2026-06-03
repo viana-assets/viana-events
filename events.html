@@ -179,10 +179,6 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
 <header>
   <h1><span style="color:var(--text)">Vi</span><span style="color:#e8963a">ana</span> Events</h1>
   <p class="header-sub">Dein Veranstaltungskalender</p>
-  <div class="mode-tabs">
-    <button class="mode-tab active-party" id="tab-party">🎉 Party</button>
-    <button class="mode-tab" id="tab-family">👨‍👩‍👧 Family</button>
-  </div>
 </header>
 
 <div class="countdown-banner">
@@ -205,27 +201,22 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
     <input id="search" type="text" placeholder="Suchen…" autocomplete="off">
     <div class="search-suggestions" id="search-suggestions"></div>
   </div>
-  <div class="filter-pills" id="filter-pills-party">
-    <button class="pill active" id="pill-alle" data-cat="alle">Alle</button>
-    <button class="pill pill-privat" data-cat="privat">🔒 Privat</button>
-    <button class="pill" data-cat="afterwork">🌅 After Work / Club</button>
-    <button class="pill" data-cat="festival">🎵 Festivals</button>
-    <button class="pill" data-cat="russian"><svg width="16" height="11" viewBox="0 0 16 11" style="vertical-align:middle;margin-right:4px;border-radius:2px"><rect width="16" height="4" fill="#fff"/><rect y="4" width="16" height="4" fill="#003DA5"/><rect y="8" width="16" height="3" fill="#CC0000"/></svg>Russian</button>
-    <button class="pill" data-cat="strand">🏖️ Stadtstrand</button>
-    <button class="pill" data-cat="beachparty">🏝️ Beach Party</button>
-    <button class="pill" data-cat="sonstige">✨ Sonstige</button>
-  </div>
-  <div class="filter-pills" id="filter-pills-family" style="display:none">
-    <button class="pill active" id="fpill-alle" data-fcat="alle">Alle</button>
-    <button class="pill" data-fcat="zoo">🦁 Zoo & Tiere</button>
-    <button class="pill" data-fcat="freizeit">🎡 Freizeit</button>
-    <button class="pill" data-fcat="kinder">🎠 Kinder</button>
-    <button class="pill" data-fcat="volksfest">🍺 Volksfeste</button>
-    <button class="pill" data-fcat="weinfest">🍷 Weinfeste</button>
-    <button class="pill" data-fcat="stadtfest">🎪 Stadtfeste</button>
-    <button class="pill" data-fcat="sport">🏃 Sport</button>
-    <button class="pill" data-fcat="messe">🏛️ Messen</button>
-    <button class="pill" data-fcat="flohmarkt">🛍️ Flohmärkte</button>
+  <!-- ── HASHTAG FILTER ── -->
+  <div class="hashtag-filter-wrap">
+    <div class="hashtag-row" id="hashtag-row">
+      <div class="htag htag-party" data-tag="party">🎉 #party</div>
+      <div class="htag htag-family" data-tag="family">👨‍👩‍👧 #family</div>
+      <div class="htag-sep"></div>
+      <div class="htag" data-tag="festival">🎪 #festival</div>
+      <div class="htag" data-tag="club">🪩 #club</div>
+      <div class="htag" data-tag="russian">🇷🇺 #russian</div>
+      <div class="htag" data-tag="outdoor">🌿 #outdoor</div>
+      <div class="htag" data-tag="kostenlos">🆓 #kostenlos</div>
+      <div class="htag" data-tag="volksfest">🍺 #volksfest</div>
+      <div class="htag" data-tag="kinder">🧒 #kinder</div>
+      <button class="filter-open-btn" id="filter-open-btn" onclick="openFilterSheet()">⚙️ Filter <span class="filter-badge" id="filter-badge" style="display:none">0</span></button>
+    </div>
+    <div class="active-tags-row" id="active-tags-row"></div>
   </div>
   <div class="view-toggle">
     <button class="view-btn active" id="btn-list">≡ Liste</button>
@@ -312,6 +303,30 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
       „Wer kommt mit?" via WhatsApp
     </button>
     <button class="wl-share-btn wl-copy" id="wl-copy-link">🔗 Liste als Text kopieren</button>
+  </div>
+</div>
+
+<!-- ── FILTER OVERLAY ── -->
+<div class="filter-overlay" id="filter-overlay" onclick="closeFilterSheet()"></div>
+
+<!-- ── FILTER BOTTOM SHEET ── -->
+<div class="filter-sheet" id="filter-sheet">
+  <div class="filter-sheet-handle"></div>
+  <div class="filter-sheet-header">
+    <span class="filter-sheet-title">Filter</span>
+    <span class="filter-sheet-reset" onclick="clearAllTags()">Zurücksetzen</span>
+  </div>
+  <div class="filter-sheet-logic">
+    <span class="logic-label">Logik:</span>
+    <div class="logic-toggle">
+      <span class="logic-opt active" id="logic-and" onclick="setTagLogic('and')">UND</span>
+      <span class="logic-opt" id="logic-or" onclick="setTagLogic('or')">ODER</span>
+    </div>
+    <span class="logic-hint" id="logic-hint">Events müssen alle Tags haben</span>
+  </div>
+  <div class="filter-sheet-body" id="filter-sheet-body"></div>
+  <div class="filter-sheet-footer">
+    <button class="filter-apply-btn" id="filter-apply-btn" onclick="closeFilterSheet()">Schließen</button>
   </div>
 </div>
 
