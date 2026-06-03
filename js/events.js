@@ -1503,24 +1503,29 @@ function initLocation() {
     status.className='loc-status'; status.innerHTML='⏳ Ermittle Standort…';
     navigator.geolocation.getCurrentPosition(
       pos => setUserLocation(pos.coords.latitude, pos.coords.longitude, 'Aktueller Standort'),
-      err => { status.innerHTML=''; showToast('Standort abgelehnt – bitte PLZ eingeben'); }
+      err => {
+        status.innerHTML='';
+        if(err.code===1) showToast('Standort-Zugriff verweigert – bitte PLZ eingeben');
+        else if(err.code===2) showToast('Standort nicht verfügbar – bitte PLZ eingeben');
+        else showToast('Standort-Timeout – bitte PLZ eingeben');
+      },
+      { timeout: 12000, enableHighAccuracy: false, maximumAge: 60000 }
     );
   });
 
   document.getElementById('loc-clear-btn').addEventListener('click', clearUserLocation);
 
-  document.getElementById('plz-input').addEventListener('keydown', e => {
-    if(e.key==='Enter') {
-      const plz = e.target.value.trim();
-      if(/^\d{5}$/.test(plz)) geocodePLZ(plz);
-      else showToast('Bitte eine gültige 5-stellige PLZ eingeben');
-    }
-  });
-  // Auto-submit wenn 5 Ziffern eingegeben
-  document.getElementById('plz-input').addEventListener('input', e => {
-    const plz = e.target.value.trim();
+  // PLZ – alle relevanten Events abfangen (input, change, blur, keydown Enter)
+  const _tryPLZ = e => {
+    const plz = (e.target.value || '').trim();
     if(/^\d{5}$/.test(plz)) geocodePLZ(plz);
-  });
+    else if(e.type==='keydown' && e.key==='Enter') showToast('Bitte eine gültige 5-stellige PLZ eingeben');
+  };
+  const plzEl = document.getElementById('plz-input');
+  plzEl.addEventListener('input',   _tryPLZ);
+  plzEl.addEventListener('change',  _tryPLZ);
+  plzEl.addEventListener('blur',    _tryPLZ);
+  plzEl.addEventListener('keydown', _tryPLZ);
 
   document.getElementById('dist-select').addEventListener('change', e => {
     maxDist = parseInt(e.target.value);
