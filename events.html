@@ -173,6 +173,7 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
   <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0"></div>
   <a href="#" class="nav-item" id="nav-theme"><span class="nav-icon" id="nav-theme-ico">☀️</span> <span id="nav-theme-label">Heller Modus</span></a>
   <a href="#" class="nav-item" data-pwa-install id="nav-install"><span class="nav-icon">📲</span> App installieren</a>
+  <a href="#" class="nav-item" id="nav-push"><span class="nav-icon" id="nav-push-ico">🔔</span> <span id="nav-push-label">Benachrichtigungen</span></a>
 </nav>
 
 <!-- ── STICKY APP HEADER ── -->
@@ -334,7 +335,7 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
 </div>
 
 <footer style="text-align:center;padding:2rem 1.5rem;background:var(--surface);margin-top:2rem;font-size:12px;color:var(--muted);border-top:1px solid var(--border)">
-  <div style="margin-bottom:8px">Ein Projekt von <strong><span style="color:var(--text)">Vi</span><span style="color:#e8963a">ana</span></strong> &nbsp;·&nbsp; Nürnberg 2026 &nbsp;·&nbsp; Alle Angaben ohne Gewähr</div>
+  <div style="margin-bottom:8px">Ein Projekt von <strong><span style="color:var(--text)">Vi</span><span style="color:#e8963a">ana</span></strong> &nbsp;·&nbsp; Alle Angaben ohne Gewähr</div>
   <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
     <a href="impressum.html" style="color:var(--accent);text-decoration:none">Impressum</a>
     <a href="datenschutz.html" style="color:var(--accent);text-decoration:none">Datenschutz</a>
@@ -413,5 +414,45 @@ body:has(#wishlist-panel.open) .burger-btn { display: none; }
     <iframe id="yt-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
 </div>
+
+<script src="js/push.js?v=20260603"></script>
+<script>
+// ── PUSH TOGGLE ──
+(function() {
+  var item = document.getElementById('nav-push');
+  var ico = document.getElementById('nav-push-ico');
+  var lbl = document.getElementById('nav-push-label');
+  if (!item) return;
+
+  async function syncPushUI() {
+    if (!window.vianaPush) return;
+    var status = await window.vianaPush.getPushStatus();
+    if (status === 'unsupported') { item.style.display = 'none'; return; }
+    if (status === 'subscribed') {
+      ico.textContent = '🔕'; lbl.textContent = 'Benachrichtigungen aus';
+    } else if (status === 'denied') {
+      ico.textContent = '🚫'; lbl.textContent = 'Benachrichtigungen blockiert';
+    } else {
+      ico.textContent = '🔔'; lbl.textContent = 'Benachrichtigungen aktivieren';
+    }
+  }
+
+  item.addEventListener('click', async function(e) {
+    e.preventDefault();
+    if (!window.vianaPush) return;
+    var status = await window.vianaPush.getPushStatus();
+    if (status === 'subscribed') {
+      await window.vianaPush.unsubscribePush();
+      showToast && showToast('🔕 Benachrichtigungen deaktiviert');
+    } else if (status === 'unsubscribed') {
+      var ok = await window.vianaPush.subscribePush();
+      showToast && showToast(ok ? '🔔 Benachrichtigungen aktiviert!' : '❌ Abonnement fehlgeschlagen');
+    }
+    syncPushUI();
+  });
+
+  syncPushUI();
+})();
+</script>
 </body>
 </html>

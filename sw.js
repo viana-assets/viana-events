@@ -5,7 +5,7 @@
    wird beim activate automatisch gelöscht.
    ═══════════════════════════════════════════════════════ */
 
-const VERSION       = 'viana-v3-20260531';
+const VERSION       = 'viana-v4-20260603';
 const STATIC_CACHE  = VERSION + '-static';
 const RUNTIME_CACHE = VERSION + '-runtime';
 
@@ -15,7 +15,6 @@ const PRECACHE = [
   '/index.html',
   '/events.html',
   '/places.html',
-  '/vorschlagen.html',
   '/impressum.html',
   '/datenschutz.html',
   '/agb.html',
@@ -110,4 +109,32 @@ self.addEventListener('fetch', (event) => {
 // Erlaubt der Seite, ein sofortiges Update auszulösen
 self.addEventListener('message', (event) => {
   if (event.data === 'SKIP_WAITING') self.skipWaiting();
+});
+
+// ── PUSH NOTIFICATIONS ────────────────────────────────────────────────────────
+self.addEventListener('push', event => {
+  if (!event.data) return;
+  let data = {};
+  try { data = event.data.json(); } catch(e) { data = { title: 'Viana Events', body: event.data.text() }; }
+  event.waitUntil(
+    self.registration.showNotification(data.title || 'Viana Events', {
+      body: data.body || '',
+      icon: '/assets/icon-192x192.png',
+      badge: '/assets/icon-96x96.png',
+      tag: data.tag || 'viana',
+      data: { url: data.url || '/events.html' },
+      requireInteraction: false
+    })
+  );
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  const url = (event.notification.data && event.notification.data.url) || '/events.html';
+  event.waitUntil(clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+    for (const client of list) {
+      if (client.url.includes(self.location.origin) && 'focus' in client) return client.focus();
+    }
+    return clients.openWindow(url);
+  }));
 });

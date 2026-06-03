@@ -1042,6 +1042,17 @@ function inFeedAdHTML() {
 
 function render() {
   const filtered=getFiltered();
+  // Badging API – Anzahl heutiger Events als App-Icon-Badge
+  if ('setAppBadge' in navigator) {
+    const _today = new Date(); _today.setHours(0,0,0,0);
+    const todayCount = getActiveEvents().filter(e => {
+      const s = new Date(e.start); s.setHours(0,0,0,0);
+      const en = new Date(e.end); en.setHours(0,0,0,0);
+      return s <= _today && en >= _today;
+    }).length;
+    if (todayCount > 0) navigator.setAppBadge(todayCount).catch(() => {});
+    else navigator.clearAppBadge().catch(() => {});
+  }
   const sourceEvents = getActiveEvents();
   var _tc=document.getElementById('total-count'); if(_tc) _tc.textContent=sourceEvents.length;
   const _ec=document.getElementById('events-count'); if(_ec) _ec.textContent=filtered.length;
@@ -1392,8 +1403,8 @@ function openModal(idx) {
     <div class="modal-action-section">
       <div class="mas-label">📤 Teilen</div>
       <div class="mas-row mas-row-wrap">
-        <a class="mas-btn mas-wa" href="${waUrl}" target="_blank">${WA_SVG} Wer kommt mit?</a>
-        <a class="mas-btn mas-fb" href="${fbUrl}" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Facebook</a>
+        ${'share' in navigator ? `<button class="mas-btn mas-wa" onclick="event.stopPropagation();navigator.share({title:'${e.name.replace(/'/g,"\'")}',text:'${e.name.replace(/'/g,"\'")} – ${dateStr(e.start,e.end).replace(/'/g,"\'")} – ${e.loc.replace(/'/g,"\'")}',url:'${deepLink}'}).catch(()=>{})">📤 Teilen</button>` : `<a class="mas-btn mas-wa" href="${waUrl}" target="_blank">${WA_SVG} Wer kommt mit?</a>`}
+        <a class="mas-btn mas-wa" href="${waUrl}" target="_blank">${WA_SVG} WhatsApp</a>
         <button class="mas-btn mas-link" onclick="copyDeepLink('${deepLink}')">🔗 Link kopieren</button>
       </div>
     </div>
@@ -1809,15 +1820,4 @@ document.getElementById('wl-copy-link').addEventListener('click',()=>{
   showToast('Liste kopiert!');
 });
 
-document.getElementById('modal-close').addEventListener('click',()=>{document.getElementById('modal-bg').classList.remove('open');history.replaceState(null,'',location.pathname);});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('modal-bg').classList.remove('open');history.replaceState(null,'',location.pathname);closeFilterSheet();}});
-
-initLocation();
-checkDeepLink();
-render();
-buildMonthTimeline();
-updateCountdown();
-loadPublicCounts();
-updateHeaderHeight();
-
-loadAdConfig().then(applyAdConfig);
+document.getElementById('modal-close').addEven
