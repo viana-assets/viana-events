@@ -25,7 +25,7 @@
 /* ── BURGER BUTTON ── */
 .burger-btn {
   position: fixed;
-  top: 16px; left: 16px;
+  top: 16px; right: 16px; left: auto;
   z-index: 9000;
   width: 44px; height: 44px;
   background: rgba(22,24,31,0.85);
@@ -100,7 +100,7 @@
 .nav-item .nav-icon { font-size: 18px; width: 24px; text-align: center; }
 
 @media (max-width: 600px) {
-  .burger-btn { top: 12px; left: 12px; width: 40px; height: 40px; font-size: 16px; }
+  .burger-btn { top: 12px; right: 12px; left: auto; width: 40px; height: 40px; font-size: 16px; }
 }
 /* Modal offen → Burger ausblenden */
 body:has(#place-modal-bg.open) .burger-btn { display: none; }
@@ -114,6 +114,24 @@ body:has(#place-modal-bg.open) .burger-btn { display: none; }
 :root[data-theme="light"] .nav-item{ color:var(--muted); border-bottom-color:rgba(0,0,0,.06); }
 :root[data-theme="light"] .nav-item:hover{ color:var(--text); background:rgba(0,0,0,.05); }
 :root[data-theme="light"] .leaflet-popup-content-wrapper{ background:#fff !important; color:#1b1d22 !important; border-color:rgba(0,0,0,.12) !important; }
+
+/* ── Places Sticky Header ── */
+.places-app-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 90;
+  background: rgba(14,15,19,0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border, rgba(255,255,255,0.07));
+  padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 10px;
+}
+.places-wrapper {
+  padding-top: var(--places-header-h, 70px);
+}
+:root[data-theme="light"] .places-app-header {
+  background: rgba(244,245,247,0.96);
+}
 </style>
 </head>
 <body>
@@ -138,13 +156,19 @@ body:has(#place-modal-bg.open) .burger-btn { display: none; }
 </nav>
 
 
-<header>
-  <h1 class="header-title"><span style="color:var(--text)">Vi</span><span style="color:#e8963a">ana</span> Places</h1>
-  <p class="header-sub">Die besten Locations, Ausflugsziele & mehr rund um Nürnberg</p>
-</header>
+<!-- ── STICKY APP HEADER (Places) ── -->
+<div class="places-app-header" id="places-app-header">
+  <div class="app-bar-row" style="display:flex;align-items:flex-start;padding-right:52px;margin-bottom:4px">
+    <div>
+      <div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:800;line-height:1.2;letter-spacing:-.3px">
+        <span style="color:var(--text)">Vi</span><span style="color:#e8963a">ana</span> Places
+      </div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);margin-top:1px">Metropolregion Nürnberg</div>
+    </div>
+  </div>
+</div>
 
-
-<main class="places-wrapper">
+<main class="places-wrapper" id="places-wrapper">
 
   <!-- CATEGORY GRID (default view) -->
   <div id="cat-grid" class="cat-grid"></div>
@@ -316,5 +340,23 @@ body:has(#place-modal-bg.open) .burger-btn { display: none; }
 })();
 </script>
 <script src="js/pwa.js?v=20260531"></script>
+<script>
+// Places sticky header height
+(function(){
+  function updatePlacesHeaderH(){
+    const h=document.getElementById('places-app-header');
+    const w=document.getElementById('places-wrapper');
+    if(h&&h.offsetHeight>30){
+      document.documentElement.style.setProperty('--places-header-h',h.offsetHeight+'px');
+      if(w) w.style.paddingTop=h.offsetHeight+'px';
+    }
+  }
+  updatePlacesHeaderH();
+  setTimeout(updatePlacesHeaderH,50);
+  setTimeout(updatePlacesHeaderH,250);
+  window.addEventListener('resize',updatePlacesHeaderH);
+  window.addEventListener('load',updatePlacesHeaderH);
+})();
+</script>
 </body>
 </html>

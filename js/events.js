@@ -1598,15 +1598,21 @@ function selectSuggestion(idx) {
 // ── STICKY HEADER HÖHE dynamisch ─────────────────────────────────────────────
 function updateHeaderHeight() {
   const h = document.getElementById('app-header');
-  if(h && h.offsetHeight > 0)
-    document.documentElement.style.setProperty('--header-h', h.offsetHeight+'px');
+  if(!h) return;
+  const height = h.offsetHeight;
+  if(height < 40) return; // noch nicht gerendert
+  document.documentElement.style.setProperty('--header-h', height+'px');
+  // Direkt auf Element setzen – zuverlässiger als CSS-Variable auf mobile
+  const banner = document.querySelector('.countdown-banner');
+  if(banner) banner.style.marginTop = height+'px';
 }
 window.addEventListener('resize', updateHeaderHeight);
-// Mehrfach ausführen damit mobile Browser Zeit haben alles zu rendern
+window.addEventListener('load', updateHeaderHeight);
+// Mehrfach – mobile Browser rendern Fonts/Layout verzögert
 updateHeaderHeight();
 setTimeout(updateHeaderHeight, 50);
-setTimeout(updateHeaderHeight, 200);
-setTimeout(updateHeaderHeight, 600);
+setTimeout(updateHeaderHeight, 250);
+setTimeout(updateHeaderHeight, 700);
 
 // ── HASHTAG FILTER ────────────────────────────────────────────────────────────
 const SHEET_TAG_GROUPS = [
