@@ -839,7 +839,8 @@ function countdownLabel(diff) {
 
 function eventRowHTML(e) {
   const idx=getActiveEvents().indexOf(e);
-  const isSaved=wishlist.has(e.name+e.start), diff=getDaysUntil(e.start), isToday_=diff===0;
+  const isSaved=wishlist.has(e.name+e.start), isGoing=goingList.has(e.name+e.start), diff=getDaysUntil(e.start), isToday_=diff===0;
+  const pubCount=getPublicCount(e);
   const vianaClass = e.viana ? ' viana-event' : '';
   const vianaStyle = e.viana ? ';box-shadow:inset 0 0 0 2px rgba(201,162,39,0.6),0 0 20px rgba(201,162,39,0.18)' : '';
   const sd=new Date(e.start), ed=new Date(e.end);
@@ -852,7 +853,11 @@ function eventRowHTML(e) {
   return `<div class="event-row${vianaClass}" data-idx="${idx}" style="position:relative${todayHighlight}${vianaStyle}">
     <div class="erow-top">
       <span class="event-name">${e.name}${e.viana?' <span class="viana-badge">⭐</span>':''}${e.new?' <span class="badge badge-new">NEU</span>':''}</span>
-      <button class="row-heart-btn${isSaved?' saved':''}" onclick="event.stopPropagation();toggleWishlist(${idx})" title="Merken">${isSaved?'❤️':'🤍'}</button>
+      <div class="erow-actions">
+        ${pubCount>0?`<span class="row-dabei-badge">✅ ${pubCount}</span>`:''}
+        <button class="row-heart-btn${isSaved?' saved':''}" onclick="event.stopPropagation();toggleWishlist(${idx})" title="Merken">${isSaved?'❤️':'🤍'}</button>
+        <button class="row-going-btn${isGoing?' going':''}" onclick="event.stopPropagation();toggleGoing(${idx})" title="Ich bin dabei">👍</button>
+      </div>
     </div>
     <div class="erow-meta">
       📅 ${dayStr}${endStr} · 📍 ${e.loc}${price?' · '+price:''}${userLat!==null&&getEventDist(e)!==null?' · 📍 '+distLabel(getEventDist(e)):''}${musicBtn}
@@ -1623,7 +1628,7 @@ const SHEET_TAG_GROUPS = [
     {tag:'indie',emoji:'🎵'},{tag:'latino',emoji:'💃'},{tag:'hiphop',emoji:'🎤'},
   ]},
   { label:'🌍 Thema & Community', tags:[
-    {tag:'russian',emoji:'🇷🇺'},{tag:'volksfest',emoji:'🍺'},{tag:'weinfest',emoji:'🍷'},
+    {tag:'russian',emoji:'<b style="background:#CC0000;color:#fff;font-size:9px;font-weight:800;padding:1px 4px;border-radius:3px;line-height:1.4;font-family:monospace">RU</b>'},{tag:'volksfest',emoji:'🍺'},{tag:'weinfest',emoji:'🍷'},
     {tag:'stadtfest',emoji:'🎪'},{tag:'zoo',emoji:'🦁'},{tag:'kinder',emoji:'🧒'},
     {tag:'freizeit',emoji:'🎡'},{tag:'sport',emoji:'🏃'},{tag:'messe',emoji:'🏛️'},
     {tag:'flohmarkt',emoji:'🛍️'},{tag:'strand',emoji:'🏖️'},{tag:'beachparty',emoji:'🏝️'},
