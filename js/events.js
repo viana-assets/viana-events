@@ -1820,11 +1820,20 @@ document.getElementById('wl-copy-link').addEventListener('click',()=>{
   showToast('Liste kopiert!');
 });
 
-document.getElementById('modal-close').addEventListener('click',()=>{
+function closeModal() {
   document.getElementById('modal-bg').classList.remove('open');
   history.replaceState(null,'',location.pathname);
   const burger=document.getElementById('burger-btn');
   if(burger) burger.style.display='';
+}
+window.closeModal = closeModal;
+
+// X-Button (bleibt im DOM für Accessibility, aber per CSS ausgeblendet)
+document.getElementById('modal-close').addEventListener('click', closeModal);
+
+// Klick auf modal-bg (Overlay außerhalb des Modals) → schließen
+document.getElementById('modal-bg').addEventListener('click', e => {
+  if(e.target === document.getElementById('modal-bg')) closeModal();
 });
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
