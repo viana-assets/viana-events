@@ -1820,4 +1820,36 @@ document.getElementById('wl-copy-link').addEventListener('click',()=>{
   showToast('Liste kopiert!');
 });
 
-document.getElementById('modal-close').addEven
+document.getElementById('modal-close').addEventListener('click',()=>{
+  document.getElementById('modal-bg').classList.remove('open');
+  history.replaceState(null,'',location.pathname);
+  const burger=document.getElementById('burger-btn');
+  if(burger) burger.style.display='';
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    document.getElementById('modal-bg').classList.remove('open');
+    history.replaceState(null,'',location.pathname);
+    closeFilterSheet();
+    const burger=document.getElementById('burger-btn');
+    if(burger) burger.style.display='';
+  }
+});
+
+// Burger bei Modal-Öffnen/Schließen explizit steuern (Fallback für :has()-Support)
+const _origOpenModal = openModal;
+window.openModal = function(idx) {
+  _origOpenModal(idx);
+  const burger=document.getElementById('burger-btn');
+  if(burger) burger.style.display='none';
+};
+
+initLocation();
+checkDeepLink();
+render();
+buildMonthTimeline();
+updateCountdown();
+loadPublicCounts();
+updateHeaderHeight();
+
+loadAdConfig().then(applyAdConfig);
