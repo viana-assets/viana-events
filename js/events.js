@@ -700,7 +700,16 @@ async function savePublicCount(e, delta) {
 function getPublicCount(e) { return publicCounts[eventKey(e)] || 0; }
 
 
-let activeTags=new Set(), tagLogic='and', searchTerm='', viewMode='list', quickFilter='alle', sortMode='date', leafletMap=null, showPast=false;
+let activeTags=new Set(), tagLogic='and', searchTerm='', viewMode='list', quickFilter='alle', sortMode='date', leafletMap=null, showPast=false, showSeasonal=false;
+// Saison-Event = bereits gestartet UND läuft noch UND Dauer > 14 Tage
+function isSeasonal(e) {
+  const today=new Date(); today.setHours(0,0,0,0);
+  const s=new Date(e.start), en=new Date(e.end);
+  const days=Math.round((en-s)/86400000);
+  return s<today && en>=today && days>=14;
+}
+function toggleSeasonal(){ showSeasonal=!showSeasonal; render(); }
+window.toggleSeasonal=toggleSeasonal;
 
 // Kategorien die zu Family verschoben wurden – in Party ausblenden
 const FAMILY_ONLY_CATS = new Set(['volksfest', 'weinfest', 'stadtfest', 'flohmarkt']);
@@ -798,7 +807,11 @@ function getFiltered() {
   const sourceEvents = getActiveEvents();
   const q=searchTerm.toLowerCase(), today=new Date();today.setHours(0,0,0,0);
   const contentTags=[...activeTags].filter(t=>t!=='party'&&t!=='family');
-  const allFiltered_pre = sourceEvents.filter(e => showPast || new Date(e.end) >= today);
+  const allFiltered_pre = sourceEvents.filter(e => {
+    if(new Date(e.end) < today && !showPast) return false;
+    if(isSeasonal(e) && !showSeasonal) return false;
+    return true;
+  });
   let filtered=allFiltered_pre.filter(e=>{
     let matchTags=true;
     if(contentTags.length>0){
@@ -1073,8 +1086,11 @@ function render() {
     cal.innerHTML='<div class="empty"><h3>Keine Events gefunden</h3><p>Versuch einen anderen Suchbegriff oder Filter.</p>'+(pastCount>0&&!showPast?`<br><button onclick="togglePast()" style="margin-top:1rem;padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:transparent;color:var(--muted);cursor:pointer;font-family:DM Sans,sans-serif;font-size:13px">🕐 ${pastCount} vergangene Events anzeigen</button>`:'')+'</div>';
     return;
   }
+  const _today2=new Date();_today2.setHours(0,0,0,0);
+  const seasonalCount=_src.filter(e=>isSeasonal(e)).length;
+  const seasonalBanner = seasonalCount>0 ? `<div style="text-align:center;padding:.5rem 0 .25rem"><button onclick="toggleSeasonal()" style="padding:7px 16px;border-radius:8px;border:1px solid rgba(232,150,58,.3);background:rgba(232,150,58,.08);color:var(--accent);cursor:pointer;font-family:DM Sans,sans-serif;font-size:12px;transition:all .15s">🗓 ${showSeasonal?'✕ Saison-Events ausblenden':`${seasonalCount} laufende Saison-Events einblenden`}</button></div>` : '';
   const pastBanner = (!showPast && pastCount>0) ? `<div style="text-align:center;padding:.75rem;margin-bottom:1rem"><button onclick="togglePast()" style="padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:transparent;color:var(--muted);cursor:pointer;font-family:DM Sans,sans-serif;font-size:12px;transition:all .15s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">🕐 ${pastCount} vergangene Events einblenden</button></div>` : (showPast ? `<div style="text-align:center;padding:.75rem;margin-bottom:1rem"><button onclick="togglePast()" style="padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:transparent;color:var(--muted);cursor:pointer;font-family:DM Sans,sans-serif;font-size:12px" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">✕ Vergangene Events ausblenden</button></div>` : '');
-  cal.innerHTML=pastBanner+Object.keys(byMonth).sort((a,b)=>+a-+b).map(m=>{
+  cal.innerHTML=seasonalBanner+pastBanner+Object.keys(byMonth).sort((a,b)=>+a-+b).map(m=>{
     const evs=byMonth[m];
     let rows;
     if(viewMode==='list'){
