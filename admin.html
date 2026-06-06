@@ -446,7 +446,9 @@ window.pushTpl = pushTpl;
 
 async function loadSubCount() {
   try {
-    const r = await fetch(`${FB_BASE}/push_subscriptions?key=${FB_API_KEY}&pageSize=300`);
+    const r = await fetch(`${FB_BASE}/push_subscriptions?key=${FB_API_KEY}&pageSize=300`, {
+      headers: idToken ? { 'Authorization': 'Bearer ' + idToken } : {}
+    });
     const d = await r.json();
     const n = (d.documents || []).length;
     const el = document.getElementById('push-sub-count');

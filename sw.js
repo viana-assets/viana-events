@@ -112,19 +112,28 @@ self.addEventListener('message', (event) => {
 });
 
 // ── PUSH NOTIFICATIONS ────────────────────────────────────────────────────────
+const _FB = 'https://firestore.googleapis.com/v1/projects/viana-events/databases/(default)/documents';
+const _FK = 'AIzaSyDx-s-6yYdvRxP4Gy9GaWdOKBEfo8GpTXQ';
+
 self.addEventListener('push', event => {
-  if (!event.data) return;
-  let data = {};
-  try { data = event.data.json(); } catch(e) { data = { title: 'Viana Events', body: event.data.text() }; }
+  // Inhalt aus Firestore laden (server speichert ihn beim Senden)
   event.waitUntil(
-    self.registration.showNotification(data.title || 'Viana Events', {
-      body: data.body || '',
-      icon: '/assets/icon-192x192.png',
-      badge: '/assets/icon-96x96.png',
-      tag: data.tag || 'viana',
-      data: { url: data.url || '/events.html' },
-      requireInteraction: false
-    })
+    fetch(`${_FB}/notifications/latest?key=${_FK}`)
+      .then(r => r.json())
+      .then(d => {
+        const title = d.fields?.title?.stringValue || 'Viana Events';
+        const body  = d.fields?.body?.stringValue  || 'Neue Events in der Metropolregion!';
+        const url   = d.fields?.url?.stringValue   || '/events.html';
+        return self.registration.showNotification(title, {
+          body, icon:'/assets/icon-192x192.png',
+          badge:'/assets/icon-96x96.png',
+          tag:'viana', data:{ url }, requireInteraction:false
+        });
+      })
+      .catch(() => self.registration.showNotification('Viana Events', {
+        body:'Neue Events in der Metropolregion!',
+        icon:'/assets/icon-192x192.png', badge:'/assets/icon-96x96.png'
+      }))
   );
 });
 
